@@ -1,7 +1,0 @@
-<x-adminMaster>
-
-
-
-
-</x-adminMaster>
-
