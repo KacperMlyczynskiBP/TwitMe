@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class tweetRequest extends FormRequest
+class updateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class tweetRequest extends FormRequest
     public function rules()
     {
         return [
-              'body'=>'required|max:255',
-             'image_path'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'user_image_path'=>'mimes:jpeg,bmp,png',
         ];
     }
 }

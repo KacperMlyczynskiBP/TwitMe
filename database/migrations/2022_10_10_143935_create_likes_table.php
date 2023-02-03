@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-//        Schema::create('likes', function (Blueprint $table) {
-//            $table->id();
-//            $table->unsignedInteger('user_id');
-//            $table->unsignedInteger('post_id');
-//            $table->foreign('user_id')->references('id')->on('users');
-//            $table->foreign('post_id')->references('id')->on('posts');
-//            $table->tinyInteger('is_dislike')->default(0);
-//            $table->timestamps();
-//        });
+        Schema::create('likes', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('post_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('posts');
+            $table->tinyInteger('is_dislike')->default(0);
+            $table->timestamps();
+        });
     }
 
     /**

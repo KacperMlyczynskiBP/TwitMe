@@ -20,7 +20,7 @@
     <i class="fab fa-twitter"></i>
     <div class="sidebarOption active">
         <span class="material-icons"> home </span>
-        <h2>Home</h2>
+        <h2><a href="{{ route('index')}}">Home</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -50,7 +50,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> perm_identity </span>
-        <h2><a href="{{ route('create.profile', ['username'=>Auth()->user()->username]) }}">Profile</a></h2>
+        <h2><a href="{{ route('create.profile', ['id'=>Auth()->user()->id]) }}">Profile</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -62,19 +62,74 @@
 <!-- sidebar ends -->
 
 <!-- feed starts -->
+
 <div class="feed">
+    <div class="feed__header">
+        <h2>Home</h2>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+            <input type="submit" name="logout">
+        </form>
+    </div>
 
+    <!-- tweetbox starts -->
+    <!-- tweetbox ends -->
+    {{--   posts start --}}
+    @foreach($followers as $follower)
+        <div class="post">
+            <div class="post__avatar">
+                @if($follower->image_path === NULL)
+                    <div class="profile-picture">
+                        <img
+                            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                            alt=""
+                            width="48px" height="48px"
+                        />
+                    </div>
+                @else
+                    <div class="profile-picture">
+                        <img src="{{asset($follower->image_path)}}" width="48px" height="48px">
+                    </div>
+                @endif
+            </div>
+            <div class="post__body">
+                <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>
+                            @inject('username','App\Http\Helpers\FindUsername')
+                            <div><a href="{{ route('create.profile', ['id'=>$follower->id]) }}">{{$username->findUsername($follower->id)}}</a></div>
+                            <span class="post__headerSpecial"
+                            ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($follower->id)}}</div>
+</span
+>
+                        </h3>
+                    </div>
 
+                        <div class="post__headerDescription">
 
+                        </div>
+                </div>
+                <img
+                    src="/images/{{$follower->image_path}}"
+                    alt=""
+                />
+                <div class="post__footer">
 
+                </div>
+            </div>
+        </div>
+    @endforeach
 </div>
 <!-- feed ends -->
 
 <!-- widgets starts -->
 <div class="widgets">
     <div class="widgets__input">
-        <span class="material-icons widgets__searchIcon"> search </span>
-        <input type="text" placeholder="Search Twitter" />
+        <form method="POST" action="{{ route('search') }}">
+            @csrf
+            <span class="material-icons widgets__searchIcon"> search </span>
+            <input type="text" placeholder="Search Twitter" name="body" />
+        </form>
     </div>
 
     <div class="widgets__widgetContainer">
@@ -102,3 +157,4 @@
 <!-- widgets ends -->
 </body>
 </html>
+

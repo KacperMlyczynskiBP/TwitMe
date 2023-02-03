@@ -8,13 +8,13 @@ class CountFollowers
 {
    public $count=0;
 
-    public function countFollows(){
-        $userFollows=DB::table('followers')->where('follower_user_id', Auth()->user()->id)->count();
+    public function countFollows($id){
+        $userFollows=DB::table('followers')->where('user_id', $id)->count();
         return $userFollows;
     }
 
-    public function countFollowers(){
-        $userFollowers=DB::table('followers')->where('user_id', Auth()->user()->id)->count();
+    public function countFollowers($id){
+        $userFollowers=DB::table('followers')->where('follower_user_id', $id)->count();
         return $userFollowers;
     }
 

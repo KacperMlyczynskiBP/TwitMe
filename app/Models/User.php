@@ -17,11 +17,17 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
     protected $fillable = [
         'username',
         'email',
         'password',
         'google_id',
+        'date_of_birth',
+        'bio',
+        'location',
+        'user_image_path',
     ];
 
     /**
@@ -51,7 +57,4 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Models\Post', 'likes');
     }
 
-    public function  likeableReplies(){
-        return $this->belongsToMany('App\Models\Comment', 'likes');
-    }
 }

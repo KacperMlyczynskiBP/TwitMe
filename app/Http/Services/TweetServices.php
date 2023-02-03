@@ -16,11 +16,11 @@ class TweetServices
         $file = $request->file('tweetMedia');
         if (!$file) {
             Post::create(['body' => $input['body'], 'user_id' => Auth()->user()->id]);
-            return redirect()->back();
+        } else{
+            $fileName = $file->getClientOriginalName();
+            $file->move('images', $fileName);
+            Post::create(['body' => $input['body'], 'user_id' => Auth()->user()->id, 'image_path' => $fileName]);
         }
-        $fileName = $file->getClientOriginalName();
-        $file->move('images', $fileName);
-        Post::create(['body' => $input['body'], 'user_id' => Auth()->user()->id, 'image_path' => $fileName]);
     }
 
     public function storeTweetReply($request){
@@ -40,7 +40,12 @@ class TweetServices
 
         public function likeTweet($postId){
             $user=User::findOrFail(Auth()->user()->id);
-            $likes=DB::table('likes')->where(['post_id'=>$postId,'user_id'=>Auth()->user()->id])->get()->first();
+            $likes=DB::table('likes')
+                ->where('post_id', $postId)
+                ->get()
+                ->first();
+//            $likes=DB::table('likes')->where(['post_id'=>$postId,'user_id'=>Auth()->user()->id])->get()->first();
+//            dd($likes);
 
             if(!$likes){
                 $post=$user->likeable()->attach($postId);
