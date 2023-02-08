@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\updateUserRequest;
 use App\Http\Services\ProfileService;
+use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -27,7 +27,14 @@ class ProfileController extends Controller
 
     public function createProfileLikes($id){
         $user=User::findOrFail($id);
-        $posts=(new ProfileService())->getPosts($id);
+        $likedPosts=DB::table('likes')->where('user_id', $id)->get();
+        $array=array();
+        foreach($likedPosts as $posts){
+            $array[]=$posts->post_id;
+        }
+        $posts=User::join('posts', 'users.id', '=', 'posts.user_id')
+            ->whereIn('posts.id', $array)
+            ->get();
         return view('profile.profileLikes', compact('posts', 'user'));
     }
 
@@ -35,6 +42,15 @@ class ProfileController extends Controller
         $userTweets=(new ProfileService())->getUserTweets($id);
         $user=User::findOrFail($id);
         return view('profile.tweetsReplies', compact('userTweets', 'user'));
+    }
+
+    public function createProfileMedia($id){
+        $user=User::findOrFail($id);
+        $tweets=Post::join('users', 'posts.user_id', '=', 'users.id')
+            ->where('posts.user_id', $id)
+            ->where('image_path', '!=', 'NULL')
+            ->get();
+        return view('profile.profileMedia', compact('user','tweets'));
     }
 
     public function createProfileEdit($id){

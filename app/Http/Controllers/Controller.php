@@ -19,16 +19,24 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function createPage(){
-        $posts=(new UserService())->getPosts();
-//        dd($posts);
+        $id=Auth()->user()->id;
+        $followingUsers=DB::table('followers')->where('follower_user_id', $id)->get();
+        $array=array();
+        foreach($followingUsers as $users){
+            $array[]=$users->user_id;
+        }
+        $posts=User::join('posts', 'users.id', '=', 'posts.user_id')
+            ->whereIn('posts.user_id', $array)
+            ->get();
         $user=User::findOrFail(Auth()->user()->id);
+//        dd($posts);
         return view('index', compact('posts','user'));
     }
 
     public function search(\Illuminate\Http\Request $request){
        $results=DB::table('posts')->join('users', 'users.id', 'posts.user_id')
            ->where('body', 'LIKE', '%' . $request->body . '%' )->get()->all();
-        $path=Auth()->user()->image_path;
+        $path=Auth()->user()->user_image_path;
         return view('searchResults', compact('results', 'path'));
     }
 }

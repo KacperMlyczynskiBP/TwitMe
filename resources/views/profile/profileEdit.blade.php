@@ -6,15 +6,9 @@
             <div class="form-container">
                 <div class="input-container ic1">
                     <a href="#" id="profile-link" >
-                        @if($user->user_image_path === NULL)
-                            <div class="profile-picture">
-                                <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"  width="133px" height="133px" alt=""/>
-                            </div>
-                        @else
                             <div class="profile-picture">
                                 <img src="{{asset($user->user_image_path)}}" width="133px" height="133px">
                             </div>
-                        @endif
                     </a>
                     <div class="media">
                         <label for="file-upload" class="custom-file-upload">

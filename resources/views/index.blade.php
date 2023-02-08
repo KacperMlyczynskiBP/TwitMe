@@ -55,17 +55,15 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> more_horiz </span>
-         <div class="dropdown_content">
-             <h2>More</h2>
-             <div class="sidebarOption-dropdown">
-                 <div class="sidebarOption">
-                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                         @csrf
-                         <input type="submit" name="logout" class="">
-                     </form>
-                 </div>
-                </div>
+        <div class="dropdown_content">
+            <h2>More</h2>
+            <div class="sidebarOption-dropdown">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                    <button type="submit" name="logout" class=""><h2>Log out</h2></button>
+                </form>
             </div>
+        </div>
     </div>
 </div>
 <!-- sidebar ends -->
@@ -84,11 +82,11 @@
             <div class="tweetbox__input">
                 @if($user->user_image_path === NULL)
                     <div class="profile-picture">
-                <img
-                        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                        alt=""
-                        width="48px" height="48px"
-                />
+                        <img
+                            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                            alt=""
+                            width="48px" height="48px"
+                        />
                     </div>
                 @else
                     <div class="profile-picture">
@@ -112,53 +110,43 @@
     <!-- tweetbox ends -->
     {{--   posts start --}}
     @foreach($posts as $post)
-            <div class="post">
-                <div class="post__avatar">
-                    @if($post->user_image_path === NULL)
-                        <div class="profile-picture">
-                            <img
-                                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                                alt=""
-                                width="48px" height="48px"
-                            />
-                        </div>
-                    @else
-                        <div class="profile-picture">
-                            <img src="{{asset($post->user_image_path)}}" width="48px" height="48px">
-                        </div>
-                    @endif
+        <div class="post">
+            <div class="post__avatar">
+                <div class="profile-picture">
+                    <img src="{{asset($post->user_image_path)}}" width="48px" height="48px">
                 </div>
-                <div class="post__body">
-                    <div class="post__header">
-                        <div class="post__headerText">
-                            <h3>
-                                @inject('username','App\Http\Helpers\FindUsername')
-                                <div><a href="{{ route('create.profile', ['id'=>$post->user_id]) }}">{{$username->findUsername($post->user_id)}}</a></div>
-                                <span class="post__headerSpecial"
-                                ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($post->user_id)}}</div>
+            </div>
+            <div class="post__body">
+                <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>
+                            @inject('username','App\Http\Helpers\FindUsername')
+                            <div><a href="{{ route('create.profile', ['id'=>$post->user_id]) }}">{{$username->findUsername($post->user_id)}}</a></div>
+                            <span class="post__headerSpecial"
+                            ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($post->user_id)}}</div>
 </span
 >
-                            </h3>
-                        </div>
-                        <a href="{{ route('show.single', ['postId'=>$post->id]) }}">
+                        </h3>
+                    </div>
+                    <a href="{{ route('show.single', ['postId'=>$post->id]) }}">
                         <div class="post__headerDescription">
                             <p>{{ $post->body }}</p>
                         </div>
-                    </div>
-                    <img
-                        src="/images/{{$post->image_path}}"
-                        alt=""
-                    />
-                    <div class="post__footer">
-                        <span class="material-icons"> repeat </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                        @inject('count','App\Http\Helpers\CountLikes')
-                        <div>{{$count->countLikesOnTweets($post->id)}}</div>
-                        <span class="material-icons"> publish </span>
-                    </div>
-                    </a>
                 </div>
+                <img
+                    src="/images/{{$post->image_path}}"
+                    alt=""
+                />
+                <div class="post__footer">
+                    <span class="material-icons"> repeat </span>
+                    <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    @inject('count','App\Http\Helpers\CountLikes')
+                    <div>{{$count->countLikesOnTweets($post->id)}}</div>
+                    <span class="material-icons"> publish </span>
+                </div>
+                </a>
             </div>
+        </div>
     @endforeach
 </div>
 <!-- feed ends -->
@@ -176,10 +164,10 @@
     <div class="widgets__widgetContainer">
         <h2>Trends for you</h2>
         <blockquote class="twitter-tweet">
-          <div style="display:block; width:348px; height:82px;">
-              <a>Trends to be applied</a><br>
-              500ktweets
-          </div>
+            <div style="display:block; width:348px; height:82px;">
+                <a>Trends to be applied</a><br>
+                500ktweets
+            </div>
 
 
         </blockquote>

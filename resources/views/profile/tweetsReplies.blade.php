@@ -10,15 +10,9 @@
         <a class="profile-bg main-wrapper d-block"></a>
         <div>
             <a href="#" id="profile-link" >
-                @if($user->user_image_path === NULL)
-                    <div class="profile-picture">
-                        <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"  width="133px" height="133px" alt=""/>
-                    </div>
-                @else
                     <div class="profile-picture">
                         <img src="{{asset($user->user_image_path)}}" width="133px" height="133px">
                     </div>
-                @endif
             </a>
             <div id="profile-marg">
                 @if($user->id !== Auth()->user()->id)
@@ -67,9 +61,10 @@
         <div class="profile-navbar">
             <div class="profile-navbar-part"><a href="{{ route('create.profileTweets', ['id'=>$user->id]) }}">Tweets</a></div>
             <div class="profile-navbar-part"><a href="{{ route('create.profileReplies', ['id'=>$user->id]) }}">Tweets and replies</a></div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileTweets', ['id'=>$user->id]) }}">Media</a></div>
+            <div class="profile-navbar-part"><a href="{{ route('create.profileMedia', ['id'=>$user->id]) }}">Media</a></div>
             <div class="profile-navbar-part"><a href="{{ route('create.profileLikes', ['id'=>$user->id]) }}">Likes</a></div>
         </div>
+
 
         @foreach($userTweets as $tweet)
             <div class="post">

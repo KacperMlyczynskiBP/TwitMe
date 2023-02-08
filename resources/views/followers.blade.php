@@ -55,42 +55,30 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> more_horiz </span>
-        <h2>More</h2>
+        <div class="dropdown_content">
+            <h2>More</h2>
+            <div class="sidebarOption-dropdown">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                    <button type="submit" name="logout" class=""><h2>Log out</h2></button>
+                </form>
+            </div>
+        </div>
     </div>
-    <button class="sidebar__tweet">Tweet</button>
 </div>
 <!-- sidebar ends -->
 
 <!-- feed starts -->
 
 <div class="feed">
-    <div class="feed__header">
-        <h2>Home</h2>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-            <input type="submit" name="logout">
-        </form>
-    </div>
 
-    <!-- tweetbox starts -->
-    <!-- tweetbox ends -->
     {{--   posts start --}}
     @foreach($followers as $follower)
         <div class="post">
             <div class="post__avatar">
-                @if($follower->image_path === NULL)
                     <div class="profile-picture">
-                        <img
-                            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                            alt=""
-                            width="48px" height="48px"
-                        />
+                        <img src="{{asset($follower->user_image_path)}}" width="48px" height="48px">
                     </div>
-                @else
-                    <div class="profile-picture">
-                        <img src="{{asset($follower->image_path)}}" width="48px" height="48px">
-                    </div>
-                @endif
             </div>
             <div class="post__body">
                 <div class="post__header">
@@ -133,23 +121,14 @@
     </div>
 
     <div class="widgets__widgetContainer">
-        <h2>What's happening?</h2>
+        <h2>Trends for you</h2>
         <blockquote class="twitter-tweet">
-            <p lang="en" dir="ltr">
-                Sunsets don&#39;t get much better than this one over
-                <a href="https://twitter.com/GrandTetonNPS?ref_src=twsrc%5Etfw">@GrandTetonNPS</a>.
-                <a href="https://twitter.com/hashtag/nature?src=hash&amp;ref_src=twsrc%5Etfw"
-                >#nature</a
-                >
-                <a href="https://twitter.com/hashtag/sunset?src=hash&amp;ref_src=twsrc%5Etfw"
-                >#sunset</a
-                >
-                <a href="http://t.co/YuKy2rcjyU">pic.twitter.com/YuKy2rcjyU</a>
-            </p>
-            &mdash; US Department of the Interior (@Interior)
-            <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw"
-            >May 5, 2014</a
-            >
+            <div style="display:block; width:348px; height:82px;">
+                <a>Trends to be applied</a><br>
+                500ktweets
+            </div>
+
+
         </blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>

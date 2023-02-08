@@ -55,9 +55,16 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> more_horiz </span>
-        <h2>More</h2>
+        <div class="dropdown_content">
+            <h2>More</h2>
+            <div class="sidebarOption-dropdown">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                    <button type="submit" name="logout" class=""><h2>Log out</h2></button>
+                </form>
+            </div>
+        </div>
     </div>
-    <button class="sidebar__tweet">Tweet</button>
 </div>
 <!-- sidebar ends -->
 

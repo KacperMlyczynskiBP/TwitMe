@@ -20,48 +20,26 @@ class ProfileService
 
        $posts=array();
        foreach($likes as $like){
-           $posts[]=Post::where(['id'=>$like->post_id])->get()->first();
+           $posts[]=Post::where(['id'=>$like->post_id])->get();
        }
        return $posts;
    }
    public function getUserTweets($id){
-//       $test=Post::where('reply_id',$id)->get();
-
        $userTweets=DB::table('users')->join('posts', 'users.id', '=', 'posts.user_id')
            ->where('user_id', $id)
            ->orWhere('reply_id', $id)
            ->get()->all();
-//       dd($userTweets);
-//
-//
-//       $userTweets=DB::table('posts')
-//           ->join('users', 'posts.user_id', '=', 'users.id')
-//           ->where('user_id', $id)
-//           ->orWhere('reply_id', $id)
-//           ->get()->all();
-//       dd($userTweets);
-////
-////       $repliesToUser=DB::table('posts')->join('users', 'posts.user_id', '=', 'users.id')
-////           ->where('')
-////           ->get();
-//       ;
-////       $repliesId=array();
-////       $postId=array();
-////       foreach($test as $t) {
-////           $repliesId[]=$t->reply_id;
-////           $postId[]=$t->id;
-////       }
-////       $repliesToUser=DB::table('posts')->whereIn('reply_id', $postId)->get();
-////       $repliesToUser=Post::whereIn('reply_id', $postId)->get();
-////       $tweetsReplies=Post::whereIn('id', $repliesId)->get();
-////       $posts=DB::table('posts')->join('users', 'posts.user_id', '=', 'users.id')->whereIn('user_id', Auth()->user()->id)->get();
-//       $userTweets=$test->concat($tweets);
+
        return $userTweets;
    }
 
    public function getFollowers($id,$user_id){
-           $followers=DB::table('followers')->where($user_id, $id)->get();
-           $array=array();
+       $followers=DB::table('followers')
+           ->join('users', 'followers.user_id', '=', 'users.id')
+           ->where($user_id, $id)
+           ->get();
+
+       $array=array();
            if($user_id == 'user_id'){
                foreach($followers as $follower){
                    $array[]=$follower->follower_user_id;
@@ -87,7 +65,7 @@ class ProfileService
            $user->update([
                    'bio'=>$request['bio'], 'location'=>$request['location'],
                    'username'=>$request['username'], 'date_of_birth'=>$date_of_birth,
-                   'user_image_path'=>NULL
+                   'user_image_path'=>'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png'
                ]);
            return $user;
        } else{

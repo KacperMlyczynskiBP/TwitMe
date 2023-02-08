@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{UserController, Controller, TweetController, ProfileController, Auth\GoogleController};
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('google/redirect', [GoogleController::class, 'redirect'])->name('redirect.google');
 Route::get('google/callback', [GoogleController::class, 'handleCallback']);
@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function(){
             Route::get('/following/{id}', 'createProfileFollowing')->name('create.profileFollowing');
             Route::get('/tweets/{id}', 'createProfileTweets')->name('create.profileTweets');
             Route::get('/likes/{id}', 'createProfileLikes')->name('create.profileLikes');
+            Route::get('/media/{id}', 'createProfileMedia')->name('create.profileMedia');
             Route::get('/{id}', 'createProfile')->name('create.profile');
             Route::get('/tweetsReplies/{id}',  'createProfileTweetsReplies')->name('create.profileReplies');
             Route::post('/update/user', 'updateUser')->name('update.user');
