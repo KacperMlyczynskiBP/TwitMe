@@ -24,7 +24,6 @@ class UserService
             ->join('followers', 'posts.user_id', '=', 'followers.user_id')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->where('followers.follower_user_id', $followers_id)->get();
-//        dd($posts);
         return $posts;
         }
     }

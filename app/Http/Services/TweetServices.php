@@ -44,8 +44,6 @@ class TweetServices
                 ->where('post_id', $postId)
                 ->get()
                 ->first();
-//            $likes=DB::table('likes')->where(['post_id'=>$postId,'user_id'=>Auth()->user()->id])->get()->first();
-//            dd($likes);
 
             if(!$likes){
                 $post=$user->likeable()->attach($postId);
