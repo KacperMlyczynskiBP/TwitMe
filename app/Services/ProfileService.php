@@ -33,6 +33,22 @@ class ProfileService
        return $userTweets;
    }
 
+   public function getQueryProfileUsers($post){
+
+          $post->filter(function ($post){
+               return $post->user;
+           })
+           ->map(function($post) {
+               if($post->user){
+                   $post['user_image_path'] = $post->user->user_image_path;
+                   $post['image_path'] = $post->image_path;
+                   return $post;
+               }
+           });
+
+          return $post;
+   }
+
    public function getFollowers($id,$user_id){
        $followers=DB::table('followers')
            ->join('users', 'followers.user_id', '=', 'users.id')
