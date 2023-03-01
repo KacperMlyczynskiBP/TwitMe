@@ -72,50 +72,58 @@
 
 <div class="feed">
     <div class="feed__header">
-        <h2>Home</h2>
+        <h2>Messages</h2>
+    </div>
+    <div class="message_header_container">
+        <div class="sticky-div">Last Messages</div>
+        <div class="sticky-div">Search Users</div>
+    </div>
+    <div class="messages-section">
+{{--        <div class="message">--}}
+{{--            <div class="message__header">--}}
+{{--                <img src="profile-image.jpg" alt="Profile Image">--}}
+{{--                <h3 class="message__username">Username</h3>--}}
+{{--                <p class="message__timestamp">Timestamp</p>--}}
+{{--            </div>--}}
+{{--            <div class="message__content">--}}
+{{--                <p>Message content goes here.</p>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
     </div>
 
-    <div class="message-section">
-        <div class="message">
-            <div class="message-header">
-                <img src="profile-image.jpg" alt="Profile Image">
-                <h3 class="message-username">Username</h3>
-                <p class="message-timestamp">Timestamp</p>
-            </div>
-            <div class="message-content">
-                <p>Message content goes here.</p>
-            </div>
-        </div>
 
-        <!-- Repeat the above message div for each message in the section -->
+</div>
 
-    </div>
-
-<!-- feed ends -->
 
 <!-- widgets starts -->
 <div class="widgets">
-    <div class="widgets__input">
-        <form method="POST" action="{{ route('search') }}">
-            @csrf
-            <span class="material-icons widgets__searchIcon"> search </span>
-            <input type="text" placeholder="Search Twitter" name="body"/>
+    <div class="chat-window">
+        <div class="chat-header">
+            <img src="profile-image.jpg" alt="Profile Image">
+            <h3 class="chat-username">Username</h3>
+        </div>
+        <div class="chat-messages">
+{{--            <div class="message">--}}
+{{--                <img src="profile-image.jpg" alt="Profile Image">--}}
+{{--                <div class="message-content">--}}
+{{--                    <p>Message content goes here.</p>--}}
+{{--                    <p class="message-timestamp">Timestamp</p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+        </div>
+        <form action="{{ route('store.message') }}" method="POST" class="chat-form">
+{{--            <form action="{{ route('store.message') }}" method="POST">--}}
+                @csrf
+            <input type="text" name="message" placeholder="Type a message...">
+            <button type="submit">submit</button>
+{{--            </form>--}}
         </form>
-    </div>
-
-    <div class="widgets__widgetContainer">
-        <h2>Trends for you</h2>
-        <blockquote class="twitter-tweet">
-            <div style="display:block; width:348px; height:82px;">
-                <a>Trends to be applied</a><br>
-                500ktweets
-            </div>
-
-
-        </blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
 </div>
 <!-- widgets ends -->
+
+
 </body>
 </html>
