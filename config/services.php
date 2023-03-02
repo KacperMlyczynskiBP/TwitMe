@@ -37,4 +37,9 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT')
     ],
 
+    'rapid' => [
+        'key' => env('RAPID_API_KEY'),
+    ]
+
+
 ];

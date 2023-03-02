@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TwittMe</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
@@ -25,8 +25,9 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2><a href="{{ route('show.explore')  }}">Explore</a></h2>
     </div>
+
 
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
@@ -35,7 +36,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
+        <h2><a href="{{ route('create.messages') }}">Messages</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -93,7 +94,7 @@
                         <img src="{{asset($user->user_image_path)}}" width="48px" height="48px">
                     </div>
                 @endif
-                <input type="text" name="body" placeholder="What's happening?" />
+                <input type="text" name="body" placeholder="What's happening?"/>
             </div>
 
             <div class="media">
@@ -120,8 +121,10 @@
                 <div class="post__header">
                     <div class="post__headerText">
                         <h3>
-                            @inject('username','App\Http\Helpers\FindUsername')
-                            <div><a href="{{ route('create.profile', ['id'=>$post->user_id]) }}">{{$username->findUsername($post->user_id)}}</a></div>
+                            @inject('username','App\Helpers\FindUsername')
+                            <div>
+                                <a href="{{ route('create.profile', ['id'=>$post->user_id]) }}">{{$username->findUsername($post->user_id)}}</a>
+                            </div>
                             <span class="post__headerSpecial"
                             ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($post->user_id)}}</div>
 </span
@@ -140,7 +143,7 @@
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
                     <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                    @inject('count','App\Http\Helpers\CountLikes')
+                    @inject('count','App\Helpers\CountLikes')
                     <div>{{$count->countLikesOnTweets($post->id)}}</div>
                     <span class="material-icons"> publish </span>
                 </div>
@@ -157,17 +160,19 @@
         <form method="POST" action="{{ route('search') }}">
             @csrf
             <span class="material-icons widgets__searchIcon"> search </span>
-            <input type="text" placeholder="Search Twitter" name="body" />
+            <input type="text" placeholder="Search Twitter" name="body"/>
         </form>
     </div>
 
     <div class="widgets__widgetContainer">
         <h2>Trends for you</h2>
         <blockquote class="twitter-tweet">
+            @foreach($trends as $key=>$value)
             <div style="display:block; width:348px; height:82px;">
-                <a>Trends to be applied</a><br>
-                500ktweets
+                <a>{{$key}}</a><br>
+                 {{$value}}  Tweets
             </div>
+            @endforeach
 
 
         </blockquote>

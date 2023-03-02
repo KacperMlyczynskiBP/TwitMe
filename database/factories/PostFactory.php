@@ -18,11 +18,11 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'body'=>fake()->text(),
-            'user_id'=> rand(100, 200),
+            'body'=>fake()->text(5),
+            'user_id'=> rand(1, 3),
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now(),
-            'reply_id'=> rand(100, 200)
+            'reply_id'=> NULL
         ];
     }
 }

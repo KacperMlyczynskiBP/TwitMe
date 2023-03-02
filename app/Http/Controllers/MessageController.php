@@ -2,39 +2,39 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\User;
+use App\Services\MessageService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    protected $messageService;
+
+    public function __construct(MessageService $messageService){
+        $this->messageService = $messageService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(): View{
+        $id = Auth()->user()->id;
+
+        $messages=$this->messageService->getMessagesByUserId($id);
+
+        return view('message.messages', compact('messages'));    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request): RedirectResponse{
+        $user = $this->messageService->getUserById($request['id']);
+
+        $this->messageService->storeConversationAndMessage($request);
+
+        return redirect()->route('create.chat',['user'=>$user]);
     }
 
     /**
@@ -48,24 +48,13 @@ class MessageController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         //
@@ -81,4 +70,23 @@ class MessageController extends Controller
     {
         //
     }
+
+    public function createSearchPage(): View{
+        return view('message.searchUser');
+    }
+
+    public function createChat(User $user): View{
+        $id=Auth()->user()->id;
+
+        $messages = $this->messageService->getChatMessagesByUserAndId($id, $user);
+
+        return view('message.chat', compact('user', 'messages'));
+    }
+
+    public function search(Request $request): View{
+        $users = $this->messageService->getUsersByUsername($request->body);
+
+        return view('message.searchResults', compact('users'));
+      }
+
 }

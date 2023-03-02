@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TwittMe</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+            crossorigin="anonymous"
     />
 </head>
 
@@ -26,8 +26,9 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2><a href="{{ route('show.explore')  }}">Explore</a></h2>
     </div>
+
 
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
@@ -36,7 +37,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
+        <h2><a href="{{ route('create.messages') }}">Messages</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -58,11 +59,11 @@
         <span class="material-icons"> more_horiz </span>
         <div class="dropdown">
             <h2>More</h2>
-        <div class="dropdown_content">
-            <div class="sidebarOption-dropdown">
+            <div class="dropdown_content">
+                <div class="sidebarOption-dropdown">
 
+                </div>
             </div>
-        </div>
         </div>
     </div>
     <button class="sidebar__tweet">Tweet</button>
@@ -86,20 +87,20 @@
             @csrf
             <div class="tweetbox__input">
                 <img
-                    src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                    alt=""
+                        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                        alt=""
                 />
-                <input type="text" name="body" placeholder="What's happening?" />
+                <input type="text" name="body" placeholder="What's happening?"/>
             </div>
             <div class="media">
                 <label for="file-upload" class="custom-file-upload">
                     Upload
                 </label>
                 <input type="file" name="tweetMedia" class="custom-file-upload">
-{{--                <label for="file-upload" class="custom-file-upload">--}}
-{{--                    Custom Upload--}}
-{{--                </label>--}}
-{{--                <input id="file-upload" type="file"/>--}}
+                {{--                <label for="file-upload" class="custom-file-upload">--}}
+                {{--                    Custom Upload--}}
+                {{--                </label>--}}
+                {{--                <input id="file-upload" type="file"/>--}}
             </div>
             <button name="tweetSubmit" class="tweetBox__tweetButton">Tweet</button>
         </form>
@@ -112,8 +113,8 @@
             <div class="post">
                 <div class="post__avatar">
                     <img
-                        src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                        alt=""
+                            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                            alt=""
                     />
                 </div>
 
@@ -121,7 +122,7 @@
                     <div class="post__header">
                         <div class="post__headerText">
                             <h3>
-                                @inject('username','App\Http\Helpers\FindUsername')
+                                @inject('username','App\Helpers\FindUsername')
                                 <div>{{$username->findUsername($post->user_id)}}</div>
                                 <span class="post__headerSpecial"
                                 ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($post->user_id)}}</div>
@@ -134,13 +135,13 @@
                         </div>
                     </div>
                     <img
-                        src="/images/{{$post->image_path}}"
-                        alt=""
+                            src="/images/{{$post->image_path}}"
+                            alt=""
                     />
                     <div class="post__footer">
                         <span class="material-icons"> repeat </span>
                         <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                        @inject('count','App\Http\Helpers\CountLikes')
+                        @inject('count','App\Helpers\CountLikes')
                         <div>{{$count->countLikesOnTweets($post->id)}}</div>
                         <span class="material-icons"> publish </span>
                     </div>
@@ -157,7 +158,7 @@
         <form method="POST" action="{{ route('search') }}">
             @csrf
             <span class="material-icons widgets__searchIcon"> search </span>
-            <input type="text" placeholder="Search Twitter" name="body" />
+            <input type="text" placeholder="Search Twitter" name="body"/>
         </form>
     </div>
 

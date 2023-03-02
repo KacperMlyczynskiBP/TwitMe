@@ -14,6 +14,66 @@ a {
     text-decoration-color: #1a1e21;
     color: #0c4128;
 }
+/*sports css*/
+.sports-results {
+    margin-top: 20px;
+}
+
+.sports-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f5f8fa;
+    border-bottom: 1px solid #e6ecf0;
+}
+
+.sports-results-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sports-results-header a {
+    color: #1da1f2;
+    font-size: 14px;
+}
+
+.sports-results-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sports-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e6ecf0;
+}
+
+.sports-result-info h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sports-result-info p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.sports-result-date p {
+    font-size: 12px;
+    color: #8899a6;
+    margin: 0;
+}
+
+
+
+/**/
+
 /**/
 .sidebarOption {
     display: flex;
@@ -86,6 +146,45 @@ body {
     color: var(--twitter-color);
     font-size: 30px;
 }
+/**/
+
+.message_header_container {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.sticky-div {
+    flex-grow: 1;
+    border: 1px solid var(--twitter-background);
+    padding: 10px 15px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sticky-div:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.sticky-div:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.sticky-div:hover {
+    background-color: var(--twitter-background);
+    color: white;
+}
+
 /* feed */
 .feed {
     flex: 0.5;
@@ -112,6 +211,185 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+
+/*messages section*/
+.messages-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f8fa;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.message__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.message__header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.message__username {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #1da1f2;
+}
+
+.message__timestamp {
+    font-size: 14px;
+    color: gray;
+    margin: 0;
+    margin-left: auto;
+}
+
+.message__content {
+    margin-top: 10px;
+}
+
+
+.message__content p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.message__content a {
+    color: #1da1f2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.message:hover {
+    background-color: #edf1f2;
+}
+
+.message:hover .message__username {
+    text-decoration: underline;
+}
+
+/* chat widget*/
+
+.chat-window {
+    background-color: #f5f8fa;
+    border: 1px solid #e6ecf0;
+    border-radius: 15px;
+    height: calc(100vh - 200px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e6ecf0;
+}
+
+.chat-header img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-username {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.message {
+    display: flex;
+}
+
+.message img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-content {
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    max-width: 60%;
+    position: relative;
+}
+
+.message-content::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid white;
+}
+
+.message-content p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.message-timestamp {
+    font-size: 12px;
+    color: #8899a6;
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+}
+
+.chat-form {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-top: 1px solid #e6ecf0;
+    padding: 10px;
+}
+
+.chat-form input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.chat-form button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    color: #1da1f2;
+}
+
+/**/
 /* tweet box */
 .tweetbox__input img {
     border-radius: 50%;

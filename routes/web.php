@@ -1,24 +1,39 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{UserController, Controller, TweetController, ProfileController, Auth\GoogleController};
+use App\Http\Controllers\{UserController, Controller,ProfileController,MessageController, PostController, Auth\GoogleController};
 
 Auth::routes(['verify' => true]);
 
-Route::get('google/redirect', [GoogleController::class, 'redirect'])->name('redirect.google');
-Route::get('google/callback', [GoogleController::class, 'handleCallback']);
-Route::post('google/register', [GoogleController::class, 'registerGoogleUser'])->name('register.google.user');
+Route::prefix('google')->group(function(){
+    Route::controller(GoogleController::class)->group(function(){
+        Route::get('/redirect', 'redirect')->name('redirect.google');
+        Route::get('/callback', 'handleCallback');
+        Route::post('/register','registerGoogleUser')->name('register.google.user');
+    });
+});
 
 Route::middleware('auth')->group(function(){
     Route::get('/', [Controller::class, 'createPage'])->name('index');
-
     Route::post('/search', [Controller::class, 'search'])->name('search');
 
-    Route::controller(TweetController::class)->group(function(){
-        Route::post('/tweet', 'storeTweet')->name('store.tweet');
+
+   Route::prefix('messages')->group(function(){
+       Route::controller(MessageController::class)->group(function(){
+           Route::get('/', 'index')->name('create.messages');
+           Route::get('/search/user', 'createSearchPage')->name('create.searchUsers');
+           Route::post('/search', 'search')->name('search.user');
+           Route::post('/store', 'store')->name('store.message');
+           Route::get('/{user}/chat', 'createChat')->name('create.chat');
+       });
+   });
+
+    Route::controller(PostController::class)->group(function (){
         Route::get('/singleTweet/{postId}', 'show')->name('show.single');
         Route::get('/likeTweet/{postId}', 'likeTweet')->name('like.tweet');
+        Route::post('/tweet', 'storeTweet')->name('store.tweet');
         Route::post('/tweet/reply','storeTweetReply')->name('store.tweet.reply');
     });
 
@@ -40,17 +55,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(UserController::class)->group(function(){
         Route::post('/follow', 'follow')->name('follow.user');
     });
+
+    Route::get('/explore', [Controller::class, 'explore'])->name('show.explore');
+
 });
-
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

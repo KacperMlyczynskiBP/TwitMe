@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'username' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'image_path' => fake()->imageUrl($width=133, $height=133),
+            'user_image_path' => fake()->imageUrl($width=133, $height=133),
             'date_of_birth' => fake()->dateTimeBetween($startDate= '-80 years', $endDate='now'),
             'bio' => fake()->paragraph(3),
             'location' => fake()->city(),

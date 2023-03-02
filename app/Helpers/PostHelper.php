@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Helpers;
+namespace App\Helpers;
 
 class PostHelper
 {
-    public function addUserImageToPost($posts){
+    public static function addUserImageToPost($posts){
         return  $posts->filter(function ($post){
             return $post->user;
         })

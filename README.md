@@ -6,7 +6,6 @@
 * Login and Registration with facebook API using Laravel Socialite.
 * Edit Profile,
 * List tweets depending on relations between users,
-* Page with single tweet and replies
 * Main page with listed tweets
 * Request classes for Login, Register and Tweets
 * Helpers classes to display values on page
@@ -21,5 +20,8 @@
 * Bookmarks
 * Limited changing date of birth
 * Trends
+* Explore
+* Notification
+* Livechat
 
 

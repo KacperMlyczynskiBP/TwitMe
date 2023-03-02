@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TwittMe</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+            crossorigin="anonymous"
     />
 </head>
 <body>
@@ -25,9 +25,8 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2><a href="{{ route('show.explore')  }}">Explore</a></h2>
     </div>
-
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
         <h2>Notifications</h2>
@@ -35,7 +34,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
+        <h2><a href="{{ route('create.messages') }}">Messages</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -74,50 +73,51 @@
         <h2>Thread</h2>
     </div>
 
-            <div class="post">
-                <div class="post__avatar">
-                    <img
-                       src="{{asset($user->image_path)}}"
-                    />
-                </div>
+    <div class="post">
+        <div class="post__avatar">
+            <img
+                    src="{{asset($user->user_image_path)}}"
+            />
+        </div>
 
-                <div class="post__body">
-                    <div class="post__header">
-                        <div class="post__headerText">
-                            <h3>
-                                @inject('username','App\Http\Helpers\FindUsername')
-                                <div>{{$username->findUsername($post->user_id)}}</div>
-                                <span class="post__headerSpecial"
-                                ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                                >
-                            </h3>
-                        </div>
-                        <div class="post__headerDescription">
-                            <p>{{ $post->body }}</p>
-                        </div>
-                    </div>
-                    <img
-                        src="/images/{{$post->image_path}}"
-                        alt=""
-                    />
-                    <div class="post__footer">
-                        <span class="material-icons"> repeat </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                        @inject('count','App\Http\Helpers\CountLikes')
-                        <div>{{$count->countLikesOnTweets($post->id)}}</div>
-                        <span class="material-icons"> publish </span>
-                    </div>
+        <div class="post__body">
+            <div class="post__header">
+                <div class="post__headerText">
+                    <h3>
+                        @inject('username','App\Helpers\FindUsername')
+                        <div>{{$username->findUsername($post->user_id)}}</div>
+                        <span class="post__headerSpecial"
+                        ><span class="material-icons post__badge"> verified </span>@somanathg</span
+                        >
+                    </h3>
+                </div>
+                <div class="post__headerDescription">
+                    <p>{{ $post->body }}</p>
                 </div>
             </div>
+            <img
+                    src="{{asset($post->image_path)}}"
+                    alt=""
+            />
+            <div class="post__footer">
+                <span class="material-icons"> repeat </span>
+                <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span
+                            class="material-icons"> favorite_border </span></a>
+                @inject('count','App\Helpers\CountLikes')
+                <div>{{$count->countLikesOnTweets($post->id)}}</div>
+                <span class="material-icons"> publish </span>
+            </div>
+        </div>
+    </div>
 
     <div class="tweetBox">
         <form action="{{ route('store.tweet.reply') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="tweetbox__input">
                 <img
-                   src="{{asset($userPath)}}"
+                        src="{{asset($userPath)}}"
                 />
-                <input type="text" name="body" placeholder="Tweet your reply" />
+                <input type="text" name="body" placeholder="Tweet your reply"/>
                 <input type="hidden" name="post_id" value="{{$post->id}}">
             </div>
             <div class="media">
@@ -132,50 +132,52 @@
     </div>
 
     @foreach($comments as $comment)
-            <div class="post">
-                <div class="post__avatar">
-                    <img
+        <div class="post">
+            <div class="post__avatar">
+                <img
                         src="{{asset($comment->user_image_path)}}"
-                    />
-                </div>
+                />
+            </div>
 
-                <div class="post__body">
-                    <div class="post__header">
-                        <div class="post__headerText">
-                            <h3>
-                                @inject('username','App\Http\Helpers\FindUsername')
-                                <div><a href="{{ route('create.profile', ['id'=>$comment->user_id]) }}">{{$username->findUsername($comment->user_id)}}</a></div>
-                                <span class="post__headerSpecial"
-                                ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                                >
-                            </h3>
-                        </div>
-                        <a href="{{ route('show.single', ['postId'=>$comment->id]) }}">
-                        @inject('username','App\Http\Helpers\FindUsername')
-                        <div> <h3>replying to</h3> <a href={{ route('create.profile', ['id'=>$comment->user_id]) }}">
-                        @inject('username','App\Http\Helpers\FindWhoToReply')
+            <div class="post__body">
+                <div class="post__header">
+                    <div class="post__headerText">
+                        <h3>
+                            @inject('username','App\Helpers\FindUsername')
+                            <div>
+                                <a href="{{ route('create.profile', ['id'=>$comment->user_id]) }}">{{$username->findUsername($comment->user_id)}}</a>
+                            </div>
+                            <span class="post__headerSpecial"
+                            ><span class="material-icons post__badge"> verified </span>@somanathg</span
+                            >
+                        </h3>
+                    </div>
+                    <a href="{{ route('show.single', ['postId'=>$comment->id]) }}">
+                        @inject('username','App\Helpers\FindUsername')
+                        <div><h3>replying to</h3> <a href={{ route('create.profile', ['id'=>$comment->user_id]) }}">
+                        @inject('username','App\Helpers\FindWhoToReply')
                          {{ $username->FindWhoToReply($comment->reply_id)}}</a></div>
-                        <div class="post__headerDescription">
+                        <div class=" post__headerDescription">
                             <p>{{ $comment->body }}</p>
                         </div>
-                    </div>
-                    <img
-{{--                        src="/images/{{$comment->image_path}}"--}}
+                </div>
+                <img
+                                                src="{{asset($comment->image_path)}}"
                         alt=""
-                    />
-                    <div class="post__footer">
-                        <span class="material-icons"> repeat </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$comment->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                        @inject('count','App\Http\Helpers\CountLikes')
-                        <div>{{$count->countLikesOnTweets($comment->id)}}</div>
-                        <span class="material-icons"> publish </span>
-                    </div>
+                />
+                <div class="post__footer">
+                    <span class="material-icons"> repeat </span>
+                    <a href="{{ route('like.tweet', ['postId'=>$comment->id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    @inject('count','App\Helpers\CountLikes')
+                    <div>{{$count->countLikesOnTweets($comment->id)}}</div>
+                    <span class="material-icons"> publish </span>
                 </div>
             </div>
+        </div>
         </a>
     @endforeach
 
-{{--    Here you show comments  and replies to them--}}
+    {{--    Here you show comments  and replies to them--}}
 </div>
 <!-- feed ends -->
 
@@ -183,7 +185,7 @@
 <div class="widgets">
     <div class="widgets__input">
         <span class="material-icons widgets__searchIcon"> search </span>
-        <input type="text" placeholder="Search Twitter" />
+        <input type="text" placeholder="Search Twitter"/>
     </div>
 
     <div class="widgets__widgetContainer">

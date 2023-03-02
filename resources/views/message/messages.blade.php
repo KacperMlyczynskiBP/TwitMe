@@ -25,8 +25,9 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2><a href="{{ route('show.explore')  }}">Explore</a></h2>
     </div>
+
 
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
@@ -35,7 +36,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
+        <h2><a href="{{ route('create.messages') }}">Messages</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -74,56 +75,59 @@
     <div class="feed__header">
         <h2>Messages</h2>
     </div>
+
     <div class="message_header_container">
-        <div class="sticky-div">Last Messages</div>
-        <div class="sticky-div">Search Users</div>
+        <div class="sticky-div"><a href="{{ route('create.messages') }}">Last Messages</a></div>
+        <div class="sticky-div"><a href="{{ route('create.searchUsers') }}">Search Users</a></div>
     </div>
     <div class="messages-section">
-{{--        <div class="message">--}}
-{{--            <div class="message__header">--}}
-{{--                <img src="profile-image.jpg" alt="Profile Image">--}}
-{{--                <h3 class="message__username">Username</h3>--}}
-{{--                <p class="message__timestamp">Timestamp</p>--}}
-{{--            </div>--}}
-{{--            <div class="message__content">--}}
-{{--                <p>Message content goes here.</p>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        @foreach($messages as $message)
+        <div class="message">
+                @inject('user', 'App\Helpers\FindUser')
+            <a href="{{ route('create.chat', ['user'=>$user->findUser($message)]) }}">
+                @inject('user_image_path','App\Helpers\FindUserImagePath')
+                <div class="message__header">
+                <img src="{{asset($user_image_path->findOtherUserImagePath($message))}}" alt="Profile Image">
+                @inject('username','App\Helpers\FindUsername')
+                <h3 class="message__username">{{$username->findOtherUserUsername($message)}}</h3>
+                <p class="message__timestamp">{{$message->created_at}}</p>
 
+            </div>
+
+            <div class="message__content">
+                <p>{{$message->text}}.</p>
+            </div>
+            </a>
+        </div>
+        @endforeach
     </div>
 
 
 </div>
 
 
-<!-- widgets starts -->
 <div class="widgets">
-    <div class="chat-window">
-        <div class="chat-header">
-            <img src="profile-image.jpg" alt="Profile Image">
-            <h3 class="chat-username">Username</h3>
-        </div>
-        <div class="chat-messages">
-{{--            <div class="message">--}}
-{{--                <img src="profile-image.jpg" alt="Profile Image">--}}
-{{--                <div class="message-content">--}}
-{{--                    <p>Message content goes here.</p>--}}
-{{--                    <p class="message-timestamp">Timestamp</p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-        </div>
-        <form action="{{ route('store.message') }}" method="POST" class="chat-form">
-{{--            <form action="{{ route('store.message') }}" method="POST">--}}
-                @csrf
-            <input type="text" name="message" placeholder="Type a message...">
-            <button type="submit">submit</button>
-{{--            </form>--}}
+    <div class="widgets__input">
+        <form method="POST" action="{{ route('search') }}">
+            @csrf
+            <span class="material-icons widgets__searchIcon"> search </span>
+            <input type="text" placeholder="Search Twitter" name="body"/>
         </form>
     </div>
-</div>
-<!-- widgets ends -->
 
+    <div class="widgets__widgetContainer">
+        <h2>Trends for you</h2>
+        <blockquote class="twitter-tweet">
+            <div style="display:block; width:348px; height:82px;">
+                <a>Trends to be applied</a><br>
+                500ktweets
+            </div>
+
+
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+</div>
 
 </body>
 </html>

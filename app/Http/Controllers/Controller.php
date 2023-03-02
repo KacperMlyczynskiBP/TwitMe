@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\tweetRequest;
-use App\Http\Services\TweetServices;
-use App\Http\Services\UserService;
+use App\Jobs\ListNBADataJob;
+use App\Jobs\ListTrendsJob;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Client\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+
 
 class Controller extends BaseController
 {
@@ -20,23 +20,42 @@ class Controller extends BaseController
 
     public function createPage(){
         $id=Auth()->user()->id;
-        $followingUsers=DB::table('followers')->where('follower_user_id', $id)->get();
+
+        $followingUsers=DB::table('followers')
+            ->where('follower_user_id', $id)
+            ->get();
+
         $array=array();
+
         foreach($followingUsers as $users){
             $array[]=$users->user_id;
         }
+
         $posts=User::join('posts', 'users.id', '=', 'posts.user_id')
             ->whereIn('posts.user_id', $array)
             ->get();
+
         $user=User::findOrFail(Auth()->user()->id);
-//        dd($posts);
-        return view('index', compact('posts','user'));
+
+        $trends =  cache::get('trends');
+
+        return view('index', compact('posts','user', 'trends'));
+    }
+
+    public function explore(){
+        $results = Cache::get('NBAResults');
+
+        return view('explore', compact('results'));
     }
 
     public function search(\Illuminate\Http\Request $request){
-       $results=DB::table('posts')->join('users', 'users.id', 'posts.user_id')
-           ->where('body', 'LIKE', '%' . $request->body . '%' )->get()->all();
+       $results=Post::with('user')
+           ->where('body', 'LIKE', '%' . $request->body . '%' )
+           ->get()
+           ->all();
+
         $path=Auth()->user()->user_image_path;
+
         return view('searchResults', compact('results', 'path'));
     }
 }

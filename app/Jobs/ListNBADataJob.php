@@ -40,7 +40,9 @@ class ListNBADataJob implements ShouldQueue
             'x-rapidapi-host' => 'v1.basketball.api-sports.io',
             'x-rapidapi-key' => config('services.rapid.key'),
              ])->get("https://v1.basketball.api-sports.io/games?date=$date");
-            $results = collect($response->json(['response']))->slice(0,10);
+            $results = collect($response->json(['response']))->filter(function ($game){
+               return $game['league']['name'] === 'NBA';
+            });
             Cache::remember('NBAResults',8600, function() use($results){
                 return $results;
             });

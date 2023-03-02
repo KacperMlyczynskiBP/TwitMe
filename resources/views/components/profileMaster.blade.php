@@ -25,8 +25,9 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2><a href="{{ route('show.explore')  }}">Explore</a></h2>
     </div>
+
 
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
@@ -35,9 +36,8 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
+        <h2><a href="{{ route('create.messages') }}">Messages</a></h2>
     </div>
-
     <div class="sidebarOption">
         <span class="material-icons"> bookmark_border </span>
         <h2>Bookmarks</h2>

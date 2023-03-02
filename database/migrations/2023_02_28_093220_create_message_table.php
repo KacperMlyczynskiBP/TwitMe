@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('text');
             $table->unsignedBigInteger('receiver_id');
             $table->unsignedBigInteger('sender_id');
+            $table->unsignedBigInteger('conversation_id');
             $table->foreign('receiver_id')->references('id')->on('users');
             $table->foreign('sender_id')->references('id')->on('users');
+            $table->foreign('conversation_id')->references('id')->on('conversations');
             $table->timestamps();
         });
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
 use App\Services\PostService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -14,15 +16,33 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function storeTweet(tweetRequest $request){
-        $data = $request->all();
-        $this->postService->createPostData($data);
+    public function show(int $postId): View{
+        $post = $this->postService->getPostById($postId);
+        $user = $this->postService->getUserById($post['user_id']);
+        $userPath=Auth()->user()->user_image_path;
+
+        $comments = $this->postService->getCommentsById($postId);
+
+        return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
+    }
+
+    public function likeTweet(int $postId): RedirectResponse{
+        $this->postService->likeTweet($postId);
+
         return redirect()->back();
     }
 
-    public function storeTweetReply(tweetRequest $request){
-        $data = $request->all();
+    public function storeTweet(tweetRequest $request): RedirectResponse{
+        $data = $request->validated();
+        $this->postService->createPostData($data);
+
+        return redirect()->back();
+    }
+
+    public function storeTweetReply(tweetRequest $request): RedirectResponse{
+        $data = $request->validated();
         $this->postService->createPostData($data, $data['post_id']);
+
         return redirect()->back();
     }
 

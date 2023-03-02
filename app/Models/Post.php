@@ -16,12 +16,11 @@ class Post extends Model
       'reply_id',
     ];
 
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
+
     public function likeable(){
-        return $this->belongsToMany('App\Models\User', 'likes');
+        return $this->belongsToMany('App\Models\User', 'likes', 'post_id', 'user_id');
     }
-
-    public function replies(){
-        return $this->belongsToMany('App\Models\Reply', 'Replies');
-    }
-
 }

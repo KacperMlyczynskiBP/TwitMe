@@ -24,6 +24,8 @@ class ListTrendsJob implements ShouldQueue
      */
     public function handle()
     {
+
+
             $posts = Post::all();
             $trends = [];
 
@@ -45,7 +47,7 @@ class ListTrendsJob implements ShouldQueue
 
             $trends = array_slice($trends, 0, 10);
 
-            Cache::remember('trends', 86400, function ($trends) {
+            Cache::remember('trends', 86400, function () use ($trends) {
                return $trends;
             });
 

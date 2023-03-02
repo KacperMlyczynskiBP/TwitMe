@@ -9,10 +9,10 @@
 
         <a class="profile-bg main-wrapper d-block"></a>
         <div>
-            <a href="#" id="profile-link" >
-                    <div class="profile-picture">
-                        <img src="{{asset($user->user_image_path)}}" width="133px" height="133px">
-                    </div>
+            <a href="#" id="profile-link">
+                <div class="profile-picture">
+                    <img src="{{asset($user->user_image_path)}}" width="133px" height="133px">
+                </div>
             </a>
             <div id="profile-marg">
                 @if($user->id !== Auth()->user()->id)
@@ -41,7 +41,7 @@
                         <a href="#">
                             <span class="d-block" id="profile-label">Following</span>
                             <span id="profile-number">
-                            @inject('count','App\Http\Helpers\CountFollowers')
+                            @inject('count','App\Helpers\CountFollowers')
                             <a href="{{ route('create.profileFollowing', ['id'=>$user->id]) }}">{{$count->countFollowers($user->id)}}</a>
                         </span>
                         </a>
@@ -59,10 +59,14 @@
         </div>
 
         <div class="profile-navbar">
-            <div class="profile-navbar-part"><a href="{{ route('create.profileTweets', ['id'=>$user->id]) }}">Tweets</a></div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileReplies', ['id'=>$user->id]) }}">Tweets and replies</a></div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileMedia', ['id'=>$user->id]) }}">Media</a></div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileLikes', ['id'=>$user->id]) }}">Likes</a></div>
+            <div class="profile-navbar-part"><a href="{{ route('create.profileTweets', ['id'=>$user->id]) }}">Tweets</a>
+            </div>
+            <div class="profile-navbar-part"><a href="{{ route('create.profileReplies', ['id'=>$user->id]) }}">Tweets
+                    and replies</a></div>
+            <div class="profile-navbar-part"><a href="{{ route('create.profileMedia', ['id'=>$user->id]) }}">Media</a>
+            </div>
+            <div class="profile-navbar-part"><a href="{{ route('create.profileLikes', ['id'=>$user->id]) }}">Likes</a>
+            </div>
         </div>
 
 
@@ -72,9 +76,9 @@
                     @if($tweet->user_image_path === NULL)
                         <div class="profile-picture">
                             <img
-                                src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-                                alt=""
-                                width="48px" height="48px"
+                                    src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                                    alt=""
+                                    width="48px" height="48px"
                             />
                         </div>
                     @else
@@ -90,7 +94,7 @@
 
                             <h3>
 
-                                @inject('username','App\Http\Helpers\FindUsername')
+                                @inject('username','App\Helpers\FindUsername')
                                 <div>{{$username->findUsername($tweet->user_id)}}</div>
                                 <span class="post__headerSpecial"
                                 ><span class="material-icons post__badge"> verified </span>@somanathg</span
@@ -103,20 +107,20 @@
                     </div>
                     @if($tweet->image_path == Null)
                         <img
-                            src="/images/{{$tweet->image_path}}"
-                            alt=""
+                                src="/images/{{$tweet->image_path}}"
+                                alt=""
                         />
                     @else
                         <img
-                             src="/images/{{$tweet->image_path}}"
-                             alt=""
+                                src="/images/{{$tweet->image_path}}"
+                                alt=""
                         />
                     @endif
 
                     <div class="post__footer">
                         <span class="material-icons"> repeat </span>
                         <a href="{{ route('like.tweet', ['postId'=>$tweet->id]) }}"><span class="material-icons"> favorite_border </span></a>
-                        @inject('count','App\Http\Helpers\CountLikes')
+                        @inject('count','App\Helpers\CountLikes')
                         <div>{{$count->countLikesOnTweets($tweet->id)}}</div>
                         <span class="material-icons"> publish </span>
                     </div>

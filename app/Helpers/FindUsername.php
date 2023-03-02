@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Helpers;
+namespace App\Helpers;
 
 use App\Models\User;
 
@@ -12,5 +12,19 @@ class FindUsername
         $username=User::findOrFail($id);
         return $username['username'];
     }
+
+    public function findOtherUserUsername($message){
+        $id=Auth()->user()->id;
+        if($message->receiver_id == $id){
+            $otherUserId=$message->sender_id;
+        } else{
+            $otherUserId=$message->receiver_id;
+        }
+        $otherUser = User::where('id', $otherUserId)
+            ->where('id', '!=', $id)
+            ->first();
+
+        return $otherUser['username'];
+}
 
 }

@@ -1,103 +1,95 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
+use App\Helpers\PostHelper;
 use App\Http\Requests\updateUserRequest;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\RateLimiter;
 
 class ProfileService
 {
-   public function getPosts($id){
+    public function getUserById(int $id): User{
+        return User::findOrFail($id);
+    }
 
-       $likes=DB::table('posts')
-           ->join('users', 'posts.user_id', '=', 'users.id')   /// posts which have the same user_id with users.id
-           ->join('likes', 'posts.user_id', '=', 'likes.user_id') // users which have the same users.id as likes.user_id
-           ->where('posts.user_id', $id)->get()->first();
+    public function getUserTweetsById(int $id): Collection{
+        $userTweets=Post::with('user')
+            ->where('posts.user_id', $id)
+            ->get();
 
-       $posts=array();
-       foreach($likes as $like){
-           $posts[]=Post::where(['id'=>$like->post_id])->get();
-       }
-       return $posts;
+        $userTweets=PostHelper::addUserImageToPost($userTweets);
+
+        return $userTweets;
+    }
+
+
+    public function getLikedPostsById(int $id): Collection{
+        $likedPosts=DB::table('likes')
+            ->where('user_id', $id)
+            ->pluck('post_id');
+
+        $posts = Post::with('user')
+            ->whereIn('id', $likedPosts)
+            ->get();
+
+        $posts = PostHelper::addUserImageToPost($posts);
+
+        return $posts;
+    }
+
+    public function getUserTweetsRepliesById(int $id): Collection{
+        $userTweets=Post::where('user_id', $id)
+            ->orWhereIn('reply_id', function($query) use ($id){
+                $query->select('id')
+                    ->from('posts')
+                    ->where('user_id', $id);
+            })
+            ->get();
+
+        $userTweets=PostHelper::addUserImageToPost($userTweets);
+
+        return $userTweets;
+    }
+
+    public function getUserMediaTweetsById(int $id): Collection{
+        $tweets=Post::with('user')
+            ->where('posts.user_id', $id)
+            ->where('image_path', '!=', 'NULL')
+            ->get();
+
+        $tweets=PostHelper::addUserImageToPost($tweets);
+
+        return $tweets;
+    }
+
+   public function getFollowers(int $id, string $user_id): Collection{
+       $user=User::findOrFail($id);
+
+       $followers = ($user_id == 'user_id') ? $user->followers()->pluck('user_id') : $user->following()->pluck('follower_user_id');
+
+       $users=User::select(['user_image_path','username','id'])
+               ->WhereIn('id', $followers)
+               ->get();
+
+       return $users;
    }
-   public function getUserTweets($id){
-       $userTweets=DB::table('users')->join('posts', 'users.id', '=', 'posts.user_id')
-           ->where('user_id', $id)
-           ->orWhere('reply_id', $id)
-           ->get()->all();
 
-       return $userTweets;
-   }
-
-   public function getQueryProfileUsers($post){
-
-          $post->filter(function ($post){
-               return $post->user;
-           })
-           ->map(function($post) {
-               if($post->user){
-                   $post['user_image_path'] = $post->user->user_image_path;
-                   $post['image_path'] = $post->image_path;
-                   return $post;
-               }
-           });
-
-          return $post;
-   }
-
-   public function getFollowers($id,$user_id){
-       $followers=DB::table('followers')
-           ->join('users', 'followers.user_id', '=', 'users.id')
-           ->where($user_id, $id)
-           ->get();
-
-       $array=array();
-           if($user_id == 'user_id'){
-               foreach($followers as $follower){
-                   $array[]=$follower->follower_user_id;
-               }
-           }else{
-               foreach($followers as $follower){
-                   $array[]=$follower->user_id;
-               }
-           }
-           $followers=User::WhereIn('id', $array)->get();
-           return $followers;
-   }
-
-   public function updateUser(UpdateUserRequest $request){
+   public function updateUser(UpdateUserRequest $request): void{
        $file=$request->file('tweetMedia');
        $user=Auth()->user();
-       if($file === NULL){
-           $date_of_birth=$request['date_of_birth'];
-           if($request['date_of_birth' === NULL]){
-               $date_of_birth=$user['date_of_birth'];
-           }
-           $user=User::findOrFail(Auth()->user()->id);
-           $user->update([
-                   'bio'=>$request['bio'], 'location'=>$request['location'],
-                   'username'=>$request['username'], 'date_of_birth'=>$date_of_birth,
-                   'user_image_path'=>'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png'
-               ]);
-           return $user;
-       } else{
-           $filePath=$file->getClientOriginalName();
-           $file->move('images' ,$filePath);
-           $date_of_birth=$request['date_of_birth'];
-           if($request['date_of_birth' === NULL]){
-               $date_of_birth=$user['date_of_birth'];
-           }
-           $user=User::findOrFail(Auth()->user()->id);
-           $user->update([
-               'bio'=>$request['bio'], 'location'=>$request['location'],
-               'username'=>$request['username'], 'date_of_birth'=>$date_of_birth,
-               'user_image_path'=>'/images/' . $filePath
-           ]);
-           return $user;
-       }
+
+       $imagePath = $file ? '/images/' . $file->getClientOriginalName() : 'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png';
+       $date_of_birth = $request['date_of_birth'] ?? $user->date_of_birth;
+
+       $user->update([
+           'bio'=>$request['bio'], 'location'=>$request['location'],
+           'username'=>$request['username'],
+           'user_image_path'=> $imagePath,
+           'date_of_birth'=> $date_of_birth,
+       ]);
+
    }
 }

@@ -49,12 +49,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function following(){
-        return $this->belongsToMany('App\Models\User', 'followers', 'follower_user_id' );
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_user_id', 'user_id');
     }
 
-    public function likeable(){
-        return $this->belongsToMany('App\Models\Post', 'likes');
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_user_id');
     }
+
+    public function likes(){
+        return $this->belongsToMany('App\Models\Post', 'likes', 'user_id', 'post_id')->withTimestamps();
+    }
+
+
+//    public function likes(){
+//        return $this->MorphedByMany(Post::class, 'likes');
+//    }
 
 }
