@@ -13,14 +13,14 @@
 * Simple followers system
 * Simple like system
 * Simple search system
+* Explore page with listing NBA results updating once a day
+* Messages between users
 
 ## Soon To come:
 
-* Messages
 * Bookmarks
 * Limited changing date of birth
 * Trends
-* Explore
 * Notification
 * Livechat
 
