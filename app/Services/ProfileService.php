@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Helpers\GetBlockedUsersRealtion;
 use App\Helpers\PostHelper;
 use App\Http\Requests\updateUserRequest;
+use App\Models\Blocked;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -27,12 +29,21 @@ class ProfileService
 
 
     public function getLikedPostsById(int $id): Collection{
+        $blockedUsers = Blocked::where('user_id', auth()->user()->id)
+            ->orWhere('blocked_user_id', Auth()->user()->id)
+            ->pluck('blocked_user_id')
+            ->all();
+         dd($blockedUsers);
+        $blockedUsers = GetBlockedUsersRealtion::getBlockedUserRelation($id);
         $likedPosts=DB::table('likes')
             ->where('user_id', $id)
+            ->whereNotIn('user_id', $blockedUsers)
             ->pluck('post_id');
+
 
         $posts = Post::with('user')
             ->whereIn('id', $likedPosts)
+            ->whereNotIn('user_id', $blockedUsers)
             ->get();
 
         $posts = PostHelper::addUserImageToPost($posts);

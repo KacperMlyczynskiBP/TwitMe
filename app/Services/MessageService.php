@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Helpers\CheckIfUserIsBlockedHelper;
+use App\Helpers\GetBlockedUsersRealtion;
 use App\Helpers\MessageHelper;
+use App\Models\Blocked;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Post;
@@ -17,6 +20,7 @@ class MessageService
     }
 
     public function getMessagesByUserId(int $id): Collection{
+
         $messages = Message::with('user')
             ->where(function ($query) use ($id) {
                 $query->where('receiver_id', $id)
@@ -35,10 +39,20 @@ class MessageService
         return $messages;
     }
 
-    public function getUsersByUsername(string $username): Collection{
-        $users=User::select(['username','user_image_path','bio','id'])
-            ->where('username', 'LIKE', '%' . $username . '%')
-            ->get();
+    public function getUsersByUsername(string $username){
+        $blockedIDs = GetBlockedUsersRealtion::getBlockedUserRelationByUsername($username);
+        $blockedUserIds = array_keys($blockedIDs);
+        if(collect($blockedIDs)->isEmpty()){
+            $users=User::select(['username','user_image_path','bio','id'])
+                ->where('username', 'LIKE', '%' . $username . '%')
+                ->get();
+        } else{
+            $users=User::select(['username','user_image_path','bio','id'])
+                ->where('username', 'LIKE', '%' . $username . '%')
+                ->whereNotIn('id', $blockedUserIds)
+                ->get();
+
+        }
 
         return $users;
     }
@@ -61,15 +75,17 @@ class MessageService
 
     public function storeConversationAndMessage($request): void{
         $id = $request['id'];
-        $data = $this->validate($request, ['message' => 'required']);
+        $data = $request->validate(['message' => 'required']);
         $senderId = Auth()->user()->id;
         $receiverId = $id;
+
 
         $conversation = Conversation::whereHas('messages', function ($query) use ($senderId, $receiverId) {
             $query->where('sender_id', $senderId)->where('receiver_id', $receiverId)
                 ->orWhere('sender_id', $receiverId)->where('receiver_id', $senderId);
         })
             ->first();
+
 
         if (!$conversation) {
             $conversation = new Conversation();
@@ -83,4 +99,7 @@ class MessageService
         $message->conversation_id = $conversation->id;
         $message->save();
     }
+
+
 }
+

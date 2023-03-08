@@ -17,13 +17,28 @@
 
             <div id="profile-marg">
                 @if($user->id !== Auth()->user()->id)
-                    <div class="follow" style="float:right;">
-                        <form method="POST" action="{{ route('follow.user') }}">
-                            @csrf
-                            <input type="hidden" name="user_id" value="{{$user->id}}">
-                            <input type="submit" name="follow" class="button" value="Follow" placeholder="follow">
-                        </form>
+                <div class="follow" style="float:right;">
+                    <form method="POST" action="{{ route('follow.user') }}">
+                        @csrf
+                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                        <input type="submit" name="follow" class="button" value="Follow" placeholder="follow">
+                    </form>
+                </div>
+
+                <a href="{{ route('create.chat', ['user'=>$user]) }}" class="message-button">
+                    <i class="fas fa-envelope"></i>
+                </a>
+
+                <div class="dropdown" style="float:right;">
+                    <button class="dropbtn"></button>
+                    <div class="dropdown-content">
+                        <a href="{{ route('block.user', ['user'=>$user]) }}">Block {{$user->username}}</a>
+                        <a href="#">Mute {{ $user->username }}</a>
+                        <a href="#">Report {{ $user->username }}</a>
                     </div>
+                </div>
+
+                <div style="clear:both;"></div>
                 @else
                     <div style="float:right;" class="sidebarOption">
                         <span class="material-icons"> perm_identity </span>
@@ -34,6 +49,7 @@
                     <a href="#"></a>
                 </div>
             </div>
+
             <div id="profile-state">
 
                 <ul id="profile-Arrange">

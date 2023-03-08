@@ -17,10 +17,10 @@ class Post extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function likeable(){
-        return $this->belongsToMany('App\Models\User', 'likes', 'post_id', 'user_id');
+        return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
     }
 }

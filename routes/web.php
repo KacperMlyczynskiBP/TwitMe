@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function(){
         Route::post('/follow', 'follow')->name('follow.user');
     });
 
+    Route::get('/blockUser/{user}', [\App\Http\Controllers\BlockUserController::class, 'blockUser'])->name('block.user');
+
     Route::get('/explore', [Controller::class, 'explore'])->name('show.explore');
 
 });

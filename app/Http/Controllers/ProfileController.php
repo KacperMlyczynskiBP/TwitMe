@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CheckIfUserIsBlockedHelper;
 use App\Helpers\PostHelper;
 use App\Http\Requests\updateUserRequest;
+use App\Models\Blocked;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\ProfileService;
@@ -19,48 +21,71 @@ class ProfileController extends Controller
         $this->profileService = $profileService;
     }
 
-    public function createProfile(int $id): View{
+    public function createProfile(int $id){
         $user=$this->profileService->getUserById($id);
 
-        $userTweets=Post::with('user')
-            ->where('posts.user_id', $id)
-            ->get();
+        if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
+            $userTweets=Post::with('user')
+                ->where('posts.user_id', $id)
+                ->get();
 
-        $userTweets=PostHelper::addUserImageToPost($userTweets);
+            $userTweets=PostHelper::addUserImageToPost($userTweets);
 
-        return view('profile.profileImproved', compact( 'userTweets','user'));
-    }
+            return view('profile.profileImproved', compact( 'userTweets','user'));
 
-    public function createProfileTweets(int $id): View{
+        } else{
+            return redirect()->back();
+        }
+        }
+
+
+
+    public function createProfileTweets(int $id){
         $user=$this->profileService->getUserById($id);
 
-        $userTweets = $this->profileService->getUserTweetsById($id);
+        if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
+            $userTweets = $this->profileService->getUserTweetsById($id);
 
-        return view('profile.profileImproved', compact( 'userTweets','user'));
+            return view('profile.profileImproved', compact( 'userTweets','user'));
+        } else{
+            return redirect()->back();
+        }
     }
 
-    public function createProfileLikes(int $id): View{
+    public function createProfileLikes(int $id){
         $user = $this->profileService->getUserById($id);
 
-        $posts = $this->profileService->getLikedPostsById($id);
+        if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
+            $posts = $this->profileService->getLikedPostsById($id);
 
-        return view('profile.profileLikes', compact('posts', 'user'));
+            return view('profile.profileLikes', compact('posts', 'user'));
+        } else{
+            return redirect()->back();
+        }
     }
 
-    public function createProfileTweetsReplies(int $id): View{
+    public function createProfileTweetsReplies(int $id){
         $user=$this->profileService->getUserById($id);
 
-        $userTweets = $this->profileService->getUserTweetsRepliesById($id);
+        if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
+            $userTweets = $this->profileService->getUserTweetsRepliesById($id);
 
-        return view('profile.tweetsReplies', compact('userTweets', 'user'));
+            return view('profile.tweetsReplies', compact('userTweets', 'user'));
+        } else{
+            return redirect()->back();
+        }
     }
 
-    public function createProfileMedia(int $id): View{
+    public function createProfileMedia(int $id){
         $user=$this->profileService->getUserById($id);
 
-        $tweets = $this->profileService->getUserMediaTweetsById($id);
+        if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
+            $tweets = $this->profileService->getUserMediaTweetsById($id);
 
-        return view('profile.profileMedia', compact('user','tweets'));
+            return view('profile.profileMedia', compact('user','tweets'));
+        } else{
+            return redirect()->back();
+        }
     }
 
     public function createProfileEdit(int $id): View{

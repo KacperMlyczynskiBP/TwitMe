@@ -162,6 +162,104 @@ body {
     --twitter-background: #e6ecf0;
     text-decoration: none;
 }
+/*
+dropdown button
+*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.dropbtn {
+    background-color: #1da1f2;
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.dropbtn::before {
+    content: "\00B7 \00B7 \00B7";
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    padding: 8px 0;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/*meesssage*/
+.message-button {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #1DA1F2;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    line-height: 35px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+    margin-right: 10px;
+    float: right;
+}
+
+.message-button:hover {
+    background-color: #0E80C7;
+}
+/**/
+
+.follow {
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.button {
+    background-color: #1da1f2;
+    border: none;
+    color: white;
+    padding: 6px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0E80C7;
+}
+/**/
 
 .main-wrapper {
     background-image: url("./images/twitter.png");

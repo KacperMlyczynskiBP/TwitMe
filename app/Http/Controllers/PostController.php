@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
+use App\Models\Blocked;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -41,6 +42,9 @@ class PostController extends Controller
 
     public function storeTweetReply(tweetRequest $request): RedirectResponse{
         $data = $request->validated();
+
+        $blockedUsers = Blocked::where(['user_id'=>Auth()->user()->id, 'blocked_user_id'=> $user->id])->get();
+
         $this->postService->createPostData($data, $data['post_id']);
 
         return redirect()->back();

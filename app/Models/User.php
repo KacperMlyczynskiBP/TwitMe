@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
 
     protected $table = 'users';
+
     protected $fillable = [
         'username',
         'email',
@@ -60,12 +61,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function likes(){
-        return $this->belongsToMany('App\Models\Post', 'likes', 'user_id', 'post_id')->withTimestamps();
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')->withTimestamps();
+    }
+
+    public function blockedUsers()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'user_id', 'blocked_user_id')->withTimestamps();
+    }
+
+    public function blockedBy()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocked_user_id', 'user_id')->withTimestamps();
     }
 
 
-//    public function likes(){
-//        return $this->MorphedByMany(Post::class, 'likes');
-//    }
 
 }

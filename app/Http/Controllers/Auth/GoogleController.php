@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 use App\Models\User;
+use App\Services\GoogleService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -9,6 +10,12 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController
 {
+    protected $googleService;
+
+    public function __construct(GoogleService $googleService){
+        $this->googleService = $googleService;
+    }
+
    public function redirect(){
        return SociaLite::driver('google')->redirect();
    }
@@ -30,15 +37,9 @@ class GoogleController
 
     public function registerGoogleUser(\Illuminate\Http\Request $request){
         $input=$request->only('date_of_birth','name','email','id');
-        $newUser=User::create([
-            'username'=>$input['name'],
-            'password'=>Hash::make('google'),
-            'google_id'=>$input['id'],
-            'email'=>$input['email'],
-            'date_of_birth'=>$input['date_of_birth'],
-            'user_image_path'=>'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png',
-        ]);
-        Auth()->login($newUser);
+
+        $this->googleService->storeUser($input);
+
         return redirect()->route('index');
     }
 }

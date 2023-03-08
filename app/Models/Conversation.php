@@ -11,6 +11,8 @@ class Conversation extends Model
 
     protected $guarded = ['id'];
 
+    protected $table = 'conversations';
+
     public function messages()
     {
         return $this->hasMany(Message::class);

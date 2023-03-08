@@ -44,7 +44,7 @@ class ListNBADataJob implements ShouldQueue
                return $game['league']['name'] === 'NBA';
             });
             Cache::remember('NBAResults',8600, function() use($results){
-                return $results;
+                       return $results;
             });
     }
 }

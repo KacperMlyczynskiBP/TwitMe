@@ -18,12 +18,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Post::factory(25)->create();
-        //         \App\Models\Post::factory(300)->create();
-//        for($i=0; $i<100; $i++){
-//            DB::table('followers')->insert([
-//                'user_id'=>rand(100, 200),
-//                'follower_user_id'=>rand(100,200)
-//            ]);
-//        }
+//        User::factory()
     }
 }

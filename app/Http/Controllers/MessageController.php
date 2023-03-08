@@ -85,7 +85,6 @@ class MessageController extends Controller
 
     public function search(Request $request): View{
         $users = $this->messageService->getUsersByUsername($request->body);
-
         return view('message.searchResults', compact('users'));
       }
 

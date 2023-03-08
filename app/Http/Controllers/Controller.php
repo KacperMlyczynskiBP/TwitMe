@@ -38,13 +38,20 @@ class Controller extends BaseController
         $user=User::findOrFail(Auth()->user()->id);
 
         $trends =  cache::get('trends');
+        if($trends === NULL){
+            $trends = [];
+            ListTrendsJob::dispatch();
+        }
 
         return view('index', compact('posts','user', 'trends'));
     }
 
     public function explore(){
         $results = Cache::get('NBAResults');
-
+        if($results === NULL){
+            $results = [];
+            ListNBADataJob::dispatch();
+        }
         return view('explore', compact('results'));
     }
 
