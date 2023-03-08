@@ -15,6 +15,7 @@
 * Simple search system
 * Explore page with listing NBA results updating once a day
 * Messages between users
+* Block System that disallow users to browse or message user that blocked the other user
 
 ## Soon To come:
 
