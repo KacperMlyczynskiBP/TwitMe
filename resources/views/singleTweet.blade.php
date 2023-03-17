@@ -36,7 +36,7 @@
                             class="material-icons"> favorite_border </span></a>
                 @inject('count','App\Helpers\CountLikes')
                 <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
-                <span class="material-icons"> publish </span>
+                <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
                     <a href="{{ route('like.tweet', ['postId'=>$comment->id]) }}"><span class="material-icons"> favorite_border </span></a>
                     @inject('count','App\Helpers\CountLikes')
                     <div><a href="{{ route('list.posts.likes', ['postId'=>$comment->id]) }}">{{$count->countLikesOnTweets($comment->id)}}</a></div>
-                    <span class="material-icons"> publish </span>
+                    <a href="{{ route('save.bookmark', ['postId'=>$comment->id]) }}"><span class="material-icons"> publish </span></a>
                 </div>
             </div>
         </div>

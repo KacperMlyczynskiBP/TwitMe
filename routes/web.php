@@ -76,11 +76,14 @@ Route::middleware('auth')->group(function(){
 
         Route::middleware('subscription')->group(function (){
             Route::controller(VerificateNumberController::class)->group(function(){
-                Route::get('/','verification')->name('show.verification');
-                Route::get('/phone/number','verificateNumber')->name('show.numberVerification');
-                Route::post('/phone/number/check', 'verificatePhoneNumber')->name('verificate.number');
                 Route::post('/send/sms', 'sendSMSverification')->name('send.sms.verification');
                 Route::get('/code', 'enterVerificationCode')->name('enter.verification.code');
+                Route::get('/phone/number','verificateNumber')->name('show.numberVerification');
+                Route::post('/phone/number/check', 'verificatePhoneNumber')->name('verificate.number');
+
+                Route::middleware('is.phone.verified')->group(function(){
+                    Route::get('/','verification')->name('show.verification');
+                });
             });
         });
     });

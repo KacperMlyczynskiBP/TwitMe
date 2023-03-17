@@ -116,7 +116,7 @@
                         <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
                         <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
-                        <span class="material-icons"> publish </span>
+                        <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
                     </div>
                 </div>
             </div>
