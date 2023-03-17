@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Like extends Model
+class Retweet extends Model
 {
     use HasFactory;
 
+    protected $table = 'retweets';
 
-
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['comment', 'user_id', 'post_id'];
 }

@@ -29,21 +29,16 @@ class ProfileService
 
 
     public function getLikedPostsById(int $id): Collection{
-        $blockedUsers = Blocked::where('user_id', auth()->user()->id)
-            ->orWhere('blocked_user_id', Auth()->user()->id)
-            ->pluck('blocked_user_id')
-            ->all();
-         dd($blockedUsers);
-        $blockedUsers = GetBlockedUsersRealtion::getBlockedUserRelation($id);
-        $likedPosts=DB::table('likes')
-            ->where('user_id', $id)
-            ->whereNotIn('user_id', $blockedUsers)
-            ->pluck('post_id');
-
+        $posts = Post::where('user_id', $id)->pluck('id')->toArray();
+        $likedPosts = DB::table('likes')
+            ->where(function ($query) use ($id, $posts) {
+                $query->where('user_id', $id)
+                    ->orWhereIn('post_id', $posts);
+            })
+            ->get();
 
         $posts = Post::with('user')
-            ->whereIn('id', $likedPosts)
-            ->whereNotIn('user_id', $blockedUsers)
+            ->whereIn('id', $likedPosts->pluck('post_id')->unique())
             ->get();
 
         $posts = PostHelper::addUserImageToPost($posts);
@@ -69,6 +64,7 @@ class ProfileService
         $tweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->where('image_path', '!=', 'NULL')
+
             ->get();
 
         $tweets=PostHelper::addUserImageToPost($tweets);

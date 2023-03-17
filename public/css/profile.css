@@ -26,6 +26,35 @@ a {
     right:50%;
     /*display: flex;*/
 }
+/*dropdown for retweeet*/
+.dropdown-retweet-btn {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-retweet-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.dropdown-retweet-btn:hover .dropdown-retweet-content {
+    display: block;
+}
+/**/
+.button-link {
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 #picture {
     content: 'Select some files';

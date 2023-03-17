@@ -1,5 +1,8 @@
 <x-profileMaster>
 
+
+
+
     @section('tweets')
 
         <div class="feed__header">
@@ -116,13 +119,22 @@
                             src="/images/{{$tweet->image_path}}"
                             alt=""
                     />
+
                     <div class="post__footer">
-                        <span class="material-icons"> repeat </span>
+                    <span class="dropdown-retweet-btn">
+  <span class="material-icons">repeat</span>
+  <div class="dropdown-retweet-content">
+    <a href="{{ route('retweet', ['postId'=>$tweet->id]) }}">Retweet</a>
+    <a href="#">Quote Tweet</a>
+  </div>
+</span>
                         <a href="{{ route('like.tweet', ['postId'=>$tweet->id]) }}"><span class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
-                        <div>{{$count->countLikesOnTweets($tweet->id)}}</div>
-                        <span class="material-icons"> publish </span>
+                        <div><a href="{{ route('list.posts.likes', ['postId'=>$tweet->id]) }}">{{$count->countLikesOnTweets($tweet->id)}}</a></div>
+                        <a href="{{ route('save.bookmark', ['postId'=>$tweet->id]) }}"><span class="material-icons"> publish </span></a>
                     </div>
+
+
                 </div>
                 </a>
             </div>

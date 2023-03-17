@@ -6,6 +6,7 @@ use App\Helpers\GetBlockedUsersRealtion;
 use App\Models\Blocked;
 use App\Models\Conversation;
 use App\Models\Follower;
+use App\Models\Like;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +43,8 @@ class BlockService
                         ->where('receiver_id', $id);
                 })
                 ->delete();
+
+//            Like::where()
 
             Conversation::whereIn('id', function ($query) use ($id, $userId) {
                 $query->select('conversation_id')

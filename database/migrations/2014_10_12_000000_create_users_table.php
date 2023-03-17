@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('user_image_path')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('phone_number')->nullable();
+            $table->boolean('blue_verified')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

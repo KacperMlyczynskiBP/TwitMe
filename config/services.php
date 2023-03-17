@@ -39,7 +39,18 @@ return [
 
     'rapid' => [
         'key' => env('RAPID_API_KEY'),
-    ]
+    ],
+
+    'twilio' => [
+        'sid' => env('TWILIO_ACCOUNT_SID'),
+        'token' => env('TWILIO_AUTH_TOKEN'),
+        'from' => env('TWILIO_FROM')
+    ],
+
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET'),
+        'key' => env('STRIPE_KEY')
+    ],
 
 
 ];

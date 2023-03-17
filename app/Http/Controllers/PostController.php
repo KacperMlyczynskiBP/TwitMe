@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
 use App\Models\Blocked;
+use App\Models\Post;
+use App\Models\Retweet;
+use App\Models\User;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -33,6 +37,29 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+
+    public function listPostLikes($postId){
+        $listLikedPostUsers = DB::table('likes')
+            ->where('post_id', $postId)
+            ->pluck('user_id')
+            ->toArray();
+
+        $users = User::whereIn('id', $listLikedPostUsers)->get();
+        return view('listPostsLikes', compact('users'));
+    }
+
+    public function retweet($postId, $request){
+          $id = Auth()->user()->id;
+          $retweet = new Retweet();
+          $retweet->user_id = $id;
+          $retweet->post_id = $postId;
+          $retweet->comment = $request->comment ?? NULL;
+          $retweet->save();
+
+          $post = Post::findOrFail($postId);
+          $post->increment('retweet_count');
+    }
+
     public function storeTweet(tweetRequest $request): RedirectResponse{
         $data = $request->validated();
         $this->postService->createPostData($data);
@@ -42,8 +69,6 @@ class PostController extends Controller
 
     public function storeTweetReply(tweetRequest $request): RedirectResponse{
         $data = $request->validated();
-
-        $blockedUsers = Blocked::where(['user_id'=>Auth()->user()->id, 'blocked_user_id'=> $user->id])->get();
 
         $this->postService->createPostData($data, $data['post_id']);
 

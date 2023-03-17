@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('body');
             $table->integer('user_id');
             $table->integer('reply_id')->nullable();
+            $table->integer('retweets_count')->default(0);
             $table->timestamps();
         });
     }

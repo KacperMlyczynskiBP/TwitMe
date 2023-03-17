@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\PostHelper;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -55,7 +56,7 @@ class PostService
         $like=$user->likes()
             ->where('post_id', $postId)
             ->first();
-
+//         dd($like);
         if(!$like){
             $user->likes()->attach($postId);
         }else{

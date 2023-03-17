@@ -15,8 +15,11 @@
     />
 </head>
 <body>
-<!-- sidebar starts -->
+
 <div class="sidebar">
+
+
+    <!-- sidebar starts -->
     <i class="fab fa-twitter"></i>
     <div class="sidebarOption active">
         <span class="material-icons"> home </span>
@@ -31,7 +34,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> notifications_none </span>
-        <h2>Notifications</h2>
+        <h2><a href="{{ route('show.notifications') }}">Notifications</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -41,12 +44,12 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> bookmark_border </span>
-        <h2>Bookmarks</h2>
+        <h2><a href="{{ route('show.bookmarks') }}">Bookmarks</a></h2>
     </div>
 
     <div class="sidebarOption">
-        <span class="material-icons"> list_alt </span>
-        <h2>Lists</h2>
+        <span class="material-icons"> check </span>
+        <h2><a href="{{ route('show.verificationFeatures') }}">TwittMe Blue</a></h2>
     </div>
 
     <div class="sidebarOption">
@@ -66,8 +69,11 @@
             </div>
         </div>
     </div>
+
 </div>
-<!-- sidebar ends -->
+
+
+
 
 <!-- feed starts -->
 

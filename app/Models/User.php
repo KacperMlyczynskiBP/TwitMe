@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'bio',
         'location',
         'user_image_path',
+        'blue_verified',
     ];
 
     /**
@@ -73,7 +74,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'blocked_users', 'blocked_user_id', 'user_id')->withTimestamps();
     }
-
-
 
 }

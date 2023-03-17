@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PostHelper;
 use App\Jobs\ListNBADataJob;
 use App\Jobs\ListTrendsJob;
+use App\Models\Bookmark;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -12,6 +14,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use function Termwind\renderUsing;
 
 
 class Controller extends BaseController
@@ -41,19 +44,16 @@ class Controller extends BaseController
         if($trends === NULL){
             $trends = [];
             ListTrendsJob::dispatch();
+            $trends =  cache::get('trends');
         }
 
         return view('index', compact('posts','user', 'trends'));
     }
 
-    public function explore(){
-        $results = Cache::get('NBAResults');
-        if($results === NULL){
-            $results = [];
-            ListNBADataJob::dispatch();
-        }
-        return view('explore', compact('results'));
+    public function verificationFeatures(){
+        return view('verificationFeatures');
     }
+
 
     public function search(\Illuminate\Http\Request $request){
        $results=Post::with('user')
