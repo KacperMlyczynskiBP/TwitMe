@@ -60,7 +60,7 @@
                 />
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
-                    <a href="{{ route('like.tweet', ['postId'=>$result->id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    <a href="{{ route('like.tweet', ['postId'=>$result->id, 'userId'=>$result->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
                     @inject('count','App\Helpers\CountLikes')
                     <div>{{$count->countLikesOnTweets($result->id)}}</div>
                     <a href="{{ route('save.bookmark', ['postId'=>$result->id]) }}"><span class="material-icons"> publish </span></a>

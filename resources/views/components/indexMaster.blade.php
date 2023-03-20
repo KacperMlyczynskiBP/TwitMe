@@ -98,6 +98,8 @@
 @yield('searchResults')
 @yield('searchUser')
 @yield('notifications')
+@yield('notificationVerified')
+@yield('notificationMentions')
 
 </div>
 

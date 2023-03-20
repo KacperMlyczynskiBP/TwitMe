@@ -27,11 +27,19 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/blockUser/{user}', [BlockUserController::class, 'blockUser'])->name('block.user');
 
-    Route::get('/notifications', [NotificationController::class, 'notifications'])->name('show.notifications');
+    Route::prefix('notifications')->group(function(){
+        Route::controller(NotificationController::class)->group(function(){
+            Route::get('/', 'notifications')->name('show.notifications');
+            Route::get('/verified', 'notificationsVerified')->name('show.notifications.verified');
+            Route::get('/mentions', 'notificationsMentions')->name('show.notifications.mentions');
+        });
+    });
 
-    Route::controller(BookmarkController::class)->group(function (){
-        Route::get('/bookmarks/save/{postId}', 'saveBookmark')->name('save.bookmark');
-        Route::get('/bookmarks', 'bookmarks')->name('show.bookmarks');
+    Route::prefix('bookmarks')->group(function(){
+        Route::controller(BookmarkController::class)->group(function (){
+            Route::get('/', 'bookmarks')->name('show.bookmarks');
+            Route::get('/save/{postId}', 'saveBookmark')->name('save.bookmark');
+        });
     });
 
     Route::get('/explore', [ExploreController::class, 'explore'])->name('show.explore');
@@ -48,7 +56,7 @@ Route::middleware('auth')->group(function(){
 
     Route::controller(PostController::class)->group(function (){
         Route::get('/singleTweet/{postId}', 'show')->name('show.single');
-        Route::get('/likeTweet/{postId}', 'likeTweet')->name('like.tweet');
+        Route::get('/likeTweet/{postId}/{userId}', 'likeTweet')->name('like.tweet');
         Route::get('/list/posts/likes{postId}', 'listPostLikes')->name('list.posts.likes');
         Route::post('/retweet/{postId}', 'retweet')->name('retweet');
         Route::post('/tweet', 'storeTweet')->name('store.tweet');

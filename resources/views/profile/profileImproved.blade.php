@@ -128,7 +128,7 @@
     <a href="#">Quote Tweet</a>
   </div>
 </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$tweet->id]) }}"><span class="material-icons"> favorite_border </span></a>
+                        <a href="{{ route('like.tweet', ['postId'=>$tweet->id, 'userId'=>$tweet->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
                         <div><a href="{{ route('list.posts.likes', ['postId'=>$tweet->id]) }}">{{$count->countLikesOnTweets($tweet->id)}}</a></div>
                         <a href="{{ route('save.bookmark', ['postId'=>$tweet->id]) }}"><span class="material-icons"> publish </span></a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
 use App\Models\Blocked;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Retweet;
 use App\Models\User;
@@ -31,14 +32,14 @@ class PostController extends Controller
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }
 
-    public function likeTweet(int $postId): RedirectResponse{
-        $this->postService->likeTweet($postId);
+    public function likeTweet(int $postId, int $userId): RedirectResponse{
+        $this->postService->likeTweet($postId, $userId);
 
         return redirect()->back();
     }
 
 
-    public function listPostLikes($postId){
+    public function listPostLikes($postId): View{
         $listLikedPostUsers = DB::table('likes')
             ->where('post_id', $postId)
             ->pluck('user_id')
@@ -70,7 +71,26 @@ class PostController extends Controller
     public function storeTweetReply(tweetRequest $request): RedirectResponse{
         $data = $request->validated();
 
-        $this->postService->createPostData($data, $data['post_id']);
+        $this->postService->createPostData($data, $request['post_id']);
+
+        $user = User::findOrFail($request->user_id);
+
+        if($user->blue_verified == 1 && $user->id !== Auth()->user()->id){
+            $notification = new Notification();
+            $notification->sender_id = Auth()->user()->id;
+            $notification->receiver_id = $user->id;
+            $notification->type = 'App\Models\Post';
+            $notification->from_verified = true;
+            $notification->comment = ' Replied to your post';
+            $notification->save();
+        } elseif($user->id !== Auth()->user()->id){
+            $notification = new Notification();
+            $notification->sender_id = Auth()->user()->id;
+            $notification->receiver_id = $user->id;
+            $notification->type = 'App\Models\Post';
+            $notification->comment = ' Replied to your post';
+            $notification->save();
+        }
 
         return redirect()->back();
     }

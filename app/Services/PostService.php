@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\PostHelper;
 use App\Models\Like;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -49,16 +50,34 @@ class PostService
             $post->save();
     }
 
-    public function likeTweet(int $postId):void {
+    public function likeTweet(int $postId, int $userId): void {
         $id=Auth()->user()->id;
         $user=User::findOrFail($id);
 
         $like=$user->likes()
             ->where('post_id', $postId)
             ->first();
-//         dd($like);
+
         if(!$like){
             $user->likes()->attach($postId);
+            $user = User::findOrFail($userId);
+
+            if($user->blue_verified == 1 && $user->id !== Auth()->user()->id){
+                $notification = new Notification();
+                $notification->sender_id = Auth()->user()->id;
+                $notification->receiver_id = $user->id;
+                $notification->type = 'App\Models\Like';
+                $notification->from_verified = true;
+                $notification->comment = ' Liked your post';
+                $notification->save();
+            } elseif($user->id !== Auth()->user()->id){
+                $notification = new Notification();
+                $notification->sender_id = Auth()->user()->id;
+                $notification->receiver_id = $user->id;
+                $notification->type = 'App\Models\Like';
+                $notification->comment = ' Liked your post';
+                $notification->save();
+            }
         }else{
             $user->likes()->detach($postId);
         }

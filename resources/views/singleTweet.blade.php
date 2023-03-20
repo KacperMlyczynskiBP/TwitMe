@@ -32,7 +32,7 @@
             />
             <div class="post__footer">
                 <span class="material-icons"> repeat </span>
-                <a href="{{ route('like.tweet', ['postId'=>$post->id]) }}"><span
+                <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span
                             class="material-icons"> favorite_border </span></a>
                 @inject('count','App\Helpers\CountLikes')
                 <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
@@ -50,6 +50,8 @@
                 />
                 <input type="text" name="body" placeholder="Tweet your reply"/>
                 <input type="hidden" name="post_id" value="{{$post->id}}">
+                <input type="hidden" name="user_id" value="{{$user->id}}">
+
             </div>
             <div class="media">
                 <label for="file-upload" class="custom-file-upload">
@@ -98,7 +100,7 @@
                 />
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
-                    <a href="{{ route('like.tweet', ['postId'=>$comment->id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    <a href="{{ route('like.tweet', ['postId'=>$comment->id, 'userId'=>$comment->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
                     @inject('count','App\Helpers\CountLikes')
                     <div><a href="{{ route('list.posts.likes', ['postId'=>$comment->id]) }}">{{$count->countLikesOnTweets($comment->id)}}</a></div>
                     <a href="{{ route('save.bookmark', ['postId'=>$comment->id]) }}"><span class="material-icons"> publish </span></a>
