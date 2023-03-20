@@ -1,13 +1,15 @@
-@section('notificationsVerified')
+<x-indexMaster>
+
+    @section('notificationsVerified')
     <div class="feed__header">
         <h2>Notifications from verified users</h2>
     </div>
 
-    <div class="message_header_container">
-        <div class="sticky-div"><a href="#">All</a></div>
-        <div class="sticky-div"><a href="#">Verified</a></div>
-        <div class="sticky-div"><a href="#">Mentions</a></div>
-    </div>
+        <div class="message_header_container">
+            <div class="sticky-div"><a href="{{ route('show.notifications') }}">All</a></div>
+            <div class="sticky-div"><a href="{{ route('show.notifications.verified') }}">Verified</a></div>
+            <div class="sticky-div"><a href="#">Mentions</a></div>
+        </div>
 
     <div class="messages-section">
         @foreach($notifications as $notification)
@@ -29,3 +31,5 @@
 
 
 @endsection
+
+</x-indexMaster>

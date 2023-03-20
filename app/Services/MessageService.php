@@ -100,12 +100,10 @@ class MessageService
         $message->conversation_id = $conversation->id;
         $message->save();
 
-//        if($message->sender_id === Auth()->user()->id){
-//
-//        }
-
         $user = User::findOrFail($receiverId);
-        if($user->blue_verified == 1 && $user->id !== Auth()->user()->id){
+        $senderUser = User::findOrFail($senderId);
+
+        if($senderUser->blue_verified == 1 && $user->id !== Auth()->user()->id){
             $notification = new Notification();
             $notification->sender_id = Auth()->user()->id;
             $notification->receiver_id = $user->id;

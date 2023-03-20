@@ -5,8 +5,8 @@
     </div>
 
     <div class="message_header_container">
-        <div class="sticky-div"><a href="#">All</a></div>
-        <div class="sticky-div"><a href="#">Verified</a></div>
+        <div class="sticky-div"><a href="{{ route('show.notifications') }}">All</a></div>
+        <div class="sticky-div"><a href="{{ route('show.notifications.verified') }}">Verified</a></div>
         <div class="sticky-div"><a href="#">Mentions</a></div>
     </div>
 

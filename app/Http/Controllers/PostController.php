@@ -25,6 +25,7 @@ class PostController extends Controller
     public function show(int $postId): View{
         $post = $this->postService->getPostById($postId);
         $user = $this->postService->getUserById($post['user_id']);
+
         $userPath=Auth()->user()->user_image_path;
 
         $comments = $this->postService->getCommentsById($postId);
@@ -74,8 +75,9 @@ class PostController extends Controller
         $this->postService->createPostData($data, $request['post_id']);
 
         $user = User::findOrFail($request->user_id);
+        $loggedUser = Auth()->user();
 
-        if($user->blue_verified == 1 && $user->id !== Auth()->user()->id){
+        if($loggedUser->blue_verified == 1 && $user->id !== Auth()->user()->id){
             $notification = new Notification();
             $notification->sender_id = Auth()->user()->id;
             $notification->receiver_id = $user->id;

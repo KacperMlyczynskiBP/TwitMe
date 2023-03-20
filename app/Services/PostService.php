@@ -59,10 +59,12 @@ class PostService
             ->first();
 
         if(!$like){
+
             $user->likes()->attach($postId);
             $user = User::findOrFail($userId);
+            $loggedUser = Auth()->user();
 
-            if($user->blue_verified == 1 && $user->id !== Auth()->user()->id){
+            if($loggedUser->blue_verified == 1 && $user->id !== Auth()->user()->id){
                 $notification = new Notification();
                 $notification->sender_id = Auth()->user()->id;
                 $notification->receiver_id = $user->id;

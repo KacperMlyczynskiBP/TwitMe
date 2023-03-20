@@ -14,8 +14,15 @@ class NotificationController extends Controller
         return view('notifications', compact('notifications'));
     }
 
-    public function
+    public function notificationsVerified(){
+        $notifications = Notification::where(['receiver_id'=>Auth()->user()->id, 'from_verified'=>1])->get();
 
+        return view('notification.notificationVerified', compact('notifications'));
+    }
+
+    public function notificationsMentions(){
+      //mentions not ready
+    }
 
 
 
