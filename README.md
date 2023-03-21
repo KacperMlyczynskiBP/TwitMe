@@ -20,7 +20,7 @@
 * Notifications,
 * Block System that disallow users to browse or message user that blocked the other user,
 * Payment for TwitMe Blue with Stripe,
-* TwitMe Blue enables user to post longer videos,
+* TwitMe Blue enables user to post longer videos, undo tweets and make collections,
 * SMS Verification using Twilio,
 * Bookmarks,
 
