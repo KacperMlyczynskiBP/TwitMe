@@ -82,6 +82,16 @@
         <h2>Home</h2>
     </div>
 
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <!-- tweetbox starts -->
     <div class="tweetBox">
         <form action="{{ route('store.tweet') }}" method="POST" enctype="multipart/form-data">
@@ -105,8 +115,7 @@
 
             <div class="media">
                 <label for="file-upload" class="custom-file-upload">
-                    <img class="custom-file-upload" src="{{asset('images/R.jpg')}}"
-                         height="20px" width="20px">
+                    <img class="custom-file-upload" src="{{asset('images/R.jpg')}}" height="20px" width="20px">
                     <input type="file" name="tweetMedia" class="custom-file-upload">
                 </label>
             </div>
@@ -142,10 +151,18 @@
                             <p>{{ $post->body }}</p>
                         </div>
                 </div>
-                <img
-                    src="/images/{{$post->image_path}}"
-                    alt=""
-                />
+                @if ($post->image_path)
+                        @if (Str::endsWith($post->image_path, '.mp4') || Str::endsWith($post->image_path, '.mov') || Str::endsWith($post->image_path, '.avi'))
+                            <video controls width="504px" height="504px">
+                                <source src="{{ asset('images/'.$post->image_path) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        @else
+                            <img src="{{ asset($post->image_path) }}" alt="Tweet media">
+                        @endif
+                    @else
+
+                @endif
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
                     <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span class="material-icons"> favorite_border </span></a>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
-use App\Models\Blocked;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Retweet;
@@ -63,10 +62,15 @@ class PostController extends Controller
     }
 
     public function storeTweet(tweetRequest $request): RedirectResponse{
-        $data = $request->validated();
-        $this->postService->createPostData($data);
 
-        return redirect()->back();
+        try{
+            $data = $request->validated();
+            $this->postService->createPostData($data);
+            return redirect()->back();
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', 'There is an error' . $exception->getMessage());
+        }
+
     }
 
     public function storeTweetReply(tweetRequest $request): RedirectResponse{

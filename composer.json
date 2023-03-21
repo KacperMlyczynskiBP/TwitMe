@@ -12,6 +12,7 @@
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
+        "php-ffmpeg/php-ffmpeg": "^1.1",
         "stripe/stripe-php": "^10.9",
         "twilio/sdk": "^7.0"
     },

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('reply_id')->nullable();
             $table->integer('retweets_count')->default(0);
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }

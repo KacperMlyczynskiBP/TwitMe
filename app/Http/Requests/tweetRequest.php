@@ -24,8 +24,8 @@ class tweetRequest extends FormRequest
     public function rules()
     {
         return [
-              'body'=>'required|max:255',
-             'image_path'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body' => 'required|max:255',
+            'tweetMedia' => 'nullable|mimetypes:image/jpeg,image/png,image/gif,video/mp4,video/quicktime,video/x-msvideo',
         ];
     }
 }
