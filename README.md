@@ -23,6 +23,7 @@
 * TwitMe Blue enables user to post longer videos, undo tweets and make collections,
 * SMS Verification using Twilio,
 * Bookmarks,
+* Retweets,
 
 
 ## Soon To come:
@@ -31,5 +32,7 @@
 * Trends
 * Livechat
 * Snowflake uuid
+* Mentions
+* Statistics for tweets
 
 
