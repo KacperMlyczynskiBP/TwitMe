@@ -30,5 +30,6 @@
 * Limited changing date of birth
 * Trends
 * Livechat
+* Snowflake uuid
 
 
