@@ -47,7 +47,6 @@ class Controller extends BaseController
             $trends =  cache::get('trends');
         }
 
-//        dd($posts);
         return view('index', compact('posts','user', 'trends'));
     }
 

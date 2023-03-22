@@ -53,7 +53,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'date_of_birth' => ['required'],
+            'date_of_birth' => ['required', 'date', 'before:' . date('Y-m-d', strtotime("-".User::MIN_AGE." years"))
+                , 'after:' . date('Y-m-d', strtotime("-". User::MAX_AGE." years"))],
         ]);
     }
 

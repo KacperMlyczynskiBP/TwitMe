@@ -23,4 +23,8 @@ class Post extends Model
     public function likeable(){
         return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
     }
+
+    public function viewCount(){
+        return $this->hasOne(TweetView::class);
+    }
 }

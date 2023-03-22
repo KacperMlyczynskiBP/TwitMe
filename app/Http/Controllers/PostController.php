@@ -6,6 +6,7 @@ use App\Http\Requests\tweetRequest;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Retweet;
+use App\Models\TweetView;
 use App\Models\User;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
@@ -28,6 +29,10 @@ class PostController extends Controller
         $userPath=Auth()->user()->user_image_path;
 
         $comments = $this->postService->getCommentsById($postId);
+
+        $viewCount = $post->viewCount()->firstOrNew();
+        $viewCount->view_count++;
+        $post->viewCount()->save($viewCount);
 
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }

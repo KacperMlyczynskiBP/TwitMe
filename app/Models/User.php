@@ -18,6 +18,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
 
+    const MIN_AGE = 13;
+    const MAX_AGE = 120;
+
     protected $table = 'users';
 
     protected $fillable = [

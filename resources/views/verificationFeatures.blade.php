@@ -8,7 +8,7 @@
             </div>
 
             <div class="container">
-                <h1>Twitter Blue Features</h1>
+                <h1>TwittMe Blue Features</h1>
                 <div class="feature">
                     <h2>Undo Tweet</h2>
                     <p>With Twitter Blue, you can undo a tweet within a certain time frame after you've posted it. Simply tap "Undo" and your tweet will not be visible to your followers.</p>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="container">
-        <h1>Twitter Blue Features</h1>
+        <h1>TwittMe Blue Features</h1>
         <div class="feature">
             <h2>Undo Tweet</h2>
             <p>With Twitter Blue, you can undo a tweet within a certain time frame after you've posted it. Simply tap "Undo" and your tweet will not be visible to your followers.</p>
