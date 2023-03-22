@@ -24,15 +24,13 @@
 * SMS Verification using Twilio,
 * Bookmarks,
 * Retweets,
+* Views statistics for tweets,
 
 
 ## Soon To come:
 
 * Limited changing date of birth
 * Trends
-* Livechat
 * Snowflake uuid
 * Mentions
-* Statistics for tweets
-
 
