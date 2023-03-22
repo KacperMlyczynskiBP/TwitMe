@@ -26,10 +26,10 @@ class updateUserRequest extends FormRequest
     {
         return [
             'user_image_path'=>'mimes:jpeg,bmp,png',
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'date_of_birth' => ['required', 'date', 'before:' . date('Y-m-d', strtotime("-".User::MIN_AGE." years"))
+            'username' => ['string', 'max:255'],
+            'bio'=> ['string', 'max:255'],
+            'location'=> ['string', 'max:255'],
+            'date_of_birth' => ['date', 'before:' . date('Y-m-d', strtotime("-".User::MIN_AGE." years"))
                 , 'after:' . date('Y-m-d', strtotime("-". User::MAX_AGE." years"))],
         ];
 

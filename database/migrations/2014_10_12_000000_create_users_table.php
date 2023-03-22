@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('phone_number')->nullable();
             $table->boolean('phone_verified')->nullable();
             $table->boolean('blue_verified')->nullable();
+            $table->integer('dob_changes')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

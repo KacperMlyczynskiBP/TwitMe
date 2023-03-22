@@ -84,12 +84,20 @@ class ProfileService
        return $users;
    }
 
-   public function updateUser(UpdateUserRequest $request): void{
+   public function updateUser(UpdateUserRequest $request){
        $file=$request->file('tweetMedia');
        $user=Auth()->user();
 
        $imagePath = $file ? '/images/' . $file->getClientOriginalName() : 'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png';
        $date_of_birth = $request['date_of_birth'] ?? $user->date_of_birth;
+
+       if($user->dob_changes > 3){
+           return redirect()->back()->withErrors('date of birth changes', 'You exceeded changes of your birth');
+       }
+
+       if($date_of_birth !== $request['date_of_birth']){
+           $user->dob_changes++;
+       }
 
        $user->update([
            'bio'=>$request['bio'], 'location'=>$request['location'],
