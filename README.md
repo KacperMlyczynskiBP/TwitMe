@@ -25,11 +25,9 @@
 * Bookmarks,
 * Retweets,
 * Views statistics for tweets,
-
+* Limited changing date of birth
 
 ## Soon To come:
-
-* Limited changing date of birth
 * Trends
 * Snowflake uuid
 * Mentions
