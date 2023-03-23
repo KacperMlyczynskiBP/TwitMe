@@ -16,11 +16,11 @@ use Illuminate\Support\Collection;
 class MessageService
 {
 
-    public function getUserById(int $id): User{
+    public function getUserById(string $id): User{
         return User::findOrFail($id);
     }
 
-    public function getMessagesByUserId(int $id): Collection{
+    public function getMessagesByUserId(string $id): Collection{
 
         $messages = Message::with('user')
             ->where(function ($query) use ($id) {
@@ -31,6 +31,8 @@ class MessageService
                 $query->selectRaw('MAX(id)')
                     ->from('messages')
                     ->groupBy('conversation_id');
+//                ->select('id'); // add this line to include the "id" column
+
             })
             ->orderBy('created_at', 'desc')
             ->get();
@@ -58,7 +60,7 @@ class MessageService
         return $users;
     }
 
-    public function getChatMessagesByUserAndId(int $id, User $user): Collection{
+    public function getChatMessagesByUserAndId(string $id, User $user): Collection{
         $messages=Message::with('user')
             ->where(function($query) use ($id, $user){
                 $query->where('receiver_id', $user->id);
@@ -92,6 +94,10 @@ class MessageService
             $conversation = new Conversation();
             $conversation->save();
         }
+        dd($conversation);
+
+        dd($conversation->id);
+
 
         $message = new Message();
         $message->text = $data['message'];

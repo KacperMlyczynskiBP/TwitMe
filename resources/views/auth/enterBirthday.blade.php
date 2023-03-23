@@ -13,7 +13,7 @@
                                 <div class="col-md-6">
                                     <div class="input-container ic1">
                                         <input type="date" class="input" name="date_of_birth" placeholder=""><br>
-                                        <input type="hidden" name="id" value="{{$user->id}}">
+                                        <input type="hidden" name="google_id" value="{{$user->id}}">
                                         <input type="hidden" name="name" value="{{$user->name}}">
                                         <input type="hidden" name="email" value="{{$user->email}}">
                                     </div>

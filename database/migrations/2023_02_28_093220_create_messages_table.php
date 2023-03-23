@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('text');
-            $table->unsignedBigInteger('receiver_id');
-            $table->unsignedBigInteger('sender_id');
+            $table->uuid('receiver_id');
+            $table->uuid('sender_id');
             $table->unsignedBigInteger('conversation_id');
             $table->foreign('receiver_id')->references('id')->on('users');
             $table->foreign('sender_id')->references('id')->on('users');

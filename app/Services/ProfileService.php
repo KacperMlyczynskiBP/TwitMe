@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileService
 {
-    public function getUserById(int $id): User{
+    public function getUserById(string $id): User{
         return User::findOrFail($id);
     }
 
-    public function getUserTweetsById(int $id): Collection{
+    public function getUserTweetsById(string $id): Collection{
         $userTweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->get();
@@ -28,7 +28,7 @@ class ProfileService
     }
 
 
-    public function getLikedPostsById(int $id): Collection{
+    public function getLikedPostsById($id): Collection{
         $posts = Post::where('user_id', $id)->pluck('id')->toArray();
         $likedPosts = DB::table('likes')
             ->where(function ($query) use ($id, $posts) {
@@ -46,7 +46,7 @@ class ProfileService
         return $posts;
     }
 
-    public function getUserTweetsRepliesById(int $id): Collection{
+    public function getUserTweetsRepliesById($id): Collection{
         $userTweets=Post::where('user_id', $id)
             ->orWhereIn('reply_id', function($query) use ($id){
                 $query->select('id')
@@ -60,7 +60,7 @@ class ProfileService
         return $userTweets;
     }
 
-    public function getUserMediaTweetsById(int $id): Collection{
+    public function getUserMediaTweetsById($id): Collection{
         $tweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->where('image_path', '!=', 'NULL')
@@ -72,7 +72,7 @@ class ProfileService
         return $tweets;
     }
 
-   public function getFollowers(int $id, string $user_id): Collection{
+   public function getFollowers($id, string $user_id): Collection{
        $user=User::findOrFail($id);
 
        $followers = ($user_id == 'user_id') ? $user->followers()->pluck('user_id') : $user->following()->pluck('follower_user_id');

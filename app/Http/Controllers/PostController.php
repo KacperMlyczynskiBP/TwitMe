@@ -22,7 +22,7 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function show(int $postId): View{
+    public function show($postId): View{
         $post = $this->postService->getPostById($postId);
         $user = $this->postService->getUserById($post['user_id']);
 
@@ -37,7 +37,7 @@ class PostController extends Controller
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }
 
-    public function likeTweet(int $postId, int $userId): RedirectResponse{
+    public function likeTweet($postId, $userId): RedirectResponse{
         $this->postService->likeTweet($postId, $userId);
 
         return redirect()->back();

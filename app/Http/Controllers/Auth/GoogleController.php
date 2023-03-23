@@ -36,10 +36,15 @@ class GoogleController
    }
 
     public function registerGoogleUser(\Illuminate\Http\Request $request){
-        $input=$request->only('date_of_birth','name','email','id');
+        $input=$request->only('date_of_birth','name','email','google_id');
 
-        $this->googleService->storeUser($input);
+        try {
+            $this->googleService->storeUser($input);
+            return redirect()->route('index');
+        } catch (\Exception $e){
+            dd($e->getMessage());
+            return back()->withErrors($e->getMessage());
+        }
 
-        return redirect()->route('index');
     }
 }

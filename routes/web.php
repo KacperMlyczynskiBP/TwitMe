@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{UserController, Controller,ProfileController,MessageController, PostController,
     Auth\GoogleController, VerificateNumberController, StripeController, ExploreController, BookmarkController,

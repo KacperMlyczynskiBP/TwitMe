@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('blocked_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('blocked_user_id');
+            $table->uuid('user_id');
+            $table->uuid('blocked_user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('blocked_user_id')->references('id')->on('users');
             $table->timestamps();

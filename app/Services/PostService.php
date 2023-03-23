@@ -12,15 +12,15 @@ use Illuminate\Support\Collection;
 
 class PostService
 {
-    public function getUserById(int $id): User{
+    public function getUserById($id): User{
         return User::findOrFail($id);
     }
 
-    public function getPostById(int $id): Post{
+    public function getPostById($id): Post{
         return Post::findOrFail($id);
     }
 
-    public function getCommentsById(int $id): Collection{
+    public function getCommentsById($id): Collection{
              $comments=Post::with('user')
             ->where('reply_id', $id)
             ->get();
@@ -30,7 +30,7 @@ class PostService
         return $comments;
     }
 
-    public function createPostData(array $data, int $reply_id = NULL) {
+    public function createPostData(array $data, $reply_id = NULL) {
             $user = Auth()->user();
 
             $post = new Post();
@@ -52,7 +52,7 @@ class PostService
         $post->save();
     }
 
-    public function likeTweet(int $postId, int $userId): void {
+    public function likeTweet($postId, $userId): void {
         $id=Auth()->user()->id;
         $user=User::findOrFail($id);
 

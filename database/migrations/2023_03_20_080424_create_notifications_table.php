@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sender_id');
+            $table->uuid('sender_id');
+            $table->uuid('receiver_id');
             $table->foreign('sender_id')->references('id')->on('users');
-            $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')->references('id')->on('users');
             $table->string('comment');
             $table->string('type');

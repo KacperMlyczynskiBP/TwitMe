@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('body');
-            $table->integer('user_id');
+            $table->uuid('user_id');
             $table->integer('reply_id')->nullable();
             $table->integer('retweets_count')->default(0);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
