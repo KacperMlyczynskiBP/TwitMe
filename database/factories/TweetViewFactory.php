@@ -18,7 +18,7 @@ class TweetViewFactory extends Factory
     public function definition()
     {
         return [
-            'tweet_id' => Post::pluck('id')->random(),
+            'tweet_id' => Post::pluck('id', '<>', $this->id)->random(),
             'views_count' => random_int(0, 10000),
         ];
     }

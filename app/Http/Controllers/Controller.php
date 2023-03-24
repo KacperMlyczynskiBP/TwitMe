@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\PostHelper;
-use App\Jobs\ListNBADataJob;
+
 use App\Jobs\ListTrendsJob;
-use App\Models\Bookmark;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -14,7 +12,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use function Termwind\renderUsing;
 
 
 class Controller extends BaseController
@@ -36,6 +33,7 @@ class Controller extends BaseController
 
         $posts=User::join('posts', 'users.id', '=', 'posts.user_id')
             ->whereIn('posts.user_id', $array)
+
             ->get();
 
         $user=User::findOrFail(Auth()->user()->id);

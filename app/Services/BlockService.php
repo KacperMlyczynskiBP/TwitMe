@@ -44,8 +44,6 @@ class BlockService
                 })
                 ->delete();
 
-//            Like::where()
-
             Conversation::whereIn('id', function ($query) use ($id, $userId) {
                 $query->select('conversation_id')
                     ->from('messages')

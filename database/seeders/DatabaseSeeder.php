@@ -26,15 +26,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(100)->create();
+        User::factory(500)->create();
         Post::factory(1000)->create();
         Blocked::factory(50)->create();
         Bookmark::factory(400)->create();
         Like::factory(10000)->create();
-        Follower::factory(1000)->create();
+        Follower::factory(10000)->create();
         Conversation::factory(1000)->create();
         Message::factory(1000)->create();
         Notification::factory(1000)->create();
-        TweetView::factory(1000)->create();
+//        TweetView::factory(1000)->create();
     }
 }

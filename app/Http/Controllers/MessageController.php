@@ -22,7 +22,8 @@ class MessageController extends Controller
 
         $messages=$this->messageService->getMessagesByUserId($id);
 
-        return view('message.messages', compact('messages'));    }
+        return view('message.messages', compact('messages'));
+    }
 
     public function create()
     {

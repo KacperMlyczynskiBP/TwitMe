@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Follower;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +18,19 @@ class FollowerFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'user_id' => User::pluck('id')->random(),
-            'follower_user_id' => User::pluck('id')->random(),
-        ];
+        $userIds = User::pluck('id')->toArray();
+        $uniqueClosure = function () use ($userIds) {
+            $userId = $this->faker->randomElement($userIds);
+            $followerUserId = $this->faker->randomElement($userIds);
+            while (Follower::where('user_id', $userId)->where('follower_user_id', $followerUserId)->exists()) {
+                $userId = $this->faker->randomElement($userIds);
+                $followerUserId = $this->faker->randomElement($userIds);
+            }
+            return [
+                'user_id' => $userId,
+                'follower_user_id' => $followerUserId,
+            ];
+        };
+        return $uniqueClosure();
     }
 }

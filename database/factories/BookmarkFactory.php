@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Bookmark;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,9 +19,22 @@ class BookmarkFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'user_id'=>User::pluck('id')->random(),
-            'post_id'=>Post::pluck('id')->random(),
-        ];
+        $userIds = User::pluck('id')->toArray();
+        $postIds = Post::pluck('id')->toArray();
+
+        $uniqueClosure = function () use ($userIds, $postIds) {
+            $userId = $this->faker->randomElement($userIds);
+            $postId = $this->faker->randomElement($postIds);
+            while (Bookmark::where('user_id', $userId)->where('post_id', $postId)->exists()) {
+                $userId = $this->faker->randomElement($userIds);
+                $postId = $this->faker->randomElement($postIds);
+            }
+            return [
+                'user_id' => $userId,
+                'post_id' => $postId,
+            ];
+        };
+
+        return $uniqueClosure();
     }
 }
