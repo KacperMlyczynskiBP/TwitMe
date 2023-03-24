@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -24,11 +25,15 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'user_image_path' => fake()->imageUrl($width=133, $height=133),
             'date_of_birth' => fake()->dateTimeBetween($startDate= '-80 years', $endDate='now'),
-            'bio' => fake()->paragraph(3),
+            'bio' => fake()->paragraph(1),
             'location' => fake()->city(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make(fake()->password),
             'remember_token' => Str::random(10),
             'google_id' => NULL,
+            'dob_changes' => 0,
+            'blue_verified' => 0,
+            'phone_number' => fake()->phoneNumber(),
+            'phone_verified' => 1,
             'updated_at' => now(),
             'created_at' => now()
         ];

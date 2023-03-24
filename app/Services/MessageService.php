@@ -94,10 +94,6 @@ class MessageService
             $conversation = new Conversation();
             $conversation->save();
         }
-        dd($conversation);
-
-        dd($conversation->id);
-
 
         $message = new Message();
         $message->text = $data['message'];

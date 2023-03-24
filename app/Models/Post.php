@@ -25,6 +25,6 @@ class Post extends Model
     }
 
     public function viewCount(){
-        return $this->hasOne(TweetView::class);
+        return $this->hasOne(TweetView::class, 'tweet_id');
     }
 }

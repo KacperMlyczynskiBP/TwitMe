@@ -30,9 +30,11 @@ class PostController extends Controller
 
         $comments = $this->postService->getCommentsById($postId);
 
-        $viewCount = $post->viewCount()->firstOrNew();
-        $viewCount->view_count++;
+        $viewCount = $post->viewCount()->firstOrCreate();
+        $viewCount->views_count++;
         $post->viewCount()->save($viewCount);
+        $post->view_counts = $viewCount->views_count;
+        $post->save();
 
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }

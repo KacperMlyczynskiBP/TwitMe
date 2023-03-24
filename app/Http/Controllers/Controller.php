@@ -41,6 +41,7 @@ class Controller extends BaseController
         $user=User::findOrFail(Auth()->user()->id);
 
         $trends =  cache::get('trends');
+
         if($trends === NULL){
             $trends = [];
             ListTrendsJob::dispatch();

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->uuid('sender_id');
             $table->uuid('receiver_id');
-            $table->foreign('sender_id')->references('id')->on('users');
-            $table->foreign('receiver_id')->references('id')->on('users');
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('comment');
             $table->string('type');
             $table->boolean('from_verified')->nullable();

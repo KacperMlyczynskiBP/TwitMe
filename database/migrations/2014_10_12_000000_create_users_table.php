@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('google_id')->nullable();
-            $table->string('date_of_birth');
+            $table->dateTime('date_of_birth');
             $table->string('bio')->nullable();
             $table->string('location')->nullable();
             $table->string('user_image_path')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('phone_number')->nullable();
+            $table->string('phone_number')->nullable();
             $table->boolean('phone_verified')->nullable();
             $table->boolean('blue_verified')->nullable();
             $table->integer('dob_changes')->default(0);

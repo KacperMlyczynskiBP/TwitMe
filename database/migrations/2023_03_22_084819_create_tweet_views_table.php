@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tweet_views', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tweet_id');
-            $table->foreign('tweet_id')->references('id')->on('posts');
+            $table->foreign('tweet_id')->references('id')->on('posts')->onDelete('cascade');
             $table->integer('views_count')->default(0);
             $table->timestamps();
         });

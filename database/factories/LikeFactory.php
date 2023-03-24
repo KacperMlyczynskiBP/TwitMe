@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class PostFactory extends Factory
+class LikeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,12 +19,8 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'body' => $this->faker->paragraph(1),
             'user_id' => User::pluck('id')->random(),
-            'reply_id' => null,
-            'retweets_count' => 0,
-            'view_counts' => 0,
-            'visible' => true,
+            'post_id' => Post::pluck('id')->random(),
         ];
     }
 }
