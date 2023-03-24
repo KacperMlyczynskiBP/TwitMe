@@ -26,7 +26,7 @@
 * Retweets,
 * Views statistics for tweets,
 * Limited changing date of birth
-* Ramsey uuid
+* Ramsey uuid for users
 
 ## Soon To come:
 * Trends
