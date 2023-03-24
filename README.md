@@ -26,9 +26,9 @@
 * Retweets,
 * Views statistics for tweets,
 * Limited changing date of birth
+* Ramsey uuid
 
 ## Soon To come:
 * Trends
-* Snowflake uuid
 * Mentions
 
