@@ -25,10 +25,12 @@
 * Bookmarks,
 * Retweets,
 * Views statistics for tweets,
-* Limited changing date of birth
-* Ramsey uuid for users
+* Limited changing date of birth,
+* Ramsey uuid for users,
+* Seeders,
 
 ## Soon To come:
 * Trends
 * Mentions
+* Unit Testing
 
