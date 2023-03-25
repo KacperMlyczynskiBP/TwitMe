@@ -34,3 +34,10 @@
 * Mentions
 * Unit Testing
 
+## Technology used:
+PHP,
+Laravel,
+MySQL
+
+
+
