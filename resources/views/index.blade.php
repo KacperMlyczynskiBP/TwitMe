@@ -7,12 +7,9 @@
     <title>TwittMe</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font1-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="{{ asset('/node_modules/bootstrap/dist/css/bootstrap.css') }}">
+
+
 </head>
 <body>
 
@@ -124,7 +121,7 @@
     </div>
 
     <!-- tweetbox ends -->
-    {{--   posts start --}}
+    {{-- posts start --}}
     @foreach($posts as $post)
         <div class="post">
             <div class="post__avatar">
@@ -140,40 +137,51 @@
                             <div>
                                 <a href="{{ route('create.profile', ['id'=>$post->user_id]) }}">{{$username->findUsername($post->user_id)}}</a>
                             </div>
-                            <span class="post__headerSpecial"
-                            ><span class="material-icons post__badge"> verified </span><div>@ {{$username->findUsername($post->user_id)}}</div>
-</span
->
+                            <span class="post__headerSpecial">
+                                <span class="material-icons post__badge"> verified </span>
+                                <div>@ {{$username->findUsername($post->user_id)}}</div>
+                            </span>
                         </h3>
                     </div>
                     <a href="{{ route('show.single', ['postId'=>$post->id]) }}">
                         <div class="post__headerDescription">
                             <p>{{ $post->body }}</p>
                         </div>
+                    </a>
                 </div>
                 @if ($post->image_path)
-                        @if (Str::endsWith($post->image_path, '.mp4') || Str::endsWith($post->image_path, '.mov') || Str::endsWith($post->image_path, '.avi'))
-                            <video controls width="504px" height="504px">
-                                <source src="{{ asset('images/'.$post->image_path) }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        @else
-                            <img src="{{ asset($post->image_path) }}" alt="Tweet media">
-                        @endif
+                    @if (Str::endsWith($post->image_path, '.mp4') || Str::endsWith($post->image_path, '.mov') || Str::endsWith($post->image_path, '.avi'))
+                        <video controls width="504px" height="504px">
+                            <source src="{{ asset('images/'.$post->image_path) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     @else
-
+                        <img src="{{ asset($post->image_path) }}" alt="Tweet media">
+                    @endif
                 @endif
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
-                    <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span
+                            class="material-icons"> favorite_border </span></a>
                     @inject('count','App\Helpers\CountLikes')
-                    <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
+                    <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}"> {{$count->countLikesOnTweets($post->id)}}</a></div>
+                    <a> Views: {{ $post->view_counts }}</a>
+
                     <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
+                    @can('delete', [$post, Auth::user()])
+                        <form method="POST" action="{{ route('undo', $post->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Delete</button>
+                        </form>
+                    @endcan
                 </div>
-                </a>
             </div>
         </div>
     @endforeach
+    <div> {{ $posts->links('vendor.pagination.simple-bootstrap-4') }}
+
+    </div>
 </div>
 <!-- feed ends -->
 

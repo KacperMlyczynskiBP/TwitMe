@@ -30,10 +30,7 @@ class PostController extends Controller
 
         $comments = $this->postService->getCommentsById($postId);
 
-        $viewCount = $post->viewCount()->firstOrCreate();
-        $viewCount->views_count++;
-        $post->viewCount()->save($viewCount);
-        $post->view_counts = $viewCount->views_count;
+        $post->view_counts++;
         $post->save();
 
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
@@ -108,6 +105,10 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-
+    public function softDelete($id){
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back();
+    }
 
 }

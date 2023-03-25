@@ -39,12 +39,14 @@
                     />
                     <div class="post__footer">
                         <span class="material-icons"> repeat </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
+                        <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span
+                                class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
                         <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
+                        <a> Views: {{ $post->view_counts }}</a>
+
                         <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
-                    </div>
-                    </a>
+                    </div>                    </a>
                 </div>
             </div>
         @endforeach

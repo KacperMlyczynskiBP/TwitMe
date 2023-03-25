@@ -264,6 +264,7 @@ button:hover {
     border-right: 1px solid var(--twitter-background);
     min-width: fit-content;
     overflow-y: scroll;
+    width: 600px;
 }
 .feed__header {
     position: sticky;
@@ -283,6 +284,8 @@ button:hover {
 .feed {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    width: 600px;
+
 }
 
 

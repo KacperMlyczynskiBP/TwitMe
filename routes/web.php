@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/retweet/{postId}', 'retweet')->name('retweet');
         Route::post('/tweet', 'storeTweet')->name('store.tweet');
         Route::post('/tweet/reply','storeTweetReply')->name('store.tweet.reply');
+        Route::delete('/delete/{postId}', 'softDelete')->name('undo')->middleware('subscription');
     });
 
     Route::prefix('profile')->group(function (){

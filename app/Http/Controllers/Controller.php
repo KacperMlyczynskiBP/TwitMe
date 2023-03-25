@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Helpers\PaginateHelper;
+use App\Helpers\PostHelper;
 use App\Jobs\ListTrendsJob;
 use App\Models\Post;
 use App\Models\User;
@@ -21,20 +23,27 @@ class Controller extends BaseController
     public function createPage(){
         $id=Auth()->user()->id;
 
-        $followingUsers=DB::table('followers')
+        $followingUserIds = DB::table('followers')
             ->where('follower_user_id', $id)
+            ->pluck('user_id')
+            ->toArray();
+
+        $followersPosts = Post::with('user')
+            ->whereIn('user_id', $followingUserIds)
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        $array=array();
-
-        foreach($followingUsers as $users){
-            $array[]=$users->user_id;
-        }
-
-        $posts=User::join('posts', 'users.id', '=', 'posts.user_id')
-            ->whereIn('posts.user_id', $array)
-
+        $mostPopularPosts=Post::with('user')
+            ->orderBy('likes_count', 'desc')
             ->get();
+
+        $postsBefore = $followersPosts->merge($mostPopularPosts)->unique('id');
+
+        $posts = $postsBefore->sortByDesc('created_at');
+
+        $posts = PostHelper::addUserImageToPost($posts);
+
+        $posts = PaginateHelper::paginate($posts);
 
         $user=User::findOrFail(Auth()->user()->id);
 

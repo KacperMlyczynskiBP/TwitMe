@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" class="export">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Infinite Scroll &#xB7; Full page demo - page 6</title>
+
+    <link rel="stylesheet" href="../../css/infinite-scroll-docs.css?5" media="screen">
+
+
+</head>
+
+<body class="page--page6" data-basename="page6">
+
+<ol class="site-nav">
+  <li class="site-nav__item site-nav__item--homepage">
+    <a href="../../.">Infinite Scroll</a>
+  </li>
+  <li class="site-nav__item site-nav__item--options">
+    <a href="../../options.html">Options</a>
+  </li>
+  <li class="site-nav__item site-nav__item--api">
+    <a href="../../api.html">API</a>
+  </li>
+  <li class="site-nav__item site-nav__item--events">
+    <a href="../../events.html">Events</a>
+  </li>
+  <li class="site-nav__item site-nav__item--extras">
+    <a href="../../extras.html">Extras</a>
+  </li>
+  <li class="site-nav__item site-nav__item--license">
+    <a href="../../license.html">License</a>
+  </li>
+</ol>
+
+<div class="main">
+  <div class="container">
+
+      <h1 class="page-title">Full page demo - page 6</h1>
+
+    <div class="article-feed">
+
+      
+<article class="article">
+  <h2 id="isotope-v3-released-stagger-in-ie8-out">Isotope v3 released: stagger in, IE8 out</h2>
+
+<p><a href="https://isotope.metafizzy.co">Isotope v3 is Metafizzy&apos;s flagship product</a> &#x2014; the best JavaScript library for filtering and sorting dynamic layouts. It just got a whole lot better with new version 3. We dropped support for IE8 &amp; 9, and Android 2.3. In doing so, we were able to shed 800 lines of code to make Isotope&apos;s filesize 20% smaller. We added a <a href="https://isotope.metafizzy.co/options.html#stagger">new option to stagger item transitions</a> (<a href="https://github.com/desandro/masonry/issues/540">finally</a>).</p>
+<p><img src="https://i.imgur.com/NK0hbMu.gif" alt="Isotope stagger transition"></p>
+<p>Staggered transitions are a small change to animation behavior, but the result is subtly compelling. The reveal and hide animations appear more natural.</p>
+
+<p data-height="400" data-theme-id="dark" data-slug-hash="WwavbO" data-default-tab="result" data-user="desandro" data-embed-version="2" class="codepen">See the Pen <a href="https://codepen.io/desandro/pen/WwavbO/">Isotope - stagger</a> by David DeSandro (<a href="https://codepen.io/desandro">@desandro</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p>We simplified <a href="https://isotope.metafizzy.co/extras.html#webpack">using Isotope with Webpack</a>. Now your <code>webpack.config.js</code> only requires two aliases.</p>
+<pre><code class="lang-js"><span class="hljs-built_in">module</span>.exports = {
+  resolve: {
+    alias: {
+      <span class="hljs-string">&apos;masonry&apos;</span>: <span class="hljs-string">&apos;masonry-layout&apos;</span>,
+      <span class="hljs-string">&apos;isotope&apos;</span>: <span class="hljs-string">&apos;isotope-layout&apos;</span>
+    }
+  }
+};
+</code></pre>
+<p>Best part: Isotope v3 is backward compatible with Isotope v2. Upgrade worry free. All your previous code will continue to work: jQuery plugin, events, methods, etc.</p>
+<p>Open-source projects rarely get to version 2. I&apos;m proud that Isotope has made it all the way to version 3.</p>
+<p>We&apos;ve been pushing out a bunch major version upgrades to our projects in 2016: <a href="/blog/masonry-v4-imagesloaded-v4-drop-ie8/">Masonry v4, imagesLoaded v3</a>, <a href="/blog/packery-v2-released/">Packery v2</a>, now Isotope v3. Next up: <a href="https://flickity.metafizzy.co">Flickity</a> v2.</p>
+
+</article>
+
+
+<article class="article">
+  <h2 id="packery-v2-released">Packery v2 released</h2>
+
+  <p><a href="https://packery.metafizzy.co">Packery is our fantastic bin-packing layout library</a>, first released 3 years ago. Packery can do something no other library can: draggable grid layouts. But Packery&apos;s dragging behavior had plenty of quirks: random movement, potential gaps. It worked, but it wasn&apos;t pretty.</p>
+  <p>So we fixed it. Dragging with Packery version 2 has been completely re-tooled.</p>
+
+  <p>It feels much more intuitive. Now dragged items fit to their drop position. No more random movement. Packery v2 is perfect for draggable Masonry layouts and draggable dashboards. We put together a fun drag &amp; drop puzzle to show it off (with a prize!).</p>
+
+  <p data-height="500" data-theme-id="0" data-slug-hash="eJXRbW" data-default-tab="result" data-user="desandro" class="codepen">See the Pen <a href="https://codepen.io/desandro/pen/eJXRbW/">Packery v2 puzzle</a> by David DeSandro (<a href="https://codepen.io/desandro">@desandro</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+  <p>What else is new? We dropped IE8 &amp; 9 support for 25% smaller filesize, new <a href="https://packery.metafizzy.co/methods.html#shiftlayout">shiftLayout method</a>, simplified <a href="https://packery.metafizzy.co/extras.html#webpack">Webpack integration</a>, and more. Plus <a href="https://packery.metafizzy.co">completely refreshed docs</a> with individualized demos and <a href="https://codepen.io/desandro/pens/tags/?grid_type=list&amp;selected_tag=packery-docs">CodePens for every feature</a>.</p>
+  <p>Already have a Packery v1 license? Keep an eye out for another email from us for a big discount to upgrade to v2.</p>
+  <p>Packery v2 is an awesome upgrade. Just one of several that will be happening in 2016. Up next: Isotope v3 and Flickity v2.</p>
+
+</article>
+
+    
+    </div>
+
+    <div class="scroller-status">
+      <div class="loader-ellips infinite-scroll-request">
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+      </div>
+      <p class="scroller-status__message infinite-scroll-last">End of content</p>
+      <p class="scroller-status__message infinite-scroll-error">No more pages to load</p>
+    </div>
+
+
+    <footer class="full-page-demo-footer"></footer>
+
+  </div> 
+</div> 
+
+
+  <script src="../../js/infinite-scroll-docs.min.js?3"></script>
+
+
+</body>
+</html>
+

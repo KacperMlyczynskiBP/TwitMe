@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" class="export">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Infinite Scroll &#xB7; Full page demo</title>
+
+    <link rel="stylesheet" href="../../css/infinite-scroll-docs.css?5" media="screen">
+
+
+</head>
+
+<body class="page--index" data-basename="index">
+
+<ol class="site-nav">
+  <li class="site-nav__item site-nav__item--homepage">
+    <a href="../../.">Infinite Scroll</a>
+  </li>
+  <li class="site-nav__item site-nav__item--options">
+    <a href="../../options.html">Options</a>
+  </li>
+  <li class="site-nav__item site-nav__item--api">
+    <a href="../../api.html">API</a>
+  </li>
+  <li class="site-nav__item site-nav__item--events">
+    <a href="../../events.html">Events</a>
+  </li>
+  <li class="site-nav__item site-nav__item--extras">
+    <a href="../../extras.html">Extras</a>
+  </li>
+  <li class="site-nav__item site-nav__item--license">
+    <a href="../../license.html">License</a>
+  </li>
+</ol>
+
+<div class="main">
+  <div class="container">
+
+      <h1 class="page-title">Full page demo</h1>
+
+    <div class="article-feed" data-infinite-scroll="{ &quot;path&quot;: &quot;.pagination__next&quot;, &quot;append&quot;: &quot;.article&quot;, &quot;status&quot;: &quot;.scroller-status&quot;, &quot;hideNav&quot;: &quot;.pagination&quot; }">
+
+      
+<article class="article">
+  <h2 class="article__title" id="1a-infinite-scroll-full-page-demo">1a - Infinite Scroll full page demo</h2>
+
+  <p><b>Hi!</b> This demo will show off several key features of Infinite Scroll.</p>
+
+  <ul>
+    <li>Full page scrolling</li>
+    <li>Changing browser URL and history. Watch how the URL changes as you scroll. Try refreshing on a changed page.</li>
+    <li>Embeds like CodePens and Tweets have their <code>&lt;script&gt;</code>s loaded and embeds rendered</li>
+  </ul>
+
+  <p>The code looks like this:</p>
+
+<pre><code class="html"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;article-feed&quot;</span>&gt;</span>
+  <span class="comment">&lt;!-- .articles will be added to .article-feed --&gt;</span>
+  <span class="tag">&lt;<span class="name">article</span> <span class="attr">class</span>=<span class="string">&quot;article&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">article</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">article</span> <span class="attr">class</span>=<span class="string">&quot;article&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">article</span>&gt;</span>
+  ...
+<span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+
+<span class="comment">&lt;!-- status elements --&gt;</span>
+<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;scroller-status&quot;</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;infinite-scroll-request loader-ellips&quot;</span>&gt;</span>
+    ...
+  <span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;infinite-scroll-last&quot;</span>&gt;</span>End of content<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;infinite-scroll-error&quot;</span>&gt;</span>No more pages to load<span class="tag">&lt;/<span class="name">p</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">div</span>&gt;</span>
+
+<span class="comment">&lt;!-- pagination has path --&gt;</span>
+<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;pagination&quot;</span>&gt;</span>
+  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">&quot;pagination__next&quot;</span> <span class="attr">href</span>=<span class="string">&quot;page2.html&quot;</span>&gt;</span>Next page<span class="tag">&lt;/<span class="name">a</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">p</span>&gt;</span></code></pre>
+
+
+<pre><code class="js"><span class="comment">// init Infinite Scroll</span>
+$(<span class="string">&apos;.article-feed&apos;</span>).infiniteScroll({
+  <span class="attr">path</span>: <span class="string">&apos;.pagination__next&apos;</span>,
+  <span class="attr">append</span>: <span class="string">&apos;.article&apos;</span>,
+  <span class="attr">status</span>: <span class="string">&apos;.scroller-status&apos;</span>,
+  <span class="attr">hideNav</span>: <span class="string">&apos;.pagination&apos;</span>,
+});</code></pre>
+
+
+</article>
+
+<article class="article">
+  <h2 class="article__title" id="1b-rgb-schemes-logo-in-computer-arts">1b - RGB Schemes logo in Computer Arts</h2>
+
+  <p>As part of their March 2017 issue on VR, <a href="http://www.creativebloq.com/computer-arts-magazine">Computer Arts</a> featured the <a href="/blog/rgb-schemes-logo">RGB Schemes logo</a> in a five page spread. I got to share the nitty gritty of how the project came together, working through the brief, and all the stuff that didn&apos;t make the cut. <a href="https://www.myfavouritemagazines.co.uk/design/computer-arts-magazine-back-issues/computer-arts-march-2017-issue-263/">You can still grab a back issue online</a>.</p>
+  <p><img src="https://i.imgur.com/Z7CCiYI.jpg" alt="Computer Arts RGB Schemes logo article"></p>
+  <p><img src="https://i.imgur.com/G74MTbS.jpg" alt="Computer Arts RGB Schemes logo article"></p>
+
+</article>
+
+    
+    </div>
+
+    <div class="scroller-status">
+      <div class="loader-ellips infinite-scroll-request">
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+        <span class="loader-ellips__dot"></span>
+      </div>
+      <p class="scroller-status__message infinite-scroll-last">End of content</p>
+      <p class="scroller-status__message infinite-scroll-error">No more pages to load</p>
+    </div>
+
+      <p class="pagination">
+        <a class="pagination__next" href="page2.html">Next page</a>
+      </p>
+
+    <footer class="full-page-demo-footer"></footer>
+
+  </div> 
+</div> 
+
+
+  <script src="../../js/infinite-scroll-docs.min.js?3"></script>
+
+
+</body>
+</html>
+

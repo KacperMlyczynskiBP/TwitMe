@@ -23,7 +23,8 @@ class PostFactory extends Factory
             'user_id' => User::pluck('id')->random(),
             'reply_id' => null,
             'retweets_count' => 0,
-            'view_counts' => 0,
+            'view_counts' => $this->faker->numberBetween($min = 1, $max = 1000),
+            'likes_count' => $this->faker->numberBetween($min = 1, $max = 1000),
             'visible' => true,
         ];
     }

@@ -10,6 +10,7 @@ use FFMpeg\FFProbe;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 
 class PostService
@@ -81,6 +82,9 @@ class PostService
             if(!$like){
 
                 $user->likes()->attach($postId);
+                DB::table('posts')->where('id', $postId)->increment('likes_count');
+
+
                 $user = User::findOrFail($userId);
                 $loggedUser = Auth()->user();
 
@@ -104,6 +108,7 @@ class PostService
                 }
             }else{
                 $user->likes()->detach($postId);
+                DB::table('posts')->where('id', $postId)->decrement('likes_count');
             }
         } catch (QueryException $e) {
             return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());

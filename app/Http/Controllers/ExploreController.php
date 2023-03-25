@@ -13,6 +13,6 @@ class ExploreController extends Controller
             ListNBADataJob::dispatch();
             $results = Cache::get('NBAResults');
         }
-        dd($results);
+
         return view('explore', compact('results'));
     }}

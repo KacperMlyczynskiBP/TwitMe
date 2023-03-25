@@ -92,7 +92,7 @@
                         <div><h3>replying to</h3> <a href={{ route('create.profile', ['id'=>$comment->user_id]) }}">
                         @inject('username','App\Helpers\FindWhoToReply')
                          {{ $username->FindWhoToReply($comment->reply_id)}}</a></div>
-                        <div class=" post__headerDescription">
+                        <div class="post__headerDescription">
                             <p>{{ $comment->body }}</p>
                         </div>
                 </div>

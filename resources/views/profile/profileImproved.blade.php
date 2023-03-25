@@ -121,19 +121,22 @@
                     />
 
                     <div class="post__footer">
-                    <span class="dropdown-retweet-btn">
-  <span class="material-icons">repeat</span>
-  <div class="dropdown-retweet-content">
-    <a href="{{ route('retweet', ['postId'=>$tweet->id]) }}">Retweet</a>
-    <a href="#">Quote Tweet</a>
-  </div>
-</span>
-                        <a href="{{ route('like.tweet', ['postId'=>$tweet->id, 'userId'=>$tweet->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
+                        <span class="material-icons"> repeat </span>
+                        <a href="{{ route('like.tweet', ['postId'=>$tweet->id, 'userId'=>$tweet->user_id]) }}"><span
+                                class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
                         <div><a href="{{ route('list.posts.likes', ['postId'=>$tweet->id]) }}">{{$count->countLikesOnTweets($tweet->id)}}</a></div>
-                        <a href="{{ route('save.bookmark', ['postId'=>$tweet->id]) }}"><span class="material-icons"> publish </span></a>
-                    </div>
+                        <a> Views: {{ $tweet->view_counts }}</a>
 
+                        <a href="{{ route('save.bookmark', ['postId'=>$tweet->id]) }}"><span class="material-icons"> publish </span></a>
+                        @can('delete', [$tweet, Auth::user()])
+                            <form method="POST" action="{{ route('undo', $tweet->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        @endcan
+                    </div>
 
                 </div>
                 </a>
