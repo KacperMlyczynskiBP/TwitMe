@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\tweetRequest;
-use App\Models\Notification;
-use App\Models\Post;
-use App\Models\Retweet;
-use App\Models\TweetView;
-use App\Models\User;
+use App\Models\{User, Post, Retweet, Notification};
+use Illuminate\{Http\RedirectResponse, Support\Facades\DB, View\View};
 use App\Services\PostService;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -22,13 +16,13 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function show(int $postId): View{
-        $post = $this->postService->getPostById($postId);
+    public function show(Post $post): View{
+        $post = $this->postService->getPostById($post->id);
         $user = $this->postService->getUserById($post['user_id']);
 
         $userPath=Auth()->user()->user_image_path;
 
-        $comments = $this->postService->getCommentsById($postId);
+        $comments = $this->postService->getCommentsById($post->id);
 
         $post->view_counts++;
         $post->save();
@@ -36,16 +30,16 @@ class PostController extends Controller
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }
 
-    public function likeTweet(int $postId, string $userId): RedirectResponse{
-        $this->postService->likeTweet($postId, $userId);
+    public function likeTweet(Post $post, string $userId): RedirectResponse{
+        $this->postService->likeTweet($post->id, $userId);
 
         return redirect()->back();
     }
 
 
-    public function listPostLikes(int $postId): View{
+    public function listPostLikes(Post $post): View{
         $listLikedPostUsers = DB::table('likes')
-            ->where('post_id', $postId)
+            ->where('post_id', $post->id)
             ->pluck('user_id')
             ->toArray();
 
@@ -54,15 +48,15 @@ class PostController extends Controller
         return view('listPostsLikes', compact('users'));
     }
 
-    public function retweet(int $postId, $request): void{
+    public function retweet(Post $post, $request): void{
           $id = Auth()->user()->id;
           $retweet = new Retweet();
           $retweet->user_id = $id;
-          $retweet->post_id = $postId;
+          $retweet->post_id = $post->id;
           $retweet->comment = $request->comment ?? NULL;
           $retweet->save();
 
-          $post = Post::findOrFail($postId);
+          $post = Post::findOrFail($post->id);
           $post->increment('retweet_count');
     }
 
@@ -106,8 +100,7 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function softDelete($id): RedirectResponse{
-        $post = Post::findOrFail($id);
+    public function softDelete(Post $post): RedirectResponse{
         $post->delete();
         return redirect()->back();
     }

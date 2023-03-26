@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PostHelper;
-use App\Models\Bookmark;
-use App\Models\Post;
+use App\Models\{Bookmark, Post};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -21,14 +20,14 @@ class BookmarkController extends Controller
         return view('bookmarks', compact('posts'));
     }
 
-    public function saveBookmark(int $postId): RedirectResponse{
-        $bookmark = Bookmark::where('post_id', $postId)
+    public function saveBookmark(Post $post): RedirectResponse{
+        $bookmark = Bookmark::where('post_id', $post->id)
             ->where('user_id', Auth()->user()->id)
             ->first();
 
         if(!$bookmark){
             $bookmark = new Bookmark();
-            $bookmark->post_id = $postId;
+            $bookmark->post_id = $post->id;
             $bookmark->user_id = Auth()->user()->id;
             $bookmark->save();
         } else{

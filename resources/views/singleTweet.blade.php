@@ -32,13 +32,13 @@
             />
             <div class="post__footer">
                 <span class="material-icons"> repeat </span>
-                <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span
+                <a href="{{ route('like.tweet', ['post'=>$post, 'userId'=>$post->user_id]) }}"><span
                             class="material-icons"> favorite_border </span></a>
                 @inject('count','App\Helpers\CountLikes')
-                <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
+                <div><a href="{{ route('list.posts.likes', ['post'=>$post]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
                 <a> Views: {{ $post->view_counts }}</a>
 
-                <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
+                <a href="{{ route('save.bookmark', ['post'=>$post]) }}"><span class="material-icons"> publish </span></a>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
                             >
                         </h3>
                     </div>
-                    <a href="{{ route('show.single', ['postId'=>$comment->id]) }}">
+                    <a href="{{ route('show.single', ['post'=>$comment]) }}">
                         @inject('username','App\Helpers\FindUsername')
                         <div><h3>replying to</h3> <a href={{ route('create.profile', ['id'=>$comment->user_id]) }}">
                         @inject('username','App\Helpers\FindWhoToReply')
@@ -102,10 +102,10 @@
                 />
                 <div class="post__footer">
                     <span class="material-icons"> repeat </span>
-                    <a href="{{ route('like.tweet', ['postId'=>$comment->id, 'userId'=>$comment->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
+                    <a href="{{ route('like.tweet', ['post'=>$comment, 'userId'=>$comment->user_id]) }}"><span class="material-icons"> favorite_border </span></a>
                     @inject('count','App\Helpers\CountLikes')
-                    <div><a href="{{ route('list.posts.likes', ['postId'=>$comment->id]) }}">{{$count->countLikesOnTweets($comment->id)}}</a></div>
-                    <a href="{{ route('save.bookmark', ['postId'=>$comment->id]) }}"><span class="material-icons"> publish </span></a>
+                    <div><a href="{{ route('list.posts.likes', ['post'=>$comment]) }}">{{$count->countLikesOnTweets($comment->id)}}</a></div>
+                    <a href="{{ route('save.bookmark', ['post'=>$comment]) }}"><span class="material-icons"> publish </span></a>
                 </div>
             </div>
         </div>

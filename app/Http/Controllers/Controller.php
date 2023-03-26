@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Helpers\PaginateHelper;
-use App\Helpers\PostHelper;
-use App\Jobs\ListTrendsJob;
-use App\Models\Post;
-use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Helpers\{PaginateHelper, PostHelper};
+use Illuminate\Foundation\{Auth\Access\AuthorizesRequests, Bus\DispatchesJobs, Validation\ValidatesRequests};
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{Cache, DB};
+use App\Jobs\ListTrendsJob;
+use App\Models\{Post, User};
 use Illuminate\View\View;
 
 

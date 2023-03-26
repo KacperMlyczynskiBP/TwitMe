@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function(){
     Route::prefix('bookmarks')->group(function(){
         Route::controller(BookmarkController::class)->group(function (){
             Route::get('/', 'bookmarks')->name('show.bookmarks');
-            Route::get('/save/{postId}', 'saveBookmark')->name('save.bookmark');
+            Route::get('/save/{post}', 'saveBookmark')->name('save.bookmark');
         });
     });
 
@@ -54,13 +54,13 @@ Route::middleware('auth')->group(function(){
    });
 
     Route::controller(PostController::class)->group(function (){
-        Route::get('/singleTweet/{postId}', 'show')->name('show.single');
-        Route::get('/likeTweet/{postId}/{userId}', 'likeTweet')->name('like.tweet');
-        Route::get('/list/posts/likes{postId}', 'listPostLikes')->name('list.posts.likes');
-        Route::post('/retweet/{postId}', 'retweet')->name('retweet');
+        Route::get('/singleTweet/{post}', 'show')->name('show.single');
+        Route::get('/likeTweet/{post}/{userId}', 'likeTweet')->name('like.tweet');
+        Route::get('/list/posts/likes{post}', 'listPostLikes')->name('list.posts.likes');
+        Route::post('/retweet/{post}', 'retweet')->name('retweet');
         Route::post('/tweet', 'storeTweet')->name('store.tweet');
         Route::post('/tweet/reply','storeTweetReply')->name('store.tweet.reply');
-        Route::delete('/delete/{postId}', 'softDelete')->name('undo')->middleware('subscription');
+        Route::delete('/delete/{post}', 'softDelete')->name('undo')->middleware('subscription');
     });
 
     Route::prefix('profile')->group(function (){

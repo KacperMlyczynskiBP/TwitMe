@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\phoneNumberCodeRequest;
-use App\Http\Requests\phoneNumberRequest;
+use App\Http\Requests\{phoneNumberCodeRequest,phoneNumberRequest};
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Twilio\Rest\Client;
 

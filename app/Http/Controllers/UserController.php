@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Services\UserService;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-
+use Illuminate\Http\{RedirectResponse,Request};
 
 class UserController extends Controller{
 

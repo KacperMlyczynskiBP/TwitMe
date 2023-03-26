@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CheckIfUserIsBlockedHelper;
-use App\Helpers\PostHelper;
+use App\Helpers\{PostHelper, CheckIfUserIsBlockedHelper};
+use App\Models\{User, Post};
 use App\Http\Requests\updateUserRequest;
-use App\Models\Blocked;
-use App\Models\Post;
-use App\Models\User;
 use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;

@@ -113,21 +113,22 @@
                     @endif
                     <div class="post__footer">
                         <span class="material-icons"> repeat </span>
-                        <a href="{{ route('like.tweet', ['postId'=>$post->id, 'userId'=>$post->user_id]) }}"><span
+                        <a href="{{ route('like.tweet', ['post'=>$post, 'userId'=>$tweet->user_id]) }}"><span
                                 class="material-icons"> favorite_border </span></a>
                         @inject('count','App\Helpers\CountLikes')
-                        <div><a href="{{ route('list.posts.likes', ['postId'=>$post->id]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
-                        <a> Views: {{ $post->view_counts }}</a>
+                        <div><a href="{{ route('list.posts.likes', ['post'=>$post]) }}">{{$count->countLikesOnTweets($post->id)}}</a></div>
+                        <a> Views: {{ $tweet->view_counts }}</a>
 
-                        <a href="{{ route('save.bookmark', ['postId'=>$post->id]) }}"><span class="material-icons"> publish </span></a>
+                        <a href="{{ route('save.bookmark', ['post'=>$post]) }}"><span class="material-icons"> publish </span></a>
                         @can('delete', [$post, Auth::user()])
-                            <form method="POST" action="{{ route('undo', $post->id) }}">
+                            <form method="POST" action="{{ route('undo', $post) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">Delete</button>
                             </form>
                         @endcan
                     </div>
+
                 </div>
             </div>
         @endforeach

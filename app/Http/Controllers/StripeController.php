@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlueCheckFormularRequest;
 use Illuminate\Http\RedirectResponse;
-use Stripe\Charge;
-use Stripe\Stripe;
-use Stripe\Token;
+use Stripe\{Charge,Stripe};
+
 
 class StripeController extends Controller
 {

@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Database\{Eloquent\ModelNotFoundException, QueryException};
+use Illuminate\{Http\RedirectResponse, Http\Request, View\View};
 use App\Models\User;
 use App\Services\MessageService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class MessageController extends Controller
 {
