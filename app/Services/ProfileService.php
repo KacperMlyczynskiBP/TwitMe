@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileService
 {
-    public function getUserById(string $id): User{
+    public function getUserById(string $id): User
+    {
         return User::findOrFail($id);
     }
 
-    public function getUserTweetsById(string $id): Collection|Post{
+    public function getUserTweetsById(string $id): Collection|Post
+    {
         $userTweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->get();
@@ -29,7 +31,8 @@ class ProfileService
     }
 
 
-    public function getLikedPostsById(string $id): Collection|Post{
+    public function getLikedPostsById(string $id): Collection|Post
+    {
         $posts = Post::where('user_id', $id)->pluck('id')->toArray();
         $likedPosts = DB::table('likes')
             ->where(function ($query) use ($id, $posts) {
@@ -47,9 +50,10 @@ class ProfileService
         return $posts;
     }
 
-    public function getUserTweetsRepliesById($id): Collection|Post{
+    public function getUserTweetsRepliesById($id): Collection|Post
+    {
         $userTweets=Post::where('user_id', $id)
-            ->orWhereIn('reply_id', function($query) use ($id){
+            ->orWhereIn('reply_id', function ($query) use ($id) {
                 $query->select('id')
                     ->from('posts')
                     ->where('user_id', $id);
@@ -61,7 +65,8 @@ class ProfileService
         return $userTweets;
     }
 
-    public function getUserMediaTweetsById($id): Collection|Post{
+    public function getUserMediaTweetsById($id): Collection|Post
+    {
         $tweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->where('image_path', '!=', 'NULL')
@@ -73,39 +78,40 @@ class ProfileService
         return $tweets;
     }
 
-   public function getFollowers($id, string $user_id): Collection|User{
-       $user=User::findOrFail($id);
+    public function getFollowers($id, string $user_id): Collection|User
+    {
+        $user=User::findOrFail($id);
 
-       $followers = ($user_id == 'user_id') ? $user->followers()->pluck('user_id') : $user->following()->pluck('follower_user_id');
+        $followers = ($user_id == 'user_id') ? $user->followers()->pluck('user_id') : $user->following()->pluck('follower_user_id');
 
-       $users=User::select(['user_image_path','username','id'])
+        $users=User::select(['user_image_path','username','id'])
                ->WhereIn('id', $followers)
                ->get();
 
-       return $users;
-   }
+        return $users;
+    }
 
-   public function updateUser(UpdateUserRequest $request): RedirectResponse{
-       $file=$request->file('tweetMedia');
-       $user=Auth()->user();
+    public function updateUser(UpdateUserRequest $request): RedirectResponse
+    {
+        $file=$request->file('tweetMedia');
+        $user=Auth()->user();
 
-       $imagePath = $file ? '/images/' . $file->getClientOriginalName() : 'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png';
-       $date_of_birth = $request['date_of_birth'] ?? $user->date_of_birth;
+        $imagePath = $file ? '/images/' . $file->getClientOriginalName() : 'https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png';
+        $date_of_birth = $request['date_of_birth'] ?? $user->date_of_birth;
 
-       if($user->dob_changes > 3){
-           return redirect()->back()->withErrors('date of birth changes', 'You exceeded changes of your birth');
-       }
+        if ($user->dob_changes > 3) {
+            return redirect()->back()->withErrors('date of birth changes', 'You exceeded changes of your birth');
+        }
 
-       if($date_of_birth !== $request['date_of_birth']){
-           $user->dob_changes++;
-       }
+        if ($date_of_birth !== $request['date_of_birth']) {
+            $user->dob_changes++;
+        }
 
-       $user->update([
+        $user->update([
            'bio'=>$request['bio'], 'location'=>$request['location'],
            'username'=>$request['username'],
            'user_image_path'=> $imagePath,
            'date_of_birth'=> $date_of_birth,
-       ]);
-
-   }
+        ]);
+    }
 }

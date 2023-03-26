@@ -17,7 +17,7 @@ class Subscription
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->blue_verified == NULL)  {
+        if (Auth::user()->blue_verified == null) {
             return $next($request);
         } else {
             return redirect()->route('show.verificationFeatures');

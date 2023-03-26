@@ -32,6 +32,5 @@ class updateUserRequest extends FormRequest
             'date_of_birth' => ['date', 'before:' . date('Y-m-d', strtotime("-".User::MIN_AGE." years"))
                 , 'after:' . date('Y-m-d', strtotime("-". User::MAX_AGE." years"))],
         ];
-
     }
 }

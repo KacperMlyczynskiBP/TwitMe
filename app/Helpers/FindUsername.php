@@ -6,18 +6,20 @@ use App\Models\User;
 
 class FindUsername
 {
-   public $username;
+    public $username;
 
-    public function findUsername($id){
+    public function findUsername($id)
+    {
         $username=User::findOrFail($id);
         return $username['username'];
     }
 
-    public function findOtherUserUsername($message){
+    public function findOtherUserUsername($message)
+    {
         $id=Auth()->user()->id;
-        if($message->receiver_id == $id){
+        if ($message->receiver_id == $id) {
             $otherUserId=$message->sender_id;
-        } else{
+        } else {
             $otherUserId=$message->receiver_id;
         }
         $otherUser = User::where('id', $otherUserId)
@@ -25,6 +27,5 @@ class FindUsername
             ->first();
 
         return $otherUser['username'];
-}
-
+    }
 }

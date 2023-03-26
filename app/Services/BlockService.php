@@ -14,15 +14,17 @@ use Illuminate\Support\Facades\DB;
 class BlockService
 {
 
-    public function getBlockedUser(User $user): ?Blocked{
-       return Blocked::where(['user_id'=>Auth()->user()->id, 'blocked_user_id'=> $user->id])->first();
+    public function getBlockedUser(User $user): ?Blocked
+    {
+        return Blocked::where(['user_id'=>Auth()->user()->id, 'blocked_user_id'=> $user->id])->first();
     }
 
-    public function deleteConversationAndMessages(User $user): void{
+    public function deleteConversationAndMessages(User $user): void
+    {
         $id = Auth()->user()->id;
         $userId = $user->id;
 
-        DB::Transaction(function () use ($userId, $id){
+        DB::Transaction(function () use ($userId, $id) {
 
             Follower::where(function ($query) use ($id, $userId) {
                 $query->where('user_id', $id)
@@ -57,6 +59,5 @@ class BlockService
                     });
             })->delete();
         });
-
     }
 }

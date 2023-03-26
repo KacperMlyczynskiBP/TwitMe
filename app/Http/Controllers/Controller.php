@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\{PaginateHelper, PostHelper};
-use Illuminate\Foundation\{Auth\Access\AuthorizesRequests, Bus\DispatchesJobs, Validation\ValidatesRequests};
+use Illuminate\Http\Request;
+use App\Helpers\PaginateHelper;
+use App\Helpers\PostHelper;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\{Cache, DB};
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use App\Jobs\ListTrendsJob;
-use App\Models\{Post, User};
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\View\View;
-
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function createPage(): View{
+    public function createPage(): View
+    {
         $id=Auth()->user()->id;
 
         $followingUserIds = DB::table('followers')
@@ -44,23 +50,25 @@ class Controller extends BaseController
 
         $trends =  cache::get('trends');
 
-        if($trends === NULL){
+        if ($trends === null) {
             $trends = [];
             ListTrendsJob::dispatch();
             $trends =  cache::get('trends');
         }
 
-        return view('index', compact('posts','user', 'trends'));
+        return view('index', compact('posts', 'user', 'trends'));
     }
 
-    public function verificationFeatures(): View{
+    public function verificationFeatures(): View
+    {
         return view('verificationFeatures');
     }
 
 
-    public function search(\Illuminate\Http\Request $request): View{
-       $results=Post::with('user')
-           ->where('body', 'LIKE', '%' . $request->body . '%' )
+    public function search(Request $request): View
+    {
+        $results=Post::with('user')
+           ->where('body', 'LIKE', '%' . $request->body . '%')
            ->get()
            ->all();
 

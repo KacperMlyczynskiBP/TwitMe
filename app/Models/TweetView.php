@@ -14,7 +14,8 @@ class TweetView extends Model
     protected $fillable = ['tweet_id', 'views_count'];
 
 
-    public function tweet(){
+    public function tweet()
+    {
         return $this->belongsTo(Post::class);
     }
 }

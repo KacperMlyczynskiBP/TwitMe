@@ -39,5 +39,10 @@ PHP,
 Laravel,
 MySQL
 
+## This web application is following PSR-2 coding style guide.
+
+
+
+
 
 

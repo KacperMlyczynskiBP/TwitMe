@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\{Eloquent\ModelNotFoundException, QueryException};
-use Illuminate\{Http\RedirectResponse, Http\Request, View\View};
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 use App\Models\User;
 use App\Services\MessageService;
 
@@ -11,11 +14,13 @@ class MessageController extends Controller
 {
     protected $messageService;
 
-    public function __construct(MessageService $messageService){
+    public function __construct(MessageService $messageService)
+    {
         $this->messageService = $messageService;
     }
 
-    public function index(): View{
+    public function index(): View
+    {
         $id = Auth()->user()->id;
 
         $messages=$this->messageService->getMessagesByUserId($id);
@@ -28,19 +33,19 @@ class MessageController extends Controller
         //
     }
 
-    public function store(Request $request): RedirectResponse{
-       try{
-           $user = $this->messageService->getUserById($request['id']);
+    public function store(Request $request): RedirectResponse
+    {
+        try {
+            $user = $this->messageService->getUserById($request['id']);
 
-           $this->messageService->storeConversationAndMessage($request);
+            $this->messageService->storeConversationAndMessage($request);
 
-           return redirect()->route('create.chat',['user'=>$user]);
-
-       } catch (QueryException $e) {
-           return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
-       } catch (ModelNotFoundException $e) {
-           return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
-       }
+            return redirect()->route('create.chat', ['user'=>$user]);
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
+        }
     }
 
     /**
@@ -77,14 +82,16 @@ class MessageController extends Controller
         //
     }
 
-    public function createSearchPage(): View{
+    public function createSearchPage(): View
+    {
         return view('message.searchUser');
     }
 
-    public function createChat(User $user): View|RedirectResponse{
+    public function createChat(User $user): View|RedirectResponse
+    {
         $id=Auth()->user()->id;
 
-        try{
+        try {
             $messages = $this->messageService->getChatMessagesByUserAndId($id, $user);
 
             return view('message.chat', compact('user', 'messages'));
@@ -95,9 +102,9 @@ class MessageController extends Controller
         }
     }
 
-    public function search(Request $request): View{
+    public function search(Request $request): View
+    {
         $users = $this->messageService->getUsersByUsername($request->body);
         return view('message.searchResults', compact('users'));
-      }
-
+    }
 }

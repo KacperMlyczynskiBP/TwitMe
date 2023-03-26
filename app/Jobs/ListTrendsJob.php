@@ -27,19 +27,19 @@ class ListTrendsJob implements ShouldQueue
             $posts = Post::all();
             $trends = [];
 
-            foreach ($posts as $post) {
-                $words = explode(' ', $post->body);
-                foreach ($words as $word) {
-                    $word = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $word));
-                    if (strlen($word) > 2) {
-                        if (isset($trends[$word])) {
-                            $trends[$word]++;
-                        } else {
-                            $trends[$word] = 1;
-                        }
+        foreach ($posts as $post) {
+            $words = explode(' ', $post->body);
+            foreach ($words as $word) {
+                $word = strtolower(preg_replace('/[^A-Za-z0-9\-]/', '', $word));
+                if (strlen($word) > 2) {
+                    if (isset($trends[$word])) {
+                        $trends[$word]++;
+                    } else {
+                        $trends[$word] = 1;
                     }
                 }
             }
+        }
 
             arsort($trends);
 
@@ -48,6 +48,5 @@ class ListTrendsJob implements ShouldQueue
             Cache::remember('trends', 86400, function () use ($trends) {
                          return $trends;
             });
-
     }
 }

@@ -17,15 +17,18 @@ class Post extends Model
       'reply_id',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function likeable(){
+    public function likeable()
+    {
         return $this->belongsToMany(User::class, 'likes', 'post_id', 'user_id');
     }
 
-    public function viewCount(){
+    public function viewCount()
+    {
         return $this->hasOne(TweetView::class, 'tweet_id');
     }
 }

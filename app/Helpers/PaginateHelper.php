@@ -8,7 +8,8 @@ class PaginateHelper
 {
 
 
-    public static function paginate($posts){
+    public static function paginate($posts)
+    {
         $perPage = 10; // Change the value to the desired number of items per page
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();

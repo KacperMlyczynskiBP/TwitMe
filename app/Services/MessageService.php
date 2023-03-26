@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use Illuminate\Http\RedirectResponse;
-use App\Models\{Message, Notification,User, Conversation};
+use App\Models\Message;
+use App\Models\Notification;
+use App\Models\User;
+use App\Models\Conversation;
 use App\Helpers\GetBlockedUsersRealtion;
 use App\Helpers\MessageHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,11 +16,13 @@ use Illuminate\Support\Collection;
 class MessageService
 {
 
-    public function getUserById(string $id): User{
+    public function getUserById(string $id): User
+    {
         return User::findOrFail($id);
     }
 
-    public function getMessagesByUserId(string $id): Message|RedirectResponse|Collection {
+    public function getMessagesByUserId(string $id): Message|RedirectResponse|Collection
+    {
         try {
             $messages = Message::with('user')
                 ->where(function ($query) use ($id) {
@@ -35,33 +40,6 @@ class MessageService
             $messages = MessageHelper::addUserImageToMessage($messages);
 
             return $messages;
-
-        } catch (QueryException $e) {
-           return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
-        } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
-        }
-    }
-
-    public function getUsersByUsername(string $username): User|RedirectResponse|Collection{
-
-        try {
-            $blockedIDs = GetBlockedUsersRealtion::getBlockedUserRelationByUsername($username);
-            $blockedUserIds = array_keys($blockedIDs);
-            if(collect($blockedIDs)->isEmpty()){
-                $users=User::select(['username','user_image_path','bio','id'])
-                    ->where('username', 'LIKE', '%' . $username . '%')
-                    ->get();
-            } else{
-                $users=User::select(['username','user_image_path','bio','id'])
-                    ->where('username', 'LIKE', '%' . $username . '%')
-                    ->whereNotIn('id', $blockedUserIds)
-                    ->get();
-
-            }
-
-            return $users;
-
         } catch (QueryException $e) {
             return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
         } catch (ModelNotFoundException $e) {
@@ -69,13 +47,39 @@ class MessageService
         }
     }
 
-    public function getChatMessagesByUserAndId(string $id, User $user): Message|Collection{
+    public function getUsersByUsername(string $username): User|RedirectResponse|Collection
+    {
+
+        try {
+            $blockedIDs = GetBlockedUsersRealtion::getBlockedUserRelationByUsername($username);
+            $blockedUserIds = array_keys($blockedIDs);
+            if (collect($blockedIDs)->isEmpty()) {
+                $users=User::select(['username','user_image_path','bio','id'])
+                    ->where('username', 'LIKE', '%' . $username . '%')
+                    ->get();
+            } else {
+                $users=User::select(['username','user_image_path','bio','id'])
+                    ->where('username', 'LIKE', '%' . $username . '%')
+                    ->whereNotIn('id', $blockedUserIds)
+                    ->get();
+            }
+
+            return $users;
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
+        }
+    }
+
+    public function getChatMessagesByUserAndId(string $id, User $user): Message|Collection
+    {
 
             $messages=Message::with('user')
-                ->where(function($query) use ($id, $user){
+                ->where(function ($query) use ($id, $user) {
                     $query->where('receiver_id', $user->id);
                     $query->where('sender_id', $id);
-                })->orWhere(function($query) use ($id, $user){
+                })->orWhere(function ($query) use ($id, $user) {
                     $query->where('receiver_id', $id);
                     $query->where('sender_id', $user->id);
                 })->orderBy('created_at', 'asc')
@@ -86,7 +90,8 @@ class MessageService
             return $messages;
     }
 
-    public function storeConversationAndMessage($request): void{
+    public function storeConversationAndMessage($request): void
+    {
         $id = $request['id'];
         $data = $request->validate(['message' => 'required']);
         $senderId = Auth()->user()->id;
@@ -98,10 +103,10 @@ class MessageService
             })
                 ->first();
 
-            if (!$conversation) {
-                $conversation = new Conversation();
-                $conversation->save();
-            }
+        if (!$conversation) {
+            $conversation = new Conversation();
+            $conversation->save();
+        }
 
             $message = new Message();
             $message->text = $data['message'];
@@ -113,23 +118,21 @@ class MessageService
             $user = User::findOrFail($receiverId);
             $senderUser = User::findOrFail($senderId);
 
-            if($senderUser->blue_verified == 1 && $user->id !== Auth()->user()->id){
-                $notification = new Notification();
-                $notification->sender_id = Auth()->user()->id;
-                $notification->receiver_id = $user->id;
-                $notification->type = 'App\Models\Message';
-                $notification->from_verified = true;
-                $notification->comment = ' Sent you a message';
-                $notification->save();
-            } elseif($user->id !== Auth()->user()->id){
-                $notification = new Notification();
-                $notification->sender_id = Auth()->user()->id;
-                $notification->receiver_id = $user->id;
-                $notification->type = 'App\Models\Message';
-                $notification->comment = ' Sent you a message';
-                $notification->save();
-            }
+        if ($senderUser->blue_verified == 1 && $user->id !== Auth()->user()->id) {
+            $notification = new Notification();
+            $notification->sender_id = Auth()->user()->id;
+            $notification->receiver_id = $user->id;
+            $notification->type = 'App\Models\Message';
+            $notification->from_verified = true;
+            $notification->comment = ' Sent you a message';
+            $notification->save();
+        } elseif ($user->id !== Auth()->user()->id) {
+            $notification = new Notification();
+            $notification->sender_id = Auth()->user()->id;
+            $notification->receiver_id = $user->id;
+            $notification->type = 'App\Models\Message';
+            $notification->comment = ' Sent you a message';
+            $notification->save();
+        }
     }
-
 }
-

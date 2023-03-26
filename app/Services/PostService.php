@@ -13,10 +13,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-
 class PostService
 {
-    public function getUserById(string $id): User {
+    public function getUserById(string $id): User
+    {
         try {
             return User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
@@ -24,11 +24,13 @@ class PostService
         }
     }
 
-    public function getPostById(int $id): Post{
+    public function getPostById(int $id): Post
+    {
         return Post::findOrFail($id);
     }
 
-    public function getCommentsById(string $id): Post|Collection|RedirectResponse{
+    public function getCommentsById(string $id): Post|Collection|RedirectResponse
+    {
         try {
             $comments=Post::with('user')
                 ->where('reply_id', $id)
@@ -44,7 +46,8 @@ class PostService
         }
     }
 
-    public function createPostData(array $data, int $reply_id = NULL) {
+    public function createPostData(array $data, int $reply_id = null)
+    {
         $user = Auth()->user();
 
         try {
@@ -52,10 +55,10 @@ class PostService
             $post->body = $data['body'];
             $post->user_id = $user->id;
             $post->reply_id = $reply_id;
-            $post->image_path = $data['image_path'] ?? NULL;
+            $post->image_path = $data['image_path'] ?? null;
 
 
-            if (($data['tweetMedia'] ?? NULL) && $data['tweetMedia']->isValid()) {
+            if (($data['tweetMedia'] ?? null) && $data['tweetMedia']->isValid()) {
                 $mime_type = $data['tweetMedia']->getMimeType();
 
                 if (strpos($mime_type, 'image') !== false) {
@@ -69,12 +72,13 @@ class PostService
             return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors('exception', 'There is an error' . ' ' . $e->getMessage());
         }
     }
 
-    public function likeTweet(int $postId, string $userId) {
+    public function likeTweet(int $postId, string $userId)
+    {
         $id=Auth()->user()->id;
         $user=User::findOrFail($id);
 
@@ -83,8 +87,7 @@ class PostService
                 ->where('post_id', $postId)
                 ->first();
 
-            if(!$like){
-
+            if (!$like) {
                 $user->likes()->attach($postId);
                 DB::table('posts')->where('id', $postId)->increment('likes_count');
 
@@ -92,7 +95,7 @@ class PostService
                 $user = User::findOrFail($userId);
                 $loggedUser = Auth()->user();
 
-                if($loggedUser->blue_verified == 1 && $user->id !== Auth()->user()->id){
+                if ($loggedUser->blue_verified == 1 && $user->id !== Auth()->user()->id) {
                     $notification = new Notification();
                     $notification->sender_id = Auth()->user()->id;
                     $notification->receiver_id = $user->id;
@@ -100,9 +103,7 @@ class PostService
                     $notification->from_verified = true;
                     $notification->comment = ' Liked your post';
                     $notification->save();
-
-                } elseif($user->id !== Auth()->user()->id){
-
+                } elseif ($user->id !== Auth()->user()->id) {
                     $notification = new Notification();
                     $notification->sender_id = Auth()->user()->id;
                     $notification->receiver_id = $user->id;
@@ -110,7 +111,7 @@ class PostService
                     $notification->comment = ' Liked your post';
                     $notification->save();
                 }
-            }else{
+            } else {
                 $user->likes()->detach($postId);
                 DB::table('posts')->where('id', $postId)->decrement('likes_count');
             }
@@ -122,13 +123,15 @@ class PostService
     }
 
 
-    private function handleImageUpload($file, Post $post): void{
+    private function handleImageUpload($file, Post $post): void
+    {
         $fileName = $file->getClientOriginalName();
         $file->move('images', $fileName);
         $post->image_path = $fileName;
     }
 
-    private function handleVideoUpload($file, Post $post){
+    private function handleVideoUpload($file, Post $post)
+    {
 
             $ffprobe = FFProbe::create([
                 'ffmpeg.binaries' => 'C:/ffmpeg/bin/ffmpeg.exe',
@@ -137,16 +140,15 @@ class PostService
 
             $duration = $ffprobe->format(public_path('images/' . $file->getClientOriginalName()))->get('duration');
 
-            if (Auth()->user()->blue_verified == 1) {
-                if ($duration > 600) {
-                    return redirect()->back()->withErrors(['duration' => 'You cannot post a video longer than 600s']);
-                }
-            } else {
-                if ($duration > 60) {
-                    return redirect()->back()->withErrors(['duration' => 'You cannot post a video longer than 60s']);
-                }
+        if (Auth()->user()->blue_verified == 1) {
+            if ($duration > 600) {
+                return redirect()->back()->withErrors(['duration' => 'You cannot post a video longer than 600s']);
             }
+        } else {
+            if ($duration > 60) {
+                return redirect()->back()->withErrors(['duration' => 'You cannot post a video longer than 60s']);
+            }
+        }
             $this->handleImageUpload($file, $post);
     }
-
 }

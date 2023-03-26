@@ -13,7 +13,8 @@ use PhpParser\Node\Expr\Cast\Bool_;
 class CheckIfUserIsBlockedHelper
 {
 
-    public function getBlockedUser(User $user): User{
+    public function getBlockedUser(User $user): User
+    {
         return Blocked::where(['user_id' => Auth()->user()->id, 'blocked_user_id' => $user->id])->first();
     }
 
@@ -31,8 +32,6 @@ class CheckIfUserIsBlockedHelper
         }
         return true;
     }
-
-
 }
 
 

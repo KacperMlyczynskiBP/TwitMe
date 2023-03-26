@@ -22,7 +22,6 @@ class Kernel extends ConsoleKernel
 
             $schedule->job(new ListNBADataJob())
                 ->dailyAt('6');
-
     }
 
     /**

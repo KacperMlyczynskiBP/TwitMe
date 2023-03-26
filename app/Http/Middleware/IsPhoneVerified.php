@@ -16,9 +16,9 @@ class IsPhoneVerified
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth()->user()->phone_verified == 1){
+        if (Auth()->user()->phone_verified == 1) {
             return $next($request);
-        } else{
+        } else {
             return redirect()->route('show.verificationFeatures');
         }
     }

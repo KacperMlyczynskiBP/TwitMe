@@ -21,7 +21,8 @@ class UserPolicy
         //
     }
 
-    public function viewBlueVerifiedContent(User $user){
+    public function viewBlueVerifiedContent(User $user)
+    {
         return $user->blue_verified == true;
     }
 

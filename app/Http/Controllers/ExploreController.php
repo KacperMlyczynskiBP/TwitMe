@@ -8,9 +8,10 @@ use Illuminate\View\View;
 
 class ExploreController extends Controller
 {
-    public function explore(): View{
+    public function explore(): View
+    {
         $results = Cache::get('NBAResults');
-        if($results === NULL){
+        if ($results === null) {
             ListNBADataJob::dispatch();
             $results = Cache::get('NBAResults');
         }

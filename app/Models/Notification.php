@@ -14,9 +14,8 @@ class Notification extends Model
     protected $fillable = ['type','from_verified', 'is_mentioned', 'receiver_id', 'sender_id', 'comment'];
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-
 }

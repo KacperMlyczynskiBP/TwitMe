@@ -10,7 +10,8 @@ class GoogleService
 {
 
 
-    public function storeUser($input){
+    public function storeUser($input)
+    {
 
         $user = User::create([
             'username'=>$input['name'],

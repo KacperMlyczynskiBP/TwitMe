@@ -67,7 +67,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_user_id');
     }
 
-    public function likes(){
+    public function likes()
+    {
         return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')->withTimestamps();
     }
 
@@ -80,5 +81,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'blocked_users', 'blocked_user_id', 'user_id')->withTimestamps();
     }
-
 }

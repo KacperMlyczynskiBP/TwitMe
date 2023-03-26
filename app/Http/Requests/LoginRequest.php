@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class phoneNumberCodeRequest extends FormRequest
+class loginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class phoneNumberCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'validation_code'=>'required|integer|digits:4',
+            'email' => 'required|email|max:255',
+            'password' => 'required',
         ];
     }
 }

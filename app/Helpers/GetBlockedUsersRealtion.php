@@ -9,14 +9,15 @@ class GetBlockedUsersRealtion
 {
 
 
-    public static function getBlockedUserRelation($id){
+    public static function getBlockedUserRelation($id)
+    {
         $loggedInUser = Auth()->user()->id;
 
-        $blockedUsers = Blocked::where(function ($query) use ($id, $loggedInUser){
+        $blockedUsers = Blocked::where(function ($query) use ($id, $loggedInUser) {
             $query->where('user_id', $id)
                 ->where('blocked_user_id', $loggedInUser);
         })
-            ->orWhere(function ($query) use ($id, $loggedInUser){
+            ->orWhere(function ($query) use ($id, $loggedInUser) {
                 $query->where('user_id', $loggedInUser)
                     ->where('blocked_user_id', $id);
             })
@@ -27,7 +28,8 @@ class GetBlockedUsersRealtion
     }
 
 
-    public static function getBlockedUserRelationByUsername($username){
+    public static function getBlockedUserRelationByUsername($username)
+    {
         $usernameOfUser = User::select(['username','user_image_path','bio','id'])
             ->where('username', 'LIKE', '%' . $username . '%')
             ->pluck('username')

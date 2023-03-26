@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{phoneNumberCodeRequest,phoneNumberRequest};
+use App\Http\Requests\phoneNumberCodeRequest;
+use App\Http\Requests\phoneNumberRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Twilio\Rest\Client;
@@ -10,19 +11,23 @@ use Twilio\Rest\Client;
 class VerificateNumberController extends Controller
 {
 
-    public function enterVerificationCode(): View{
+    public function enterVerificationCode(): View
+    {
         return view('enterVerificationCode');
     }
 
-    public function verification(): View{
+    public function verification(): View
+    {
         return view('verification');
     }
 
-    public function verificateNumber(): View{
+    public function verificateNumber(): View
+    {
         return view('verificationNumber');
     }
 
-    public function verificatePhoneNumber(phoneNumberCodeRequest $request): RedirectResponse{
+    public function verificatePhoneNumber(PhoneNumberCodeRequest $request): RedirectResponse
+    {
         $code = array_values($request->only('validation_code'));
         $code = intval($code[0]);
 
@@ -44,7 +49,8 @@ class VerificateNumberController extends Controller
     }
 
 
-    public function sendSMSverification(phoneNumberRequest $request): RedirectResponse{
+    public function sendSMSverification(PhoneNumberRequest $request): RedirectResponse
+    {
         $sid = config('services.twilio.sid');
         $token = config('services.twilio.token');
         $from = config('services.twilio.from');
@@ -59,11 +65,8 @@ class VerificateNumberController extends Controller
             session()->put('phone_number', $request->phone_number);
             session()->put('code', $code);
             return redirect()->route('enter.verification.code')->with('success', 'Authentication code sent successfully.');
-
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', 'Error with authentication' . $exception->getMessage());
         }
     }
 }
-
-
