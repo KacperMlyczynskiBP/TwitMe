@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $this->profileService = $profileService;
     }
 
-    public function createProfile(string $id){
+    public function createProfile(string $id): View|RedirectResponse{
         $user=$this->profileService->getUserById($id);
 
         if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
@@ -39,7 +39,7 @@ class ProfileController extends Controller
 
 
 
-    public function createProfileTweets( $id){
+    public function createProfileTweets(string $id): View|RedirectResponse{
         $user=$this->profileService->getUserById($id);
 
         if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
@@ -51,7 +51,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function createProfileLikes($id){
+    public function createProfileLikes(string $id): View|RedirectResponse{
         $user = $this->profileService->getUserById($id);
 
         if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
@@ -63,7 +63,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function createProfileTweetsReplies($id){
+    public function createProfileTweetsReplies(string $id): View|RedirectResponse{
         $user=$this->profileService->getUserById($id);
 
         if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
@@ -75,7 +75,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function createProfileMedia($id){
+    public function createProfileMedia(string $id): View|RedirectResponse{
         $user=$this->profileService->getUserById($id);
 
         if(CheckIfUserIsBlockedHelper::authorizeUser($id) === true){
@@ -87,13 +87,13 @@ class ProfileController extends Controller
         }
     }
 
-    public function createProfileEdit($id): View{
+    public function createProfileEdit(string $id): View{
         $user=$this->profileService->getUserById($id);
 
         return view('profile.profileEdit', compact('user'));
     }
 
-    public function createProfileFollowing($id): View{
+    public function createProfileFollowing(string $id): View{
         $user_id ='follower_user_id';
 
         $following = $this->profileService->getFollowers($id,$user_id);
@@ -101,7 +101,7 @@ class ProfileController extends Controller
         return view('following', compact('following'));
     }
 
-    public function createProfileFollowers($id): View{
+    public function createProfileFollowers(string $id): View{
         $user_id = 'user_id';
 
         $followers = $this->profileService->getFollowers($id,$user_id);

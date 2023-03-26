@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BlueCheckFormularRequest;
+use Illuminate\Http\RedirectResponse;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\Token;
 
 class StripeController extends Controller
 {
-    public function handlePayment(BlueCheckFormularRequest $request){
+    public function handlePayment(BlueCheckFormularRequest $request): RedirectResponse{
       $user = Auth()->user();
       $expiry = $request->expiry;
       $exp_month = substr($expiry, 0, 2);
@@ -46,5 +47,6 @@ class StripeController extends Controller
       } catch (\Exception $exception){
           return redirect()->back()->with('error', 'Error' . $exception->getMessage());
       }
+
     }
 }

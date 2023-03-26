@@ -8,6 +8,7 @@ use App\Http\Requests\updateUserRequest;
 use App\Models\Blocked;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,7 @@ class ProfileService
         return User::findOrFail($id);
     }
 
-    public function getUserTweetsById(string $id): Collection{
+    public function getUserTweetsById(string $id): Collection|Post{
         $userTweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->get();
@@ -28,7 +29,7 @@ class ProfileService
     }
 
 
-    public function getLikedPostsById($id): Collection{
+    public function getLikedPostsById(string $id): Collection|Post{
         $posts = Post::where('user_id', $id)->pluck('id')->toArray();
         $likedPosts = DB::table('likes')
             ->where(function ($query) use ($id, $posts) {
@@ -46,7 +47,7 @@ class ProfileService
         return $posts;
     }
 
-    public function getUserTweetsRepliesById($id): Collection{
+    public function getUserTweetsRepliesById($id): Collection|Post{
         $userTweets=Post::where('user_id', $id)
             ->orWhereIn('reply_id', function($query) use ($id){
                 $query->select('id')
@@ -60,7 +61,7 @@ class ProfileService
         return $userTweets;
     }
 
-    public function getUserMediaTweetsById($id): Collection{
+    public function getUserMediaTweetsById($id): Collection|Post{
         $tweets=Post::with('user')
             ->where('posts.user_id', $id)
             ->where('image_path', '!=', 'NULL')
@@ -72,7 +73,7 @@ class ProfileService
         return $tweets;
     }
 
-   public function getFollowers($id, string $user_id): Collection{
+   public function getFollowers($id, string $user_id): Collection|User{
        $user=User::findOrFail($id);
 
        $followers = ($user_id == 'user_id') ? $user->followers()->pluck('user_id') : $user->following()->pluck('follower_user_id');
@@ -84,7 +85,7 @@ class ProfileService
        return $users;
    }
 
-   public function updateUser(UpdateUserRequest $request){
+   public function updateUser(UpdateUserRequest $request): RedirectResponse{
        $file=$request->file('tweetMedia');
        $user=Auth()->user();
 

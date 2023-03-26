@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\DB;
 class BlockService
 {
 
-    public function getBlockedUser($user){
+    public function getBlockedUser(User $user): ?Blocked{
        return Blocked::where(['user_id'=>Auth()->user()->id, 'blocked_user_id'=> $user->id])->first();
     }
 
-    public function deleteConversationAndMessages($user): void{
+    public function deleteConversationAndMessages(User $user): void{
         $id = Auth()->user()->id;
         $userId = $user->id;
 

@@ -6,6 +6,13 @@
                 <h2>Bookmarks</h2>
             </div>
 
+        <div class="message_header_container">
+            <div class="sticky-div"><a href="{{ route('show.bookmarks') }}">Bookmarks</a></div>
+            @can('view', Auth()->user())
+            <div class="sticky-div"><a href="#">Collections</a></div>
+            @endcan
+        </div>
+
         {{--   posts start --}}
         @foreach($posts as $post)
             <div class="post">

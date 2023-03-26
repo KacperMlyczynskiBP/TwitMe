@@ -9,21 +9,26 @@ use App\Models\User;
 use FFMpeg\FFProbe;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 
 class PostService
 {
-    public function getUserById($id): User{
-        return User::findOrFail($id);
+    public function getUserById(string $id): User {
+        try {
+            return User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            throw new \Exception("User with ID $id not found", 404);
+        }
     }
 
-    public function getPostById($id): Post{
+    public function getPostById(int $id): Post{
         return Post::findOrFail($id);
     }
 
-    public function getCommentsById($id){
+    public function getCommentsById(string $id): Post|Collection|RedirectResponse{
         try {
             $comments=Post::with('user')
                 ->where('reply_id', $id)
@@ -39,7 +44,7 @@ class PostService
         }
     }
 
-    public function createPostData(array $data, $reply_id = NULL) {
+    public function createPostData(array $data, int $reply_id = NULL) {
         $user = Auth()->user();
 
         try {
@@ -67,10 +72,9 @@ class PostService
         } catch (\Exception $e){
             return redirect()->back()->withErrors('exception', 'There is an error' . ' ' . $e->getMessage());
         }
-
     }
 
-    public function likeTweet($postId, $userId) {
+    public function likeTweet(int $postId, string $userId) {
         $id=Auth()->user()->id;
         $user=User::findOrFail($id);
 
@@ -118,7 +122,7 @@ class PostService
     }
 
 
-    private function handleImageUpload($file, Post $post){
+    private function handleImageUpload($file, Post $post): void{
         $fileName = $file->getClientOriginalName();
         $file->move('images', $fileName);
         $post->image_path = $fileName;

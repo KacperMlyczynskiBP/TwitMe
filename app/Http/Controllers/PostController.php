@@ -22,7 +22,7 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function show($postId): View{
+    public function show(int $postId): View{
         $post = $this->postService->getPostById($postId);
         $user = $this->postService->getUserById($post['user_id']);
 
@@ -36,24 +36,25 @@ class PostController extends Controller
         return view('singleTweet', compact('post', 'comments', 'user', 'userPath'));
     }
 
-    public function likeTweet($postId, $userId): RedirectResponse{
+    public function likeTweet(int $postId, string $userId): RedirectResponse{
         $this->postService->likeTweet($postId, $userId);
 
         return redirect()->back();
     }
 
 
-    public function listPostLikes($postId): View{
+    public function listPostLikes(int $postId): View{
         $listLikedPostUsers = DB::table('likes')
             ->where('post_id', $postId)
             ->pluck('user_id')
             ->toArray();
 
         $users = User::whereIn('id', $listLikedPostUsers)->get();
+
         return view('listPostsLikes', compact('users'));
     }
 
-    public function retweet($postId, $request){
+    public function retweet(int $postId, $request): void{
           $id = Auth()->user()->id;
           $retweet = new Retweet();
           $retweet->user_id = $id;
@@ -105,7 +106,7 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function softDelete($id){
+    public function softDelete($id): RedirectResponse{
         $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->back();

@@ -14,13 +14,14 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function createPage(){
+    public function createPage(): View{
         $id=Auth()->user()->id;
 
         $followingUserIds = DB::table('followers')
@@ -58,12 +59,12 @@ class Controller extends BaseController
         return view('index', compact('posts','user', 'trends'));
     }
 
-    public function verificationFeatures(){
+    public function verificationFeatures(): View{
         return view('verificationFeatures');
     }
 
 
-    public function search(\Illuminate\Http\Request $request){
+    public function search(\Illuminate\Http\Request $request): View{
        $results=Post::with('user')
            ->where('body', 'LIKE', '%' . $request->body . '%' )
            ->get()

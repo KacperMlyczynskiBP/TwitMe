@@ -4,25 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\phoneNumberCodeRequest;
 use App\Http\Requests\phoneNumberRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Twilio\Rest\Client;
 
 class VerificateNumberController extends Controller
 {
 
-    public function enterVerificationCode(){
+    public function enterVerificationCode(): View{
         return view('enterVerificationCode');
     }
 
-    public function verification(){
+    public function verification(): View{
         return view('verification');
     }
 
-    public function verificateNumber(){
+    public function verificateNumber(): View{
         return view('verificationNumber');
     }
 
-    public function verificatePhoneNumber(phoneNumberCodeRequest $request){
+    public function verificatePhoneNumber(phoneNumberCodeRequest $request): RedirectResponse{
         $code = array_values($request->only('validation_code'));
         $code = intval($code[0]);
 
@@ -44,7 +46,7 @@ class VerificateNumberController extends Controller
     }
 
 
-    public function sendSMSverification(phoneNumberRequest $request){
+    public function sendSMSverification(phoneNumberRequest $request): RedirectResponse{
         $sid = config('services.twilio.sid');
         $token = config('services.twilio.token');
         $from = config('services.twilio.from');

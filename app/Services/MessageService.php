@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\RedirectResponse;
 use App\Models\{Message, Notification,User, Conversation};
 use App\Helpers\GetBlockedUsersRealtion;
 use App\Helpers\MessageHelper;
@@ -16,7 +17,7 @@ class MessageService
         return User::findOrFail($id);
     }
 
-    public function getMessagesByUserId(string $id){
+    public function getMessagesByUserId(string $id): Message|RedirectResponse|Collection {
         try {
             $messages = Message::with('user')
                 ->where(function ($query) use ($id) {
@@ -42,7 +43,7 @@ class MessageService
         }
     }
 
-    public function getUsersByUsername(string $username){
+    public function getUsersByUsername(string $username): User|RedirectResponse|Collection{
 
         try {
             $blockedIDs = GetBlockedUsersRealtion::getBlockedUserRelationByUsername($username);
@@ -68,9 +69,8 @@ class MessageService
         }
     }
 
-    public function getChatMessagesByUserAndId(string $id, User $user){
+    public function getChatMessagesByUserAndId(string $id, User $user): Message|Collection{
 
-        try{
             $messages=Message::with('user')
                 ->where(function($query) use ($id, $user){
                     $query->where('receiver_id', $user->id);
@@ -84,20 +84,14 @@ class MessageService
             $messages = MessageHelper::addUserImageToMessage($messages);
 
             return $messages;
-        } catch (QueryException $e) {
-            return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
-        } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
-        }
     }
 
-    public function storeConversationAndMessage($request){
+    public function storeConversationAndMessage($request): void{
         $id = $request['id'];
         $data = $request->validate(['message' => 'required']);
         $senderId = Auth()->user()->id;
         $receiverId = $id;
 
-        try{
             $conversation = Conversation::whereHas('messages', function ($query) use ($senderId, $receiverId) {
                 $query->where('sender_id', $senderId)->where('receiver_id', $receiverId)
                     ->orWhere('sender_id', $receiverId)->where('receiver_id', $senderId);
@@ -135,11 +129,6 @@ class MessageService
                 $notification->comment = ' Sent you a message';
                 $notification->save();
             }
-        } catch (QueryException $e) {
-            return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
-        } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
-        }
     }
 
 }

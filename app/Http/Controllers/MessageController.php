@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\MessageService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -31,11 +33,18 @@ class MessageController extends Controller
     }
 
     public function store(Request $request): RedirectResponse{
-        $user = $this->messageService->getUserById($request['id']);
+       try{
+           $user = $this->messageService->getUserById($request['id']);
 
-        $this->messageService->storeConversationAndMessage($request);
+           $this->messageService->storeConversationAndMessage($request);
 
-        return redirect()->route('create.chat',['user'=>$user]);
+           return redirect()->route('create.chat',['user'=>$user]);
+
+       } catch (QueryException $e) {
+           return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
+       } catch (ModelNotFoundException $e) {
+           return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
+       }
     }
 
     /**
@@ -76,12 +85,18 @@ class MessageController extends Controller
         return view('message.searchUser');
     }
 
-    public function createChat(User $user): View{
+    public function createChat(User $user): View|RedirectResponse{
         $id=Auth()->user()->id;
 
-        $messages = $this->messageService->getChatMessagesByUserAndId($id, $user);
+        try{
+            $messages = $this->messageService->getChatMessagesByUserAndId($id, $user);
 
-        return view('message.chat', compact('user', 'messages'));
+            return view('message.chat', compact('user', 'messages'));
+        } catch (QueryException $e) {
+            return redirect()->back()->withErrors('query', 'There is an error' . ' ' . $e->getMessage());
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors('model', 'There is an error' . ' ' . $e->getMessage());
+        }
     }
 
     public function search(Request $request): View{
