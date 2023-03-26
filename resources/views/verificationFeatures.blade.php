@@ -21,7 +21,7 @@
                     <h2>Longer videos</h2>
                     <p>Post longer videos  You’ll finally be able to post longer videos to Twitter.</p>
                 </div>
-                <button class="feature-button"><a href="{{ route('show.numberVerification') }}">Cancel subscription</a></button>
+                <button class="feature-button"><a href="{{ route('show.number.verification') }}">Cancel subscription</a></button>
             </div>
         @endcan
 
@@ -47,7 +47,7 @@
             <h2>Longer videos</h2>
             <p>Post longer videos  You’ll finally be able to post longer videos to Twitter.</p>
         </div>
-        <button class="feature-button"><a href="{{ route('show.numberVerification') }}">Verify number</a></button>
+        <button class="feature-button"><a href="{{ route('show.number.verification') }}">Verify number</a></button>
     </div>
         @endcannot
 

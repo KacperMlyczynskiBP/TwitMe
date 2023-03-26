@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +51,7 @@
 
     <div class="sidebarOption">
         <span class="material-icons"> check </span>
-        <h2><a href="{{ route('show.verificationFeatures') }}">TwittMe Blue</a></h2>
+        <h2><a href="{{ route('show.verification.features') }}">TwittMe Blue</a></h2>
     </div>
 
     <div class="sidebarOption">

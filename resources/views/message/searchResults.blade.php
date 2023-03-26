@@ -14,7 +14,7 @@
     </div>
     <div class="message_header_container">
         <div class="sticky-div"><a href="{{ route('create.messages') }}">Last Messages</a></div>
-        <div class="sticky-div"><a href="{{ route('create.searchUsers') }}">Search Users</a></div>
+        <div class="sticky-div"><a href="{{ route('create.search.users') }}">Search Users</a></div>
     </div>
     <div class="messages-section">
         @foreach($users as $user)

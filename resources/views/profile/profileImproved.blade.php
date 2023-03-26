@@ -45,7 +45,7 @@
                 @else
                     <div style="float:right;" class="sidebarOption">
                         <span class="material-icons"> perm_identity </span>
-                        <div><a href="{{ route('create.profileEdit', ['id'=>$user->id]) }}">Edit profile</a></div>
+                        <div><a href="{{ route('create.profile.edit', ['id'=>$user->id]) }}">Edit profile</a></div>
                     </div>
                 @endif
                 <div id="profile-name">
@@ -62,7 +62,7 @@
                             <span class="d-block" id="profile-label">Following</span>
                             <span id="profile-number">
                             @inject('count','App\Helpers\CountFollowers')
-                            <a href="{{ route('create.profileFollowing', ['id'=>$user->id]) }}">{{$count->countFollowers($user->id)}}</a>
+                            <a href="{{ route('create.profile.following', ['id'=>$user->id]) }}">{{$count->countFollowers($user->id)}}</a>
                         </span>
                         </a>
                     </li>
@@ -70,7 +70,7 @@
                         <a href="#">
                             <span class="d-block" id="profile-label">Followers</span>
                             <span id="profile-number">
-                                <a href="{{route('create.profileFollowers', ['id'=>$user->id])}}">{{$count->countFollows($user->id)}}</a>
+                                <a href="{{route('create.profile.followers', ['id'=>$user->id])}}">{{$count->countFollows($user->id)}}</a>
                         </span>
                         </a>
                     </li>
@@ -79,13 +79,13 @@
         </div>
 
         <div class="profile-navbar">
-            <div class="profile-navbar-part"><a href="{{ route('create.profileTweets', ['id'=>$user->id]) }}">Tweets</a>
+            <div class="profile-navbar-part"><a href="{{ route('create.profile.tweets', ['id'=>$user->id]) }}">Tweets</a>
             </div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileReplies', ['id'=>$user->id]) }}">Tweets
+            <div class="profile-navbar-part"><a href="{{ route('create.profile.replies', ['id'=>$user->id]) }}">Tweets
                     and replies</a></div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileMedia', ['id'=>$user->id]) }}">Media</a>
+            <div class="profile-navbar-part"><a href="{{ route('create.profile.media', ['id'=>$user->id]) }}">Media</a>
             </div>
-            <div class="profile-navbar-part"><a href="{{ route('create.profileLikes', ['id'=>$user->id]) }}">Likes</a>
+            <div class="profile-navbar-part"><a href="{{ route('create.profile.likes', ['id'=>$user->id]) }}">Likes</a>
             </div>
         </div>
 

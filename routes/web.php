@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('messages')->group(function () {
         Route::controller(MessageController::class)->group(function () {
             Route::get('/', 'index')->name('create.messages');
-            Route::get('/search/user', 'createSearchPage')->name('create.searchUsers');
+            Route::get('/search/user', 'createSearchPage')->name('create.search.users');
             Route::post('/search', 'search')->name('search.user');
             Route::post('/store', 'store')->name('store.message');
             Route::get('/{user}/chat', 'createChat')->name('create.chat');
@@ -65,28 +65,28 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('profile')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
-            Route::get('/followers/{id}', 'createProfileFollowers')->name('create.profileFollowers');
-            Route::get('/following/{id}', 'createProfileFollowing')->name('create.profileFollowing');
-            Route::get('/tweets/{id}', 'createProfileTweets')->name('create.profileTweets');
-            Route::get('/likes/{id}', 'createProfileLikes')->name('create.profileLikes');
-            Route::get('/media/{id}', 'createProfileMedia')->name('create.profileMedia');
+            Route::get('/followers/{id}', 'createProfileFollowers')->name('create.profile.followers');
+            Route::get('/following/{id}', 'createProfileFollowing')->name('create.profile.following');
+            Route::get('/tweets/{id}', 'createProfileTweets')->name('create.profile.tweets');
+            Route::get('/likes/{id}', 'createProfileLikes')->name('create.profile.likes');
+            Route::get('/media/{id}', 'createProfileMedia')->name('create.profile.media');
             Route::get('/{id}', 'createProfile')->name('create.profile');
-            Route::get('/tweetsReplies/{id}', 'createProfileTweetsReplies')->name('create.profileReplies');
+            Route::get('/tweetsReplies/{id}', 'createProfileTweetsReplies')->name('create.profile.replies');
             Route::post('/update/user', 'updateUser')->name('update.user');
-            Route::get('/edit/{id}', 'createProfileEdit')->name('create.profileEdit');
+            Route::get('/edit/{id}', 'createProfileEdit')->name('create.profile.edit');
             Route::get('/delete/profile/picture', 'deletePicture')->name('delete.picture');
         });
     });
 
     Route::prefix('verification')->group(function () {
 
-        Route::get('/features', [Controller::class, 'verificationFeatures'])->name('show.verificationFeatures');
+        Route::get('/features', [Controller::class, 'verificationFeatures'])->name('show.verification.features');
 
         Route::middleware('subscription')->group(function () {
             Route::controller(VerificateNumberController::class)->group(function () {
                 Route::post('/send/sms', 'sendSMSverification')->name('send.sms.verification');
                 Route::get('/code', 'enterVerificationCode')->name('enter.verification.code');
-                Route::get('/phone/number', 'verificateNumber')->name('show.numberVerification');
+                Route::get('/phone/number', 'verificateNumber')->name('show.number.verification');
                 Route::post('/phone/number/check', 'verificatePhoneNumber')->name('verificate.number');
 
                 Route::middleware('is.phone.verified')->group(function () {

@@ -33,9 +33,3 @@ class CheckIfUserIsBlockedHelper
         return true;
     }
 }
-
-
-
-//        public static function checkUser($id): bool{
-//            return Auth::check() && Auth()->user()->id !== $id;
-//        }
