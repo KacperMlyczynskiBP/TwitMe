@@ -47,7 +47,5 @@ class GetBlockedUsersRelationTest extends TestCase
 
         $this->assertIsArray($blockedUsersArray);
         $this->assertEmpty($blockedUsersArray);
-
     }
-
 }

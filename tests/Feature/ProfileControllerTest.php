@@ -18,7 +18,8 @@ class ProfileControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreateProfile(){
+    public function testCreateProfile()
+    {
         $profileService = new ProfileService();
         $helper = new CheckIfUserIsBlockedHelper();
 
@@ -84,7 +85,8 @@ class ProfileControllerTest extends TestCase
     }
 
 
-    public function testProfileTweets(){
+    public function testProfileTweets()
+    {
         $profileService = new ProfileService();
         $helper = new CheckIfUserIsBlockedHelper();
 
@@ -105,7 +107,8 @@ class ProfileControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testProfileLikes(){
+    public function testProfileLikes()
+    {
         $user=User::factory()->create();
         $likes=Post::factory(5)->create();
         $this->actingAs($user);
