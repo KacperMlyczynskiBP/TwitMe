@@ -2,18 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\VerificateNumberController;
-use App\Http\Controllers\StripeController;
-use App\Http\Controllers\ExploreController;
-use App\Http\Controllers\BookmarkController;
-use App\Http\Controllers\BlockUserController;
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\{NotificationController, BlockUserController, BookmarkController, ExploreController, StripeController,
+    VerificateNumberController, PostController, MessageController, ProfileController, Controller, UserController};
 
 Auth::routes(['verify' => true]);
 
