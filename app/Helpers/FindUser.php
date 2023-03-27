@@ -19,6 +19,10 @@ class FindUser
         $user=User::where('id', $otherId)
           ->where('id', '!=', $id)
           ->first();
+
+        if($id === $otherId){
+        return Auth()->user();
+        }
         return $user;
     }
 }

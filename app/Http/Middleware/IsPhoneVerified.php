@@ -19,7 +19,7 @@ class IsPhoneVerified
         if (Auth()->user()->phone_verified == 1) {
             return $next($request);
         } else {
-            return redirect()->route('show.verificationFeatures');
+            return redirect()->route('show.verification.features');
         }
     }
 }

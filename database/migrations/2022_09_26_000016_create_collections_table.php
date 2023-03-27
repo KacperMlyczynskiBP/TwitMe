@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('table', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->id();
+            $table->string('collection_name');
             $table->string('comment')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->string('image_path')->nullable();
+            $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

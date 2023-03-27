@@ -19,9 +19,9 @@ return new class extends Migration
             $table->uuid('receiver_id');
             $table->uuid('sender_id');
             $table->unsignedBigInteger('conversation_id');
-            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
+            $table->foreign('receiver_id')->references('id')->on('users');
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->foreign('conversation_id')->references('id')->on('conversations');
             $table->timestamps();
         });
     }

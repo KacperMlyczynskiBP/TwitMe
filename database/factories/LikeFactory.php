@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,9 +19,20 @@ class LikeFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'user_id' => User::pluck('id')->random(),
-            'post_id' => Post::pluck('id')->random(),
-        ];
+        $postsId=Post::pluck('id')->toArray();
+        $usersId=User::pluck('id')->toArray();
+
+        $uniqueClosure=function() use($usersId, $postsId){
+            $userId=$this->faker()->randomElement($usersId);
+            $postId=$this->faker()->randomElement($postsId);
+           while(Like::where('user_id', $userId)->where('post_id', $postId)->exists()){
+               $userId=$this->faker()->randomElement($usersId);
+               $postId=$this->faker()->randomElement($postsId);
+           };
+            return [
+                'user_id' => $userId,
+                'post_id' => $postId,
+            ];
+        };
     }
 }

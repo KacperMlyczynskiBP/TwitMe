@@ -81,6 +81,8 @@
 
 <div>
 
+@yield('collection')
+@yield('createCollection')
 @yield('bookmarks')
 @yield('explore')
 @yield('listPostsLikes')

@@ -16,6 +16,11 @@ class FindUserImagePath
         } else {
             $otherId=$message->receiver_id;
         }
+
+        if($id === $otherId){
+            return Auth()->user()->user_image_path;
+        }
+
            $otherUser=User::where('id', $otherId)
                ->where('id', '!=', $id)
                ->first();

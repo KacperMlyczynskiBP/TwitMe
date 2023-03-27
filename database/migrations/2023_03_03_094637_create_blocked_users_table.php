@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->uuid('user_id');
             $table->uuid('blocked_user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('blocked_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('blocked_user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

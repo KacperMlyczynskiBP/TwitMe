@@ -22,6 +22,11 @@ class FindUsername
         } else {
             $otherUserId=$message->receiver_id;
         }
+
+        if($id === $otherUserId){
+            return Auth()->user()->username;
+        }
+
         $otherUser = User::where('id', $otherUserId)
             ->where('id', '!=', $id)
             ->first();

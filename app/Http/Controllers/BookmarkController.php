@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PostHelper;
-use App\Models\Bookmark;
-use App\Models\Post;
+use App\Models\{Post, Collection, Bookmark};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -38,5 +37,30 @@ class BookmarkController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function collection()
+    {
+        $collections=Collection::all();
+        $bookmarks=Bookmark::where('user_id', Auth()->user()->id);
+        return view('collection', compact('collections', 'bookmarks'));
+    }
+
+    public function createCollection()
+    {
+        return view('createCollection');
+    }
+
+    public function deleteCollection()
+    {
+
+    }
+
+    public function storeCollection($request)
+    {
+        $collection=new Collection();
+        $collection->comment=$request->collection;
+        $collection->user_id=Auth()->user()->id;
+        $collection->save();
     }
 }

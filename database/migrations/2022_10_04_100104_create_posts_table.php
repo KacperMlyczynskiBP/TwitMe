@@ -21,7 +21,9 @@ return new class extends Migration
             $table->integer('retweets_count')->default(0);
             $table->integer('likes_count')->default(0);
             $table->unsignedInteger('view_counts')->default(0);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('collection_id')->default(NULL);
+            $table->foreign('collection_id')->references('id')->on('collections');
             $table->boolean('visible')->default(true);
             $table->softDeletes();
             $table->timestamps();

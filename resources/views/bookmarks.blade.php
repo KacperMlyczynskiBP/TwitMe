@@ -9,7 +9,7 @@
         <div class="message_header_container">
             <div class="sticky-div"><a href="{{ route('show.bookmarks') }}">Bookmarks</a></div>
             @can('view', Auth()->user())
-            <div class="sticky-div"><a href="#">Collections</a></div>
+            <div class="sticky-div"><a href="{{ route('show.collection') }}">Collections</a></div>
             @endcan
         </div>
 
@@ -59,6 +59,7 @@
                                 @method('DELETE')
                                 <button type="submit">Delete</button>
                             </form>
+                            <a>Add To Collection</a>
                         @endcan
                     </div>
 

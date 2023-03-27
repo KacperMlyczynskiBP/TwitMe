@@ -38,6 +38,10 @@ Route::middleware('auth')->group(function () {
         Route::controller(BookmarkController::class)->group(function () {
             Route::get('/', 'bookmarks')->name('show.bookmarks');
             Route::get('/save/{post}', 'saveBookmark')->name('save.bookmark');
+            Route::get('/collection', 'collection')->name('show.collection');
+            Route::get('/collection/create', 'createCollection')->name('create.collection');
+            Route::delete('/collection/delete', 'deleteCollection')->name('delete.collection');
+            Route::post('/collection/store', 'storeCollection')->name('store.collection');
         });
     });
 

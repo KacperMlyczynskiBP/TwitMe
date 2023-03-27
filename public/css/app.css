@@ -69,7 +69,31 @@ a {
     color: #8899a6;
     margin: 0;
 }
+/*Collections css*/
+.form {
+    background-color: #black;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 500px;
+    padding: 20px;
+    width: 320px;
+    justify-content: center;
+    position:absolute;
+    left:40%;
+    right:50%;
+    /*display: flex;*/
+}
 
+.input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.ic1 {
+    margin-top: 40px;
+}
+/**/
 
 
 /**/

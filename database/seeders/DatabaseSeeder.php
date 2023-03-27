@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Blocked;
 use App\Models\Bookmark;
+use App\Models\Collection;
 use App\Models\Conversation;
 use App\Models\Follower;
 use App\Models\Like;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
         User::factory(500)->create();
         Post::factory(1000)->create();
         Blocked::factory(50)->create();
+        Collection::factory(20)->create();
         Bookmark::factory(400)->create();
         Like::factory(10000)->create();
         Follower::factory(10000)->create();
